@@ -39,6 +39,9 @@ yarn-error.*
 # tests
 coverage/
 
+# generated provider comparison reports
+server/panchang/out/
+
 # typescript
 *.tsbuildinfo
 

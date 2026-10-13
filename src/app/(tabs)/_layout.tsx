@@ -1,9 +1,10 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { router, Tabs } from 'expo-router';
+import { Tabs } from 'expo-router';
 import { type ComponentProps } from 'react';
-import { Pressable, type ColorValue } from 'react-native';
+import { type ColorValue } from 'react-native';
 
 import { useTheme } from '@/hooks/use-theme';
+import { SHELL_TABS } from '@/navigation/shell-tabs';
 import { useApp } from '@/providers/app-provider';
 
 type IconName = ComponentProps<typeof MaterialCommunityIcons>['name'];
@@ -31,51 +32,17 @@ export default function TabLayout() {
         sceneStyle: { backgroundColor: theme.background },
       }}
     >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: t('tabs.home'),
-          tabBarIcon: tabIcon('home-outline'),
-          headerRight: () => (
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={t('tabs.settings')}
-              onPress={() => router.push('/settings')}
-              style={{ marginRight: 16 }}
-            >
-              <MaterialCommunityIcons name="cog-outline" size={24} color={theme.text} />
-            </Pressable>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="horoscope"
-        options={{
-          title: t('tabs.horoscope'),
-          tabBarIcon: tabIcon('star-outline'),
-        }}
-      />
-      <Tabs.Screen
-        name="panchang"
-        options={{
-          title: t('tabs.panchang'),
-          tabBarIcon: tabIcon('calendar-month-outline'),
-        }}
-      />
-      <Tabs.Screen
-        name="rituals"
-        options={{
-          title: t('tabs.rituals'),
-          tabBarIcon: tabIcon('book-open-outline'),
-        }}
-      />
-      <Tabs.Screen
-        name="temples"
-        options={{
-          title: t('tabs.temples'),
-          tabBarIcon: tabIcon('map-marker-outline'),
-        }}
-      />
+      {SHELL_TABS.map((tab) => (
+        <Tabs.Screen
+          key={tab.name}
+          name={tab.name}
+          options={{
+            title: t(tab.titleKey),
+            tabBarIcon: tabIcon(tab.icon),
+            tabBarButtonTestID: `tab-${tab.name}`,
+          }}
+        />
+      ))}
     </Tabs>
   );
 }

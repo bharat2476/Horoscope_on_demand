@@ -1,0 +1,77 @@
+import { type MessageKey } from '@/modules/localization/catalogs/en';
+
+export const ta: Record<MessageKey, string> = {
+  'common.clear': 'நீக்கு',
+  'tabs.today': 'இன்று',
+  'tabs.panchang': 'பஞ்சாங்கம்',
+  'tabs.rituals': 'சடங்கு',
+  'tabs.temples': 'கோயில்',
+  'tabs.settings': 'அமைப்பு',
+  'today.intro':
+    'பொதுப் பகுதிகள் கணக்கு இல்லாமல் திறக்கும். இந்தத் திரையில் கணிப்பு அல்லது கணக்கிடப்பட்ட பஞ்சாங்கம் இல்லை.',
+  'today.horoscope': 'தினசரி ராசிபலன்',
+  'today.panchang': 'பஞ்சாங்க சுருக்கம்',
+  'today.festival': 'திருவிழா',
+  'today.ritual': 'மதிப்பாய்வு சடங்கு',
+  'today.noRashi': 'ராசி தேர்ந்தெடுக்கப்படவில்லை. அமைப்பில் தேர்ந்தெடுக்கவும்.',
+  'today.noCity': 'நகரம் தேர்ந்தெடுக்கப்படவில்லை. அமைப்பில் தேர்ந்தெடுக்கவும்.',
+  'status.loading': 'ஏற்றுகிறது',
+  'status.placeholder': 'இடைநிலை',
+  'status.unavailableTitle': 'இன்னும் இல்லை',
+  'status.emptyTitle': 'காட்ட ஏதுமில்லை',
+  'status.errorTitle': 'ஏதோ தவறு நடந்தது',
+  'status.errorBody': 'இந்தப் பகுதி ஏற்றப்படவில்லை. மாற்று தகவல் காட்டப்படவில்லை.',
+  'unavailable.horoscope':
+    'ராசிபலன் காட்டப்படவில்லை. பொதுவான ராசிபலன் பிறந்த தேதி, நேரம் அல்லது இடத்தைக் கேட்காது.',
+  'unavailable.panchang':
+    'பஞ்சாங்க மதிப்புகள் இணைக்கப்படவில்லை. இந்தச் செயலி திதி, நட்சத்திரம், யோகம், கரணம் அல்லது வேறு பஞ்சாங்க மதிப்பைக் கணக்கிடாது.',
+  'unavailable.festival': 'திருவிழா தகவல் இணைக்கப்படவில்லை. எந்தத் திருவிழாவும் பட்டியலில் இல்லை.',
+  'unavailable.ritual': 'இந்த நாளுக்கு மதிப்பாய்வு செய்யப்பட்ட சடங்கு இல்லை.',
+  'unavailable.rituals':
+    'மதிப்பாய்வு செய்யப்பட்ட சடங்கு வழிகாட்டிகள் ஏற்றப்படவில்லை. சடங்கு படிகள் காட்டப்படவில்லை.',
+  'unavailable.temples':
+    'மாதாஜி கோயில் பட்டியல் காலி. மதிப்பாய்வு செய்யப்பட்ட பதிவு வரை எந்தக் கோயிலும் இல்லை.',
+  'panchang.date': 'தேதி',
+  'panchang.previous': 'முந்தைய',
+  'panchang.previousLabel': 'முந்தைய நாள்',
+  'panchang.next': 'அடுத்து',
+  'panchang.nextLabel': 'அடுத்த நாள்',
+  'panchang.today': 'இன்று',
+  'panchang.placeNote':
+    'நகரப் பெயர்கள் ஆங்கிலத்தில் ஒரு குறுகிய பட்டியல். நகரத்தைத் தேர்ந்தெடுப்பது பஞ்சாங்கத்தைக் கணக்கிடாது.',
+  'panchang.state': 'மாநிலம் அல்லது யூனியன் பிரதேசம்',
+  'panchang.city': 'நகரம்',
+  'panchang.noCity': 'நகரங்களைக் காண மாநிலத்தைத் தேர்ந்தெடுக்கவும்.',
+  'rituals.searchLabel': 'சடங்கு தேடல்',
+  'rituals.searchPlaceholder': 'மதிப்பாய்வு சடங்குகளைத் தேடு',
+  'rituals.categories': 'வகை',
+  'rituals.all': 'அனைத்தும்',
+  'rituals.category.daily': 'தினசரி வழிபாடு',
+  'rituals.category.vrata': 'விரதம்',
+  'rituals.category.festival': 'திருவிழா',
+  'rituals.category.home': 'வீடு',
+  'rituals.emptySearch': 'இந்தத் தேடலுக்கு மதிப்பாய்வு சடங்கு இல்லை.',
+  'temples.searchLabel': 'கோயில் தேடல்',
+  'temples.searchPlaceholder': 'மதிப்பாய்வு கோயில்களைத் தேடு',
+  'temples.state': 'மாநிலம் அல்லது யூனியன் பிரதேசம்',
+  'temples.city': 'நகரம்',
+  'temples.all': 'அனைத்தும்',
+  'temples.emptySearch': 'இந்தத் தேடலுக்கு மதிப்பாய்வு கோயில் இல்லை.',
+  'temples.placeNote':
+    'வடிகட்டிகள் கோயிலைச் சேர்க்காது. மதிப்பாய்வு வரை பட்டியல் காலியாக இருக்கும்.',
+  'settings.language': 'மொழி',
+  'settings.languageSystem': 'சாதன மொழி',
+  'settings.rashi': 'ராசி',
+  'settings.rashiNote':
+    'ராசி பெயர்கள் சமஸ்கிருத ஒலிபெயர்ப்பிலும் ஆங்கிலத்திலும் உள்ளன. மதிப்பாய்வு பெயர்கள் இன்னும் ஏற்றப்படவில்லை.',
+  'settings.noRashi': 'ராசி தேர்ந்தெடுக்கப்படவில்லை',
+  'settings.clearRashi': 'ராசியை நீக்கு',
+  'settings.city': 'நகரம்',
+  'settings.clearCity': 'நகரத்தை நீக்கு',
+  'settings.privacy': 'தனியுரிமை',
+  'settings.privacyBody':
+    'இந்தப் பதிப்பு மொழி, ராசி, நகரத்தை இந்தச் சாதனத்தில் வைக்கிறது. அனுமதி கேட்காது, விளம்பரம் காட்டாது, பகுப்பாய்வு அனுப்பாது. பிறந்த தேதி, நேரம், இடம் சேகரிக்கப்படவில்லை.',
+  'settings.account': 'கணக்கு',
+  'settings.accountBody':
+    'உள்நுழைவு கட்டாயமல்ல. பொதுப் பகுதிகள் கணக்கு இல்லாமல் திறக்கும். இந்தப் பதிப்பில் உள்நுழைவு இல்லை.',
+};

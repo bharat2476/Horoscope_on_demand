@@ -7,14 +7,22 @@ describe('preference storage', () => {
     await AsyncStorage.clear();
   });
 
-  it('round-trips a language and Rashi preference', async () => {
-    await savePreferences({ locale: 'gu', rashiId: 'kanya' });
-    await expect(loadPreferences()).resolves.toEqual({ locale: 'gu', rashiId: 'kanya' });
+  it('round-trips language, Rashi, and city', async () => {
+    await savePreferences({ locale: 'gu', rashiId: 'kanya', cityId: 'gj-ahmedabad' });
+    await expect(loadPreferences()).resolves.toEqual({
+      locale: 'gu',
+      rashiId: 'kanya',
+      cityId: 'gj-ahmedabad',
+    });
     await expect(AsyncStorage.getItem(PREFERENCES_STORAGE_KEY)).resolves.toContain('kanya');
   });
 
   it('ignores corrupt stored data', async () => {
     await AsyncStorage.setItem(PREFERENCES_STORAGE_KEY, '{');
-    await expect(loadPreferences()).resolves.toEqual({ locale: 'system', rashiId: null });
+    await expect(loadPreferences()).resolves.toEqual({
+      locale: 'system',
+      rashiId: null,
+      cityId: null,
+    });
   });
 });

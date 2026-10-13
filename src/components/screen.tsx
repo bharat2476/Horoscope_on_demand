@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 
-import { Spacing } from '@/constants/theme';
+import { space } from '@/design/tokens';
 import { useTheme } from '@/hooks/use-theme';
 
 export function Screen({ children }: { children: ReactNode }) {
@@ -9,6 +9,7 @@ export function Screen({ children }: { children: ReactNode }) {
 
   return (
     <ScrollView
+      keyboardShouldPersistTaps="handled"
       style={{ backgroundColor: theme.background }}
       contentContainerStyle={styles.content}
     >
@@ -19,7 +20,8 @@ export function Screen({ children }: { children: ReactNode }) {
 
 const styles = StyleSheet.create({
   content: {
-    padding: Spacing.four,
-    gap: Spacing.three,
+    padding: space.md,
+    gap: space.md,
+    paddingBottom: space.xl,
   },
 });

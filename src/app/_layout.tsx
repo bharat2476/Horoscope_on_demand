@@ -1,9 +1,10 @@
 import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
+import { useColorScheme, View } from 'react-native';
 
+import { StatusBlock } from '@/components/status-block';
 import { useTheme } from '@/hooks/use-theme';
 import { AppProvider, useApp } from '@/providers/app-provider';
 
@@ -42,22 +43,18 @@ function RootNavigator() {
   }, [ready]);
 
   if (!ready) {
-    return null;
+    return (
+      <View style={{ flex: 1, backgroundColor: theme.background }}>
+        <StatusBlock status="loading" title={t('status.loading')} body="" fill />
+      </View>
+    );
   }
 
   return (
     <ThemeProvider value={navigationTheme}>
       <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
-      <Stack
-        screenOptions={{
-          headerStyle: { backgroundColor: theme.background },
-          headerTintColor: theme.text,
-          headerShadowVisible: false,
-          contentStyle: { backgroundColor: theme.background },
-        }}
-      >
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="settings" options={{ title: t('settings.title') }} />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" />
       </Stack>
     </ThemeProvider>
   );

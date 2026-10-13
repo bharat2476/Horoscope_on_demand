@@ -1,0 +1,52 @@
+import { useState } from 'react';
+
+import { FilterBar } from '@/components/filter-bar';
+import { Screen } from '@/components/screen';
+import { SearchField } from '@/components/search-field';
+import { StatusBlock } from '@/components/status-block';
+import { RITUAL_CATEGORIES, filterReviewedRituals, type RitualCategory } from '@/modules/rituals';
+import { useApp } from '@/providers/app-provider';
+
+const CATEGORY_KEYS = {
+  daily: 'rituals.category.daily',
+  vrata: 'rituals.category.vrata',
+  festival: 'rituals.category.festival',
+  home: 'rituals.category.home',
+} as const;
+
+export function RitualsScreen() {
+  const { t } = useApp();
+  const [query, setQuery] = useState('');
+  const [category, setCategory] = useState<RitualCategory | 'all'>('all');
+  const rituals = filterReviewedRituals({ query, category });
+  const filtering = query.trim().length > 0 || category !== 'all';
+
+  return (
+    <Screen>
+      <SearchField
+        label={t('rituals.searchLabel')}
+        value={query}
+        onChangeText={setQuery}
+        placeholder={t('rituals.searchPlaceholder')}
+        clearLabel={t('common.clear')}
+      />
+      <FilterBar
+        label={t('rituals.categories')}
+        selectedId={category}
+        onSelect={(id) => setCategory(id as RitualCategory | 'all')}
+        options={[
+          { id: 'all', label: t('rituals.all') },
+          ...RITUAL_CATEGORIES.map((id) => ({ id, label: t(CATEGORY_KEYS[id]) })),
+        ]}
+      />
+      {rituals.length === 0 ? (
+        <StatusBlock
+          status={filtering ? 'empty' : 'unavailable'}
+          title={filtering ? t('status.emptyTitle') : t('status.unavailableTitle')}
+          body={filtering ? t('rituals.emptySearch') : t('unavailable.rituals')}
+          placeholderLabel={t('status.placeholder')}
+        />
+      ) : null}
+    </Screen>
+  );
+}

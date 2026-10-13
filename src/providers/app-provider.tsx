@@ -19,6 +19,7 @@ import {
   type LocalePreference,
   type MessageKey,
 } from '@/modules/localization';
+import { type CityId } from '@/modules/places';
 import {
   DEFAULT_PREFERENCES,
   loadPreferences,
@@ -33,6 +34,8 @@ type AppContextValue = {
   setLocalePreference: (preference: LocalePreference) => void;
   rashiId: RashiId | null;
   setRashiId: (rashiId: RashiId | null) => void;
+  cityId: CityId | null;
+  setCityId: (cityId: CityId | null) => void;
   t: (key: MessageKey) => string;
   authStatus: AuthAvailability['status'];
 };
@@ -85,6 +88,18 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const setCityId = useCallback((cityId: CityId | null) => {
+    setPreferences((current) => {
+      const next = { ...current, cityId };
+      void savePreferences(next);
+      return next;
+    });
+    noopAnalytics.track({
+      name: 'city_preference_changed',
+      properties: { selected: cityId !== null },
+    });
+  }, []);
+
   const locale = resolveLocale(preferences.locale, readDeviceLanguageCode());
   const t = useCallback((key: MessageKey) => translate(locale, key), [locale]);
   const authStatus = getAuthAvailability().status;
@@ -97,6 +112,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
       setLocalePreference,
       rashiId: preferences.rashiId,
       setRashiId,
+      cityId: preferences.cityId,
+      setCityId,
       t,
       authStatus,
     }),
@@ -105,9 +122,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
       locale,
       preferences.locale,
       preferences.rashiId,
+      preferences.cityId,
       ready,
       setLocalePreference,
       setRashiId,
+      setCityId,
       t,
     ],
   );

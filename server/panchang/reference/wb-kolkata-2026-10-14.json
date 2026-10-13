@@ -1,0 +1,29 @@
+{
+  "id": "wb-kolkata-2026-10-14",
+  "ruleId": "ordinary",
+  "approval": "pending",
+  "notes": "Provisional centroid from the test specification. Replace latitude, longitude, and elevation from a cited gazetteer before any comparison run. This case stores no calculated Panchang.",
+  "record": {
+    "schemaVersion": "1",
+    "query": {
+      "calendarDate": "2026-10-14",
+      "latitude": 22.5726,
+      "longitude": 88.3639,
+      "elevationMeters": null,
+      "timeZone": "Asia/Kolkata",
+      "instant": "2026-10-14T12:00:00+05:30",
+      "ayanamsa": { "id": "lahiri", "providerCode": null, "arcseconds": null },
+      "cityId": "wb-kolkata"
+    },
+    "convention": {
+      "sunriseLimb": "upper-limb",
+      "refraction": "standard",
+      "dayBoundary": "sunrise-to-next-sunrise",
+      "monthSystem": "both"
+    },
+    "result": {
+      "status": "unavailable",
+      "reason": "Astronomical reference has not been computed for this place and date."
+    }
+  }
+}

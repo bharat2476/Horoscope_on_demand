@@ -1,6 +1,7 @@
 export type AnalyticsEvent =
   | { name: 'locale_changed'; properties: { locale: string } }
-  | { name: 'rashi_preference_changed'; properties: { selected: boolean } };
+  | { name: 'rashi_preference_changed'; properties: { selected: boolean } }
+  | { name: 'city_preference_changed'; properties: { selected: boolean } };
 
 export interface AnalyticsClient {
   track(event: AnalyticsEvent): void;

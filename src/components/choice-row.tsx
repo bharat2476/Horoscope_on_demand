@@ -17,6 +17,7 @@ export function ChoiceRow({ label, selected, onPress, testID }: ChoiceRowProps) 
   return (
     <Pressable
       accessibilityRole="button"
+      accessibilityLabel={label}
       accessibilityState={{ selected }}
       onPress={onPress}
       testID={testID}

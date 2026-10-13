@@ -1,9 +1,9 @@
 import { DEFAULT_PREFERENCES, parsePreferences } from '@/modules/preferences';
 
 describe('preferences', () => {
-  it('stores only language and an optional Rashi', () => {
-    expect(Object.keys(DEFAULT_PREFERENCES).sort()).toEqual(['locale', 'rashiId']);
-    expect(DEFAULT_PREFERENCES).toEqual({ locale: 'system', rashiId: null });
+  it('stores language, an optional Rashi, and an optional city', () => {
+    expect(Object.keys(DEFAULT_PREFERENCES).sort()).toEqual(['cityId', 'locale', 'rashiId']);
+    expect(DEFAULT_PREFERENCES).toEqual({ locale: 'system', rashiId: null, cityId: null });
   });
 
   it('drops unknown or malformed values', () => {
@@ -13,11 +13,22 @@ describe('preferences', () => {
       parsePreferences({
         locale: 'hi',
         rashiId: 'simha',
+        cityId: 'mh-pune',
         birthDate: '2000-01-01',
         birthTime: '06:30',
         birthplace: 'Pune',
       }),
-    ).toEqual({ locale: 'hi', rashiId: 'simha' });
-    expect(parsePreferences({ locale: 'fr', rashiId: 'not-a-rashi' })).toEqual(DEFAULT_PREFERENCES);
+    ).toEqual({ locale: 'hi', rashiId: 'simha', cityId: 'mh-pune' });
+    expect(parsePreferences({ locale: 'fr', rashiId: 'not-a-rashi', cityId: 'atlantis' })).toEqual(
+      DEFAULT_PREFERENCES,
+    );
+  });
+
+  it('reads an older saved preference that has no city', () => {
+    expect(parsePreferences({ locale: 'ta', rashiId: 'mesha' })).toEqual({
+      locale: 'ta',
+      rashiId: 'mesha',
+      cityId: null,
+    });
   });
 });
