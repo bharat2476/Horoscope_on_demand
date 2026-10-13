@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet } from 'react-native';
 
+import { SanskritText } from '@/components/sanskrit-text';
 import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
@@ -9,9 +10,18 @@ type ChoiceRowProps = {
   selected: boolean;
   onPress: () => void;
   testID?: string;
+  detail?: string;
+  detailLanguage?: string;
 };
 
-export function ChoiceRow({ label, selected, onPress, testID }: ChoiceRowProps) {
+export function ChoiceRow({
+  label,
+  selected,
+  onPress,
+  testID,
+  detail,
+  detailLanguage,
+}: ChoiceRowProps) {
   const theme = useTheme();
 
   return (
@@ -30,6 +40,11 @@ export function ChoiceRow({ label, selected, onPress, testID }: ChoiceRowProps) 
       ]}
     >
       <ThemedText themeColor={selected ? 'tint' : 'text'}>{label}</ThemedText>
+      {detail && detailLanguage === 'sa' ? (
+        <SanskritText type="caption">{detail}</SanskritText>
+      ) : detail ? (
+        <ThemedText type="caption">{detail}</ThemedText>
+      ) : null}
     </Pressable>
   );
 }

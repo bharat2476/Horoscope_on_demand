@@ -1,16 +1,40 @@
 import { type AppLocale } from '@/modules/localization';
+import {
+  projectPublishedTemples,
+  TEMPLE_DIRECTORY_SCOPE,
+  type TempleDocument,
+} from '@/modules/content';
 
 export type TempleRecord = {
   id: string;
   name: Partial<Record<AppLocale, string>>;
   locality: Partial<Record<AppLocale, string>>;
   stateId: string;
-  cityId: string;
+  cityId: string | null;
+  directionsUrl?: string | null;
+  verification?: 'verified';
+  lastVerifiedOn?: string;
 };
 
-/** Mataji temple directory. Empty until each entry is reviewed. */
-export function listMatajiTemples(): readonly TempleRecord[] {
-  return [];
+/** Published temple documents. The Gujarat Mataji directory starts empty. */
+export const PUBLISHED_TEMPLE_DOCUMENTS: readonly TempleDocument[] = [];
+
+export function listMatajiTemples(
+  documents: readonly TempleDocument[] = PUBLISHED_TEMPLE_DOCUMENTS,
+): readonly TempleRecord[] {
+  return projectPublishedTemples(documents, {
+    deity: TEMPLE_DIRECTORY_SCOPE.deity,
+    stateId: null,
+  });
+}
+
+export function listGujaratMatajiTemples(
+  documents: readonly TempleDocument[] = PUBLISHED_TEMPLE_DOCUMENTS,
+): readonly TempleRecord[] {
+  return projectPublishedTemples(documents, {
+    deity: TEMPLE_DIRECTORY_SCOPE.deity,
+    stateId: TEMPLE_DIRECTORY_SCOPE.stateId,
+  });
 }
 
 export function filterTempleRecords(

@@ -1,10 +1,10 @@
+import { projectPublishedRituals, type RitualDocument } from '@/modules/content';
 import { type AppLocale } from '@/modules/localization';
+import { type RitualCategory } from '@/modules/rituals/categories';
+
+export { RITUAL_CATEGORIES, type RitualCategory } from '@/modules/rituals/categories';
 
 export type ReviewedText = Partial<Record<AppLocale, string>>;
-
-export const RITUAL_CATEGORIES = ['daily', 'vrata', 'festival', 'home'] as const;
-
-export type RitualCategory = (typeof RITUAL_CATEGORIES)[number];
 
 export type RitualRecord = {
   id: string;
@@ -14,9 +14,14 @@ export type RitualRecord = {
   steps: ReviewedText | null;
 };
 
-/** Returns only reviewer-approved rituals. The catalog starts empty on purpose. */
-export function listReviewedRituals(): readonly RitualRecord[] {
-  return [];
+/** Published rituals loaded from the review workflow. Empty until an editor publishes one. */
+export const PUBLISHED_RITUAL_DOCUMENTS: readonly RitualDocument[] = [];
+
+/** Returns only reviewer-approved, published rituals. */
+export function listReviewedRituals(
+  documents: readonly RitualDocument[] = PUBLISHED_RITUAL_DOCUMENTS,
+): readonly RitualRecord[] {
+  return projectPublishedRituals(documents);
 }
 
 export function getFeaturedRitual(): { status: 'unavailable' } {

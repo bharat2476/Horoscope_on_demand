@@ -58,6 +58,10 @@ export const gu: Record<MessageKey, string> = {
   'temples.placeNote': 'ફિલ્ટર મંદિર ઉમેરતા નથી. સમીક્ષા પહેલાં નિર્દેશિકા ખાલી રહે છે.',
   'settings.language': 'ભાષા',
   'settings.languageSystem': 'ડિવાઇસની ભાષા',
+  'settings.languageSuggestion':
+    'આ સૂચન ફોનની ભાષા પરથી છે, તમારા શહેર કે નામ પરથી નહીં. તમે બીજી ભાષા પસંદ કરી શકો છો.',
+  'settings.cityPurpose':
+    'શહેર વૈકલ્પિક છે અને હાથથી પસંદ થાય છે. તે ફક્ત સ્થળ સાથે જોડાયેલી જાહેર માહિતી માટે છે. એપ ડિવાઇસનું સ્થાન માગતી નથી અને શહેર પરથી ભાષા પસંદ કરતી નથી.',
   'settings.rashi': 'રાશિ',
   'settings.rashiNote':
     'રાશિના નામ સંસ્કૃત લિપ્યંતર અને અંગ્રેજીમાં છે. દરેક ભાષાના સમીક્ષિત નામ હજુ લોડ થયા નથી.',
@@ -69,6 +73,35 @@ export const gu: Record<MessageKey, string> = {
   'settings.privacyBody':
     'આ આવૃત્તિ ભાષા, રાશિ અને શહેર આ ડિવાઇસ પર રાખે છે. તે પરવાનગી માગતી નથી, જાહેરાત બતાવતી નથી અને વિશ્લેષણ મોકલતી નથી. જન્મ તારીખ, જન્મ સમય અને જન્મસ્થળ લેવાતા નથી.',
   'settings.account': 'ખાતું',
-  'settings.accountBody':
-    'સાઇન-ઇન વૈકલ્પિક છે. જાહેર વિભાગો ખાતા વગર ખુલે છે. આ આવૃત્તિમાં સાઇન-ઇન ઉપલબ્ધ નથી.',
+  'settings.tradition': 'પરંપરા',
+  'settings.traditionNote':
+    'પરંપરા વૈકલ્પિક છે અને ભાષા તથા શહેરથી અલગ રાખવામાં આવે છે. તે સ્થાન પરથી અનુમાનિત નથી.',
+  'settings.tradition.smarta': 'સ્માર્ત',
+  'settings.tradition.vaishnava': 'વૈષ્ણવ',
+  'settings.tradition.shaiva': 'શૈવ',
+  'settings.tradition.shakta': 'શાક્ત',
+  'settings.clearTradition': 'પરંપરા દૂર કરો',
+  'settings.notifications': 'સૂચનાઓ',
+  'settings.notificationsBody': 'સૂચના મોકલવી બંધ છે. આ એપ સૂચનાની પરવાનગી માગતી નથી.',
+  'settings.notificationsFestivals': 'પછીથી પર્વની સૂચના',
+  'settings.notificationsRituals': 'પછીથી વિધિની સૂચના',
+  'settings.privacyRetention':
+    'આ સેટિંગ્સ આ ડિવાઇસ પર રહે છે જ્યાં સુધી તમે એપ ડેટા કાઢો અથવા ખાતામાં નકલની પુષ્ટિ કરો. કોઈ વિશ્લેષણ સેવા તે મેળવતી નથી.',
+  'settings.accountBody': 'સાઇન-ઇન વૈકલ્પિક છે. જાહેર વિભાગો ખાતા વગર ખુલે છે.',
+  'settings.signInUnavailable':
+    'પ્રોજેક્ટ જોડાય ત્યાં સુધી સાઇન-ઇન કનેક્ટ નથી. જાહેર વિભાગો ઉપલબ્ધ રહે છે.',
+  'settings.email': 'ઈમેલ',
+  'settings.password': 'પાસવર્ડ',
+  'settings.signIn': 'સાઇન ઇન',
+  'settings.signOut': 'સાઇન આઉટ',
+  'settings.forgotPassword': 'પુનઃપ્રાપ્તિ લિંક ઈમેલ કરો',
+  'settings.deleteAccount': 'ખાતું કાઢી નાખો',
+  'settings.deleteAccountNote':
+    'કાઢી નાખવાથી ખાતું અને તેની સાથે સાચવેલી પસંદગીઓ મિટે છે. આ ડિવાઇસની સેટિંગ્સ તમે સાફ ન કરો ત્યાં સુધી રહે છે.',
+  'settings.migrationTitle': 'પસંદગીઓ ખાતામાં સાચવો',
+  'settings.migrationBody':
+    'તમે પુષ્ટિ ન કરો ત્યાં સુધી કંઈ ખાતામાં કૉપિ થતું નથી. જન્મ વિગતો આ સેટિંગ્સનો ભાગ નથી.',
+  'settings.migrationKeepDevice': 'આ ડિવાઇસની પ્રત રાખો',
+  'settings.migrationUseAccount': 'ખાતાની પ્રત વાપરો',
+  'settings.migrationCopy': 'આ ડિવાઇસની પ્રત ખાતામાં મોકલો',
 };

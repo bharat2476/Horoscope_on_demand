@@ -59,6 +59,10 @@ export const te: Record<MessageKey, string> = {
   'temples.placeNote': 'ఫిల్టర్‌లు ఆలయం చేర్చవు. సమీక్ష వరకు డైరెక్టరీ ఖాళీగా ఉంటుంది.',
   'settings.language': 'భాష',
   'settings.languageSystem': 'పరికర భాష',
+  'settings.languageSuggestion':
+    'ఈ సూచన ఫోన్ భాష నుండి, మీ నగరం లేదా పేరు నుండి కాదు. మీరు వేరే భాష ఎంచుకోవచ్చు.',
+  'settings.cityPurpose':
+    'నగరం ఐచ్ఛికం మరియు చేతితో ఎంపిక అవుతుంది. స్థలానికి సంబంధించిన బహిరంగ సమాచారానికి మాత్రమే. యాప్ పరికర స్థానం అడగదు మరియు నగరం నుండి భాష ఎంచుకోదు.',
   'settings.rashi': 'రాశి',
   'settings.rashiNote':
     'రాశి పేర్లు సంస్కృత లిప్యంతరం మరియు ఇంగ్లీషులో ఉన్నాయి. ప్రతి భాష సమీక్షించిన పేర్లు ఇంకా లోడ్ కాలేదు.',
@@ -70,6 +74,35 @@ export const te: Record<MessageKey, string> = {
   'settings.privacyBody':
     'ఈ వెర్షన్ భాష, రాశి, నగరాన్ని ఈ పరికరంలోనే ఉంచుతుంది. అనుమతులు అడగదు, ప్రకటనలు చూపదు, విశ్లేషణ పంపదు. పుట్టిన తేదీ, సమయం, స్థలం సేకరించదు.',
   'settings.account': 'ఖాతా',
-  'settings.accountBody':
-    'సైన్-ఇన్ ఐచ్ఛికం. బహిరంగ విభాగాలు ఖాతా లేకుండా తెరుచుకుంటాయి. ఈ వెర్షన్‌లో సైన్-ఇన్ లేదు.',
+  'settings.tradition': 'సాంప్రదాయం',
+  'settings.traditionNote':
+    'సాంప్రదాయం ఐచ్ఛికం. భాష మరియు నగరం నుండి వేరుగా ఉంచబడుతుంది. స్థానం నుండి ఊహించబడదు.',
+  'settings.tradition.smarta': 'స్మార్త',
+  'settings.tradition.vaishnava': 'వైష్ణవ',
+  'settings.tradition.shaiva': 'శైవ',
+  'settings.tradition.shakta': 'శాక్త',
+  'settings.clearTradition': 'సాంప్రదాయం తొలగించు',
+  'settings.notifications': 'నోటిఫికేషన్లు',
+  'settings.notificationsBody': 'నోటిఫికేషన్ పంపడం ఆగింది. ఈ యాప్ అనుమతి అడగదు.',
+  'settings.notificationsFestivals': 'తర్వాత పండుగ గుర్తు',
+  'settings.notificationsRituals': 'తర్వాత ఆచార గుర్తు',
+  'settings.privacyRetention':
+    'ఈ సెట్టింగ్‌లు యాప్ డేటా తొలగించే వరకు లేదా ఖాతాకు కాపీని నిర్ధారించే వరకు ఈ పరికరంలో ఉంటాయి. విశ్లేషణ సేవ వాటిని పొందదు.',
+  'settings.accountBody': 'సైన్-ఇన్ ఐచ్ఛికం. బహిరంగ విభాగాలు ఖాతా లేకుండా తెరుచుకుంటాయి.',
+  'settings.signInUnavailable':
+    'ప్రాజెక్ట్ కలిసే వరకు సైన్-ఇన్ కనెక్ట్ కాదు. బహిరంగ విభాగాలు అందుబాటులో ఉంటాయి.',
+  'settings.email': 'ఇమెయిల్',
+  'settings.password': 'పాస్‌వర్డ్',
+  'settings.signIn': 'సైన్ ఇన్',
+  'settings.signOut': 'సైన్ అవుట్',
+  'settings.forgotPassword': 'రికవరీ లింక్ ఇమెయిల్ చేయి',
+  'settings.deleteAccount': 'ఖాతా తొలగించు',
+  'settings.deleteAccountNote':
+    'తొలగింపు ఖాతాను మరియు దానితో భద్రపరచిన ప్రాధాన్యతలను తీసివేస్తుంది. ఈ పరికర సెట్టింగ్‌లు మీరు తుడిచే వరకు ఉంటాయి.',
+  'settings.migrationTitle': 'ప్రాధాన్యతలను ఖాతాలో భద్రపరచు',
+  'settings.migrationBody':
+    'మీరు నిర్ధారించే వరకు ఏదీ ఖాతాకు కాపీ కాదు. జనన వివరాలు ఈ సెట్టింగ్‌లలో లేవు.',
+  'settings.migrationKeepDevice': 'ఈ పరికర కాపీ ఉంచు',
+  'settings.migrationUseAccount': 'ఖాతా కాపీ వాడు',
+  'settings.migrationCopy': 'ఈ పరికర కాపీని ఖాతాకు పంపు',
 };

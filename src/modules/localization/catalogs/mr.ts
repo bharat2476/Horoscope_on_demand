@@ -60,6 +60,10 @@ export const mr: Record<MessageKey, string> = {
   'temples.placeNote': 'फिल्टर मंदिर जोडत नाहीत. समीक्षेपर्यंत निर्देशिका रिकामी राहते.',
   'settings.language': 'भाषा',
   'settings.languageSystem': 'डिव्हाइसची भाषा',
+  'settings.languageSuggestion':
+    'ही सूचना फोनच्या भाषेवरून आहे, तुमच्या शहर किंवा नावावरून नाही. तुम्ही दुसरी भाषा निवडू शकता.',
+  'settings.cityPurpose':
+    'शहर ऐच्छिक आहे आणि हाताने निवडले जाते. ते फक्त ठिकाणाशी संबंधित सार्वजनिक माहितीसाठी आहे. ॲप डिव्हाइसचे स्थान मागत नाही आणि शहरावरून भाषा निवडत नाही.',
   'settings.rashi': 'राशी',
   'settings.rashiNote':
     'राशींची नावे संस्कृत लिप्यंतर आणि इंग्रजीत आहेत. प्रत्येक भाषेतील समीक्षित नावे अद्याप लोड झालेली नाहीत.',
@@ -71,6 +75,35 @@ export const mr: Record<MessageKey, string> = {
   'settings.privacyBody':
     'ही आवृत्ती भाषा, राशी आणि शहर या डिव्हाइसवर ठेवते. ती परवानगी मागत नाही, जाहिरात दाखवत नाही आणि विश्लेषण पाठवत नाही. जन्मतारीख, जन्मवेळ आणि जन्मस्थळ घेतले जात नाही.',
   'settings.account': 'खाते',
-  'settings.accountBody':
-    'साइन-इन ऐच्छिक आहे. सार्वजनिक विभाग खात्याशिवाय उघडतात. या आवृत्तीत साइन-इन उपलब्ध नाही.',
+  'settings.tradition': 'परंपरा',
+  'settings.traditionNote':
+    'परंपरा ऐच्छिक आहे आणि भाषा व शहरापासून वेगळी ठेवली जाते. ती स्थानावरून अंदाजलेली नाही.',
+  'settings.tradition.smarta': 'स्मार्त',
+  'settings.tradition.vaishnava': 'वैष्णव',
+  'settings.tradition.shaiva': 'शैव',
+  'settings.tradition.shakta': 'शाक्त',
+  'settings.clearTradition': 'परंपरा काढा',
+  'settings.notifications': 'सूचना',
+  'settings.notificationsBody': 'सूचना पाठवणे बंद आहे. हे ॲप सूचनेची परवानगी मागत नाही.',
+  'settings.notificationsFestivals': 'नंतर सणाची सूचना',
+  'settings.notificationsRituals': 'नंतर विधीची सूचना',
+  'settings.privacyRetention':
+    'ही सेटिंग्ज ॲप डेटा हटवेपर्यंत किंवा खात्यात प्रत निश्चित करेपर्यंत या डिव्हाइसवर राहतात. कोणतीही विश्लेषण सेवा ती मिळवत नाही.',
+  'settings.accountBody': 'साइन-इन ऐच्छिक आहे. सार्वजनिक विभाग खात्याशिवाय उघडतात.',
+  'settings.signInUnavailable':
+    'प्रकल्प जोडेपर्यंत साइन-इन जोडलेले नाही. सार्वजनिक विभाग उपलब्ध राहतात.',
+  'settings.email': 'ईमेल',
+  'settings.password': 'पासवर्ड',
+  'settings.signIn': 'साइन इन',
+  'settings.signOut': 'साइन आउट',
+  'settings.forgotPassword': 'पुनर्प्राप्ती दुवा ईमेल करा',
+  'settings.deleteAccount': 'खाते हटवा',
+  'settings.deleteAccountNote':
+    'हटवल्याने खाते आणि त्यासोबत जतन केलेल्या पसंती मिटतात. या डिव्हाइसवरील सेटिंग्ज तुम्ही साफ करेपर्यंत राहतात.',
+  'settings.migrationTitle': 'पसंती खात्यात जतन करा',
+  'settings.migrationBody':
+    'तुम्ही पुष्टी करेपर्यंत काहीही खात्यात कॉपी होत नाही. जन्माचे तपशील या सेटिंग्जचा भाग नाहीत.',
+  'settings.migrationKeepDevice': 'या डिव्हाइसची प्रत ठेवा',
+  'settings.migrationUseAccount': 'खात्याची प्रत वापरा',
+  'settings.migrationCopy': 'या डिव्हाइसची प्रत खात्यात पाठवा',
 };

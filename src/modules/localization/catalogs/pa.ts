@@ -59,6 +59,10 @@ export const pa: Record<MessageKey, string> = {
   'temples.placeNote': 'ਫਿਲਟਰ ਮੰਦਰ ਨਹੀਂ ਜੋੜਦੇ। ਸਮੀਖਿਆ ਤੱਕ ਡਾਇਰੈਕਟਰੀ ਖਾਲੀ ਰਹਿੰਦੀ ਹੈ।',
   'settings.language': 'ਭਾਸ਼ਾ',
   'settings.languageSystem': 'ਡਿਵਾਈਸ ਦੀ ਭਾਸ਼ਾ',
+  'settings.languageSuggestion':
+    'ਇਹ ਸੁਝਾਅ ਫ਼ੋਨ ਦੀ ਭਾਸ਼ਾ ਤੋਂ ਹੈ, ਤੁਹਾਡੇ ਸ਼ਹਿਰ ਜਾਂ ਨਾਮ ਤੋਂ ਨਹੀਂ। ਤੁਸੀਂ ਹੋਰ ਭਾਸ਼ਾ ਚੁਣ ਸਕਦੇ ਹੋ।',
+  'settings.cityPurpose':
+    'ਸ਼ਹਿਰ ਵਿਕਲਪਿਕ ਹੈ ਅਤੇ ਹੱਥ ਨਾਲ ਚੁਣਿਆ ਜਾਂਦਾ ਹੈ। ਇਹ ਸਿਰਫ਼ ਥਾਂ ਨਾਲ ਜੁੜੀ ਜਨਤਕ ਜਾਣਕਾਰੀ ਲਈ ਹੈ। ਐਪ ਡਿਵਾਈਸ ਦਾ ਟਿਕਾਣਾ ਨਹੀਂ ਮੰਗਦੀ ਅਤੇ ਸ਼ਹਿਰ ਤੋਂ ਭਾਸ਼ਾ ਨਹੀਂ ਚੁਣਦੀ।',
   'settings.rashi': 'ਰਾਸ਼ੀ',
   'settings.rashiNote':
     'ਰਾਸ਼ੀ ਦੇ ਨਾਮ ਸੰਸਕ੍ਰਿਤ ਲਿਪੀਅੰਤਰ ਅਤੇ ਅੰਗਰੇਜ਼ੀ ਵਿੱਚ ਹਨ। ਹਰ ਭਾਸ਼ਾ ਦੇ ਸਮੀਖਿਆ ਕੀਤੇ ਨਾਮ ਅਜੇ ਲੋਡ ਨਹੀਂ ਹਨ।',
@@ -70,6 +74,34 @@ export const pa: Record<MessageKey, string> = {
   'settings.privacyBody':
     'ਇਹ ਵਰਜ਼ਨ ਭਾਸ਼ਾ, ਰਾਸ਼ੀ ਅਤੇ ਸ਼ਹਿਰ ਇਸ ਡਿਵਾਈਸ ਉੱਤੇ ਰੱਖਦਾ ਹੈ। ਇਹ ਇਜਾਜ਼ਤ ਨਹੀਂ ਮੰਗਦਾ, ਇਸ਼ਤਿਹਾਰ ਨਹੀਂ ਦਿਖਾਉਂਦਾ ਅਤੇ ਵਿਸ਼ਲੇਸ਼ਣ ਨਹੀਂ ਭੇਜਦਾ। ਜਨਮ ਮਿਤੀ, ਜਨਮ ਸਮਾਂ ਅਤੇ ਜਨਮ ਸਥਾਨ ਇਕੱਠੇ ਨਹੀਂ ਕੀਤੇ ਜਾਂਦੇ।',
   'settings.account': 'ਖਾਤਾ',
-  'settings.accountBody':
-    'ਸਾਈਨ-ਇਨ ਵਿਕਲਪਿਕ ਹੈ। ਜਨਤਕ ਭਾਗ ਖਾਤੇ ਤੋਂ ਬਿਨਾਂ ਖੁੱਲ੍ਹਦੇ ਹਨ। ਇਸ ਵਰਜ਼ਨ ਵਿੱਚ ਸਾਈਨ-ਇਨ ਉਪਲਬਧ ਨਹੀਂ ਹੈ।',
+  'settings.tradition': 'ਪਰੰਪਰਾ',
+  'settings.traditionNote':
+    'ਪਰੰਪਰਾ ਵਿਕਲਪਿਕ ਹੈ ਅਤੇ ਭਾਸ਼ਾ ਤੇ ਸ਼ਹਿਰ ਤੋਂ ਵੱਖ ਰੱਖੀ ਜਾਂਦੀ ਹੈ। ਇਹ ਟਿਕਾਣੇ ਤੋਂ ਅੰਦਾਜ਼ਾ ਨਹੀਂ ਲਗਾਈ ਜਾਂਦੀ।',
+  'settings.tradition.smarta': 'ਸਮਾਰਤ',
+  'settings.tradition.vaishnava': 'ਵੈਸ਼ਣਵ',
+  'settings.tradition.shaiva': 'ਸ਼ੈਵ',
+  'settings.tradition.shakta': 'ਸ਼ਾਕਤ',
+  'settings.clearTradition': 'ਪਰੰਪਰਾ ਹਟਾਓ',
+  'settings.notifications': 'ਸੂਚਨਾਵਾਂ',
+  'settings.notificationsBody': 'ਸੂਚਨਾ ਭੇਜਣਾ ਬੰਦ ਹੈ। ਇਹ ਐਪ ਇਜਾਜ਼ਤ ਨਹੀਂ ਮੰਗਦੀ।',
+  'settings.notificationsFestivals': 'ਬਾਅਦ ਵਿੱਚ ਤਿਉਹਾਰ ਦੀ ਯਾਦ',
+  'settings.notificationsRituals': 'ਬਾਅਦ ਵਿੱਚ ਰਸਮ ਦੀ ਯਾਦ',
+  'settings.privacyRetention':
+    'ਇਹ ਸੈਟਿੰਗਾਂ ਐਪ ਡਾਟਾ ਮਿਟਣ ਤੱਕ ਜਾਂ ਖਾਤੇ ਵਿੱਚ ਕਾਪੀ ਦੀ ਪੁਸ਼ਟੀ ਤੱਕ ਇਸ ਡਿਵਾਈਸ ਉੱਤੇ ਰਹਿੰਦੀਆਂ ਹਨ। ਕੋਈ ਵਿਸ਼ਲੇਸ਼ਣ ਸੇਵਾ ਉਹ ਨਹੀਂ ਲੈਂਦੀ।',
+  'settings.accountBody': 'ਸਾਈਨ-ਇਨ ਵਿਕਲਪਿਕ ਹੈ। ਜਨਤਕ ਭਾਗ ਖਾਤੇ ਤੋਂ ਬਿਨਾਂ ਖੁੱਲ੍ਹਦੇ ਹਨ।',
+  'settings.signInUnavailable': 'ਪ੍ਰੋਜੈਕਟ ਜੁੜਨ ਤੱਕ ਸਾਈਨ-ਇਨ ਜੁੜਿਆ ਨਹੀਂ। ਜਨਤਕ ਭਾਗ ਉਪਲਬਧ ਰਹਿੰਦੇ ਹਨ।',
+  'settings.email': 'ਈਮੇਲ',
+  'settings.password': 'ਪਾਸਵਰਡ',
+  'settings.signIn': 'ਸਾਈਨ ਇਨ',
+  'settings.signOut': 'ਸਾਈਨ ਆਊਟ',
+  'settings.forgotPassword': 'ਰਿਕਵਰੀ ਲਿੰਕ ਈਮੇਲ ਕਰੋ',
+  'settings.deleteAccount': 'ਖਾਤਾ ਮਿਟਾਓ',
+  'settings.deleteAccountNote':
+    'ਮਿਟਾਉਣ ਨਾਲ ਖਾਤਾ ਅਤੇ ਉਸ ਨਾਲ ਸਾਂਭੀਆਂ ਤਰਜੀਹਾਂ ਮਿਟਦੀਆਂ ਹਨ। ਇਸ ਡਿਵਾਈਸ ਦੀਆਂ ਸੈਟਿੰਗਾਂ ਤੁਸੀਂ ਸਾਫ਼ ਨਾ ਕਰੋ ਤੱਕ ਰਹਿੰਦੀਆਂ ਹਨ।',
+  'settings.migrationTitle': 'ਤਰਜੀਹਾਂ ਖਾਤੇ ਵਿੱਚ ਸਾਂਭੋ',
+  'settings.migrationBody':
+    'ਜਦ ਤੱਕ ਤੁਸੀਂ ਪੁਸ਼ਟੀ ਨਹੀਂ ਕਰਦੇ, ਕੁਝ ਵੀ ਖਾਤੇ ਵਿੱਚ ਕਾਪੀ ਨਹੀਂ ਹੁੰਦਾ। ਜਨਮ ਵੇਰਵੇ ਇਨ੍ਹਾਂ ਸੈਟਿੰਗਾਂ ਦਾ ਹਿੱਸਾ ਨਹੀਂ।',
+  'settings.migrationKeepDevice': 'ਇਸ ਡਿਵਾਈਸ ਦੀ ਕਾਪੀ ਰੱਖੋ',
+  'settings.migrationUseAccount': 'ਖਾਤੇ ਦੀ ਕਾਪੀ ਵਰਤੋ',
+  'settings.migrationCopy': 'ਇਸ ਡਿਵਾਈਸ ਦੀ ਕਾਪੀ ਖਾਤੇ ਵਿੱਚ ਭੇਜੋ',
 };

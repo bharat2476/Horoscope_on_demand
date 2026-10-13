@@ -1,11 +1,12 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
 import { readSupabasePublicConfig } from '@/modules/authentication/config';
+import { memorySessionStore } from '@/modules/authentication/session-store';
 
 let cached: SupabaseClient | null = null;
 
 /**
- * Sessions are not persisted. Wire secure storage before enabling sign-in.
+ * The session lives in process memory for this launch. It is not written to AsyncStorage.
  * Returns null when the public Supabase values are missing, so the app still opens.
  */
 export function getSupabaseClient(): SupabaseClient | null {
@@ -17,9 +18,10 @@ export function getSupabaseClient(): SupabaseClient | null {
   if (!cached) {
     cached = createClient(config.url, config.anonKey, {
       auth: {
-        persistSession: false,
-        autoRefreshToken: false,
+        persistSession: true,
+        autoRefreshToken: true,
         detectSessionInUrl: false,
+        storage: memorySessionStore,
       },
     });
   }

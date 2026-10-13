@@ -60,6 +60,10 @@ export const hi: Record<MessageKey, string> = {
   'temples.placeNote': 'फ़िल्टर मंदिर नहीं जोड़ते। समीक्षा से पहले निर्देशिका खाली रहती है।',
   'settings.language': 'भाषा',
   'settings.languageSystem': 'डिवाइस की भाषा',
+  'settings.languageSuggestion':
+    'यह सुझाव फ़ोन की भाषा से है, आपके शहर या नाम से नहीं। आप दूसरी भाषा चुन सकते हैं।',
+  'settings.cityPurpose':
+    'शहर वैकल्पिक है और हाथ से चुना जाता है। यह केवल स्थान से जुड़ी सार्वजनिक जानकारी के लिए है। ऐप डिवाइस का स्थान नहीं माँगता और शहर से भाषा नहीं चुनता।',
   'settings.rashi': 'राशि',
   'settings.rashiNote':
     'राशि के नाम संस्कृत लिप्यंतरण और अंग्रेज़ी में हैं। प्रत्येक भाषा के समीक्षित नाम अभी लोड नहीं हैं।',
@@ -71,6 +75,35 @@ export const hi: Record<MessageKey, string> = {
   'settings.privacyBody':
     'यह संस्करण भाषा, राशि और शहर इसी डिवाइस पर रखता है। यह अनुमति नहीं माँगता, विज्ञापन नहीं दिखाता और विश्लेषण नहीं भेजता। जन्म तिथि, जन्म समय और जन्मस्थान नहीं लिए जाते।',
   'settings.account': 'खाता',
-  'settings.accountBody':
-    'साइन-इन वैकल्पिक है। सार्वजनिक अनुभाग बिना खाते के खुलते रहते हैं। इस संस्करण में साइन-इन उपलब्ध नहीं है।',
+  'settings.tradition': 'परंपरा',
+  'settings.traditionNote':
+    'परंपरा वैकल्पिक है और भाषा तथा शहर से अलग रखी जाती है। यह स्थान से अनुमानित नहीं होती।',
+  'settings.tradition.smarta': 'स्मार्त',
+  'settings.tradition.vaishnava': 'वैष्णव',
+  'settings.tradition.shaiva': 'शैव',
+  'settings.tradition.shakta': 'शाक्त',
+  'settings.clearTradition': 'परंपरा हटाएँ',
+  'settings.notifications': 'सूचनाएँ',
+  'settings.notificationsBody': 'सूचना भेजना बंद है। यह ऐप सूचना की अनुमति नहीं माँगता।',
+  'settings.notificationsFestivals': 'बाद में पर्व की सूचना',
+  'settings.notificationsRituals': 'बाद में विधि की सूचना',
+  'settings.privacyRetention':
+    'ये सेटिंग्स इस डिवाइस पर रहती हैं जब तक आप ऐप डेटा हटाएँ या खाते में प्रतिलिपि की पुष्टि करें। कोई विश्लेषण सेवा इन्हें नहीं पाती। साइन-इन जुड़ने पर ईमेल और पुष्ट प्रतिलिपि खाता हटने तक रहती है।',
+  'settings.accountBody': 'साइन-इन वैकल्पिक है। सार्वजनिक अनुभाग बिना खाते के खुलते रहते हैं।',
+  'settings.signInUnavailable':
+    'प्रोजेक्ट जुड़ने तक साइन-इन कनेक्ट नहीं है। सार्वजनिक अनुभाग उपलब्ध रहते हैं।',
+  'settings.email': 'ईमेल',
+  'settings.password': 'पासवर्ड',
+  'settings.signIn': 'साइन इन',
+  'settings.signOut': 'साइन आउट',
+  'settings.forgotPassword': 'पुनर्प्राप्ति लिंक ईमेल करें',
+  'settings.deleteAccount': 'खाता हटाएँ',
+  'settings.deleteAccountNote':
+    'हटाने पर खाता और उसके साथ सहेजी प्राथमिकताएँ मिटती हैं। इस डिवाइस की सेटिंग्स तब तक रहती हैं जब तक आप उन्हें साफ़ न करें।',
+  'settings.migrationTitle': 'प्राथमिकताएँ खाते में सहेजें',
+  'settings.migrationBody':
+    'जब तक आप पुष्टि नहीं करते, कुछ भी खाते में कॉपी नहीं होता। जन्म विवरण इन सेटिंग्स का हिस्सा नहीं है।',
+  'settings.migrationKeepDevice': 'इस डिवाइस की प्रति रखें',
+  'settings.migrationUseAccount': 'खाते की प्रति उपयोग करें',
+  'settings.migrationCopy': 'इस डिवाइस की प्रति खाते में भेजें',
 };

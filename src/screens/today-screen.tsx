@@ -9,7 +9,7 @@ import { formatCivilDate, todayIsoDate } from '@/modules/calendar/dates';
 import { getFestivalDay } from '@/modules/festivals';
 import { getDailyHoroscope, RASHIS } from '@/modules/horoscope';
 import { getPanchangAvailability } from '@/modules/panchang';
-import { cityName } from '@/modules/places';
+import { cityName, stateIdForCity } from '@/modules/places';
 import { getFeaturedRitual } from '@/modules/rituals';
 import { useApp } from '@/providers/app-provider';
 
@@ -17,7 +17,7 @@ export function TodayScreen() {
   const { cityId, locale, rashiId, t } = useApp();
   const horoscope = getDailyHoroscope(rashiId);
   const panchang = getPanchangAvailability();
-  const festival = getFestivalDay(todayIsoDate());
+  const festival = getFestivalDay(todayIsoDate(), { locale, regionId: stateIdForCity(cityId) });
   const ritual = getFeaturedRitual();
   const rashiLabel = RASHIS.find((rashi) => rashi.id === rashiId)?.label ?? t('today.noRashi');
   const cityLabel = cityName(cityId) ?? t('today.noCity');
@@ -57,7 +57,13 @@ export function TodayScreen() {
               body={t('unavailable.festival')}
               placeholderLabel={t('status.placeholder')}
             />
-          ) : null}
+          ) : (
+            festival.observances.map((observance) => (
+              <ThemedText key={observance.id}>
+                {observance.name}. {observance.observance}
+              </ThemedText>
+            ))
+          )}
         </SectionCard>
         <SectionCard title={t('today.ritual')}>
           {ritual.status === 'unavailable' ? (

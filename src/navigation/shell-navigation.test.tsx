@@ -23,6 +23,6 @@ describe('shell navigation', () => {
 
     await fireEvent.press(view.getByTestId('tab-settings'));
     expect(view.getByText('Privacy')).toBeTruthy();
-    expect(view.getByText(/Sign-in is not available in this version/)).toBeTruthy();
+    expect(view.getByText(/Public sections stay open without an account/)).toBeTruthy();
   });
 });

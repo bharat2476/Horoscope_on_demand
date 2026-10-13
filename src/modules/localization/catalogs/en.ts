@@ -58,6 +58,10 @@ export const en = {
     'Filters do not add temples. The directory stays empty until entries are reviewed.',
   'settings.language': 'Language',
   'settings.languageSystem': 'Use device language',
+  'settings.languageSuggestion':
+    'This suggestion follows your phone language, not your city or name. You can choose another language.',
+  'settings.cityPurpose':
+    'A city is optional and chosen by hand. It is used only for place-specific public information. The app does not request device location and does not choose a language from the city.',
   'settings.rashi': 'Rashi',
   'settings.rashiNote':
     'Rashi names are shown in Sanskrit transliteration and English. Reviewed names in each language are not loaded yet.',
@@ -66,11 +70,41 @@ export const en = {
   'settings.city': 'City',
   'settings.clearCity': 'Clear city',
   'settings.privacy': 'Privacy',
+  'settings.tradition': 'Tradition',
+  'settings.traditionNote':
+    'Tradition is optional and is stored separately from language and city. It is not guessed from your location.',
+  'settings.tradition.smarta': 'Smarta',
+  'settings.tradition.vaishnava': 'Vaishnava',
+  'settings.tradition.shaiva': 'Shaiva',
+  'settings.tradition.shakta': 'Shakta',
+  'settings.clearTradition': 'Clear tradition',
+  'settings.notifications': 'Notifications',
+  'settings.notificationsBody':
+    'Notification delivery is off. This app does not request notification permission.',
+  'settings.notificationsFestivals': 'Festival reminders later',
+  'settings.notificationsRituals': 'Ritual reminders later',
   'settings.privacyBody':
-    'This version keeps language, Rashi, and city on this device. It does not ask for permissions, show advertisements, or send analytics. It does not collect birth date, birth time, or birthplace.',
+    'This version keeps language, Rashi, city, and tradition on this device. It does not ask for permissions, show advertisements, or send analytics. It does not collect birth date, birth time, or birthplace.',
+  'settings.privacyRetention':
+    'Those settings stay on this device until you delete the app data or confirm a copy to an account. No analytics service receives them. When sign-in is configured, Supabase stores the email and the confirmed preference copy until the account is deleted.',
   'settings.account': 'Account',
-  'settings.accountBody':
-    'Sign-in is optional. Public sections stay open without an account. Sign-in is not available in this version.',
+  'settings.accountBody': 'Sign-in is optional. Public sections stay open without an account.',
+  'settings.signInUnavailable':
+    'Sign-in is not connected until a project is configured. Public sections stay available.',
+  'settings.email': 'Email',
+  'settings.password': 'Password',
+  'settings.signIn': 'Sign in',
+  'settings.signOut': 'Sign out',
+  'settings.forgotPassword': 'Email a recovery link',
+  'settings.deleteAccount': 'Delete account',
+  'settings.deleteAccountNote':
+    'Deletion removes the account and the preferences stored with it. Settings on this device remain until you clear them.',
+  'settings.migrationTitle': 'Save preferences to the account',
+  'settings.migrationBody':
+    'Nothing is copied to the account until you confirm. Birth details are not part of these settings.',
+  'settings.migrationKeepDevice': 'Keep this device',
+  'settings.migrationUseAccount': 'Use the account copy',
+  'settings.migrationCopy': 'Copy this device to the account',
 } as const;
 
 export type MessageKey = keyof typeof en;

@@ -5,12 +5,13 @@ import { Screen } from '@/components/screen';
 import { SearchField } from '@/components/search-field';
 import { StatusBlock } from '@/components/status-block';
 import { ThemedText } from '@/components/themed-text';
+import { localizedName } from '@/modules/content';
 import { stateIdForCity, type CityId } from '@/modules/places';
 import { filterMatajiTemples } from '@/modules/temples';
 import { useApp } from '@/providers/app-provider';
 
 export function TemplesScreen() {
-  const { cityId: savedCityId, t } = useApp();
+  const { cityId: savedCityId, locale, t } = useApp();
   const [query, setQuery] = useState('');
   const [cityId, setCityId] = useState<CityId | null>(savedCityId);
   const temples = filterMatajiTemples({
@@ -46,7 +47,14 @@ export function TemplesScreen() {
           body={filtering ? t('temples.emptySearch') : t('unavailable.temples')}
           placeholderLabel={t('status.placeholder')}
         />
-      ) : null}
+      ) : (
+        temples.map((temple) => (
+          <ThemedText key={temple.id}>
+            {localizedName(temple.name, locale) ?? temple.id}
+            {temple.directionsUrl ? ` ${temple.directionsUrl}` : ''}
+          </ThemedText>
+        ))
+      )}
     </Screen>
   );
 }

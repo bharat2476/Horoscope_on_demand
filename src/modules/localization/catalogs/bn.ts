@@ -58,6 +58,10 @@ export const bn: Record<MessageKey, string> = {
   'temples.placeNote': 'ফিল্টার মন্দির যোগ করে না। পর্যালোচনার আগে নির্দেশিকা খালি থাকে।',
   'settings.language': 'ভাষা',
   'settings.languageSystem': 'ডিভাইসের ভাষা',
+  'settings.languageSuggestion':
+    'এই পরামর্শ ফোনের ভাষা থেকে, আপনার শহর বা নাম থেকে নয়। আপনি অন্য ভাষা বেছে নিতে পারেন।',
+  'settings.cityPurpose':
+    'শহর ঐচ্ছিক এবং হাতে বেছে নেওয়া হয়। এটি শুধু স্থানসংক্রান্ত সর্বজনীন তথ্যের জন্য। অ্যাপ ডিভাইসের অবস্থান চায় না এবং শহর থেকে ভাষা বেছে নেয় না।',
   'settings.rashi': 'রাশি',
   'settings.rashiNote':
     'রাশির নাম সংস্কৃত লিপ্যন্তর ও ইংরেজিতে আছে। প্রতিটি ভাষার পর্যালোচিত নাম এখনও লোড হয়নি।',
@@ -69,6 +73,35 @@ export const bn: Record<MessageKey, string> = {
   'settings.privacyBody':
     'এই সংস্করণ ভাষা, রাশি ও শহর এই ডিভাইসে রাখে। এটি অনুমতি চায় না, বিজ্ঞাপন দেখায় না এবং বিশ্লেষণ পাঠায় না। জন্মতারিখ, জন্মসময় ও জন্মস্থান নেওয়া হয় না।',
   'settings.account': 'অ্যাকাউন্ট',
-  'settings.accountBody':
-    'সাইন-ইন ঐচ্ছিক। সার্বজনীন অংশ অ্যাকাউন্ট ছাড়াই খোলে। এই সংস্করণে সাইন-ইন নেই।',
+  'settings.tradition': 'পরম্পরা',
+  'settings.traditionNote':
+    'পরম্পরা ঐচ্ছিক এবং ভাষা ও শহর থেকে আলাদা রাখা হয়। এটি অবস্থান থেকে অনুমান করা হয় না।',
+  'settings.tradition.smarta': 'স্মার্ত',
+  'settings.tradition.vaishnava': 'বৈষ্ণব',
+  'settings.tradition.shaiva': 'শৈব',
+  'settings.tradition.shakta': 'শাক্ত',
+  'settings.clearTradition': 'পরম্পরা সরান',
+  'settings.notifications': 'বিজ্ঞপ্তি',
+  'settings.notificationsBody': 'বিজ্ঞপ্তি পাঠানো বন্ধ। এই অ্যাপ অনুমতি চায় না।',
+  'settings.notificationsFestivals': 'পরে উৎসবের স্মরণ',
+  'settings.notificationsRituals': 'পরে আচারের স্মরণ',
+  'settings.privacyRetention':
+    'এই সেটিংস অ্যাপ ডেটা মুছে ফেলা বা অ্যাকাউন্টে অনুলিপি নিশ্চিত করা পর্যন্ত এই ডিভাইসে থাকে। কোনো বিশ্লেষণ সেবা সেগুলো পায় না।',
+  'settings.accountBody': 'সাইন-ইন ঐচ্ছিক। সার্বজনীন অংশ অ্যাকাউন্ট ছাড়াই খোলে।',
+  'settings.signInUnavailable':
+    'প্রকল্প যুক্ত না হওয়া পর্যন্ত সাইন-ইন সংযুক্ত নয়। সার্বজনীন অংশ খোলা থাকে।',
+  'settings.email': 'ইমেল',
+  'settings.password': 'পাসওয়ার্ড',
+  'settings.signIn': 'সাইন ইন',
+  'settings.signOut': 'সাইন আউট',
+  'settings.forgotPassword': 'পুনরুদ্ধার লিঙ্ক ইমেল করুন',
+  'settings.deleteAccount': 'অ্যাকাউন্ট মুছুন',
+  'settings.deleteAccountNote':
+    'মুছলে অ্যাকাউন্ট এবং তার সঙ্গে রাখা পছন্দ মুছে যায়। এই ডিভাইসের সেটিংস আপনি না মোছা পর্যন্ত থাকে।',
+  'settings.migrationTitle': 'পছন্দ অ্যাকাউন্টে রাখুন',
+  'settings.migrationBody':
+    'আপনি নিশ্চিত না করা পর্যন্ত কিছুই অ্যাকাউন্টে অনুলিপি হয় না। জন্মের বিবরণ এই সেটিংসের অংশ নয়।',
+  'settings.migrationKeepDevice': 'এই ডিভাইসের অনুলিপি রাখুন',
+  'settings.migrationUseAccount': 'অ্যাকাউন্টের অনুলিপি ব্যবহার করুন',
+  'settings.migrationCopy': 'এই ডিভাইসের অনুলিপি অ্যাকাউন্টে পাঠান',
 };

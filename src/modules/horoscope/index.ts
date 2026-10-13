@@ -3,18 +3,18 @@
  * Spellings are conventional transliterations, not a full IAST edition.
  */
 export const RASHIS = [
-  { id: 'mesha', label: 'Mesha (Aries)' },
-  { id: 'vrishabha', label: 'Vrishabha (Taurus)' },
-  { id: 'mithuna', label: 'Mithuna (Gemini)' },
-  { id: 'karka', label: 'Karka (Cancer)' },
-  { id: 'simha', label: 'Simha (Leo)' },
-  { id: 'kanya', label: 'Kanya (Virgo)' },
-  { id: 'tula', label: 'Tula (Libra)' },
-  { id: 'vrishchika', label: 'Vrishchika (Scorpio)' },
-  { id: 'dhanu', label: 'Dhanu (Sagittarius)' },
-  { id: 'makara', label: 'Makara (Capricorn)' },
-  { id: 'kumbha', label: 'Kumbha (Aquarius)' },
-  { id: 'meena', label: 'Meena (Pisces)' },
+  { id: 'mesha', label: 'Mesha (Aries)', sanskrit: 'मेष' },
+  { id: 'vrishabha', label: 'Vrishabha (Taurus)', sanskrit: 'वृषभ' },
+  { id: 'mithuna', label: 'Mithuna (Gemini)', sanskrit: 'मिथुन' },
+  { id: 'karka', label: 'Karka (Cancer)', sanskrit: 'कर्क' },
+  { id: 'simha', label: 'Simha (Leo)', sanskrit: 'सिंह' },
+  { id: 'kanya', label: 'Kanya (Virgo)', sanskrit: 'कन्या' },
+  { id: 'tula', label: 'Tula (Libra)', sanskrit: 'तुला' },
+  { id: 'vrishchika', label: 'Vrishchika (Scorpio)', sanskrit: 'वृश्चिक' },
+  { id: 'dhanu', label: 'Dhanu (Sagittarius)', sanskrit: 'धनु' },
+  { id: 'makara', label: 'Makara (Capricorn)', sanskrit: 'मकर' },
+  { id: 'kumbha', label: 'Kumbha (Aquarius)', sanskrit: 'कुम्भ' },
+  { id: 'meena', label: 'Meena (Pisces)', sanskrit: 'मीन' },
 ] as const;
 
 export type RashiId = (typeof RASHIS)[number]['id'];

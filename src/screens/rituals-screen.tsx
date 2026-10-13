@@ -4,6 +4,8 @@ import { FilterBar } from '@/components/filter-bar';
 import { Screen } from '@/components/screen';
 import { SearchField } from '@/components/search-field';
 import { StatusBlock } from '@/components/status-block';
+import { ThemedText } from '@/components/themed-text';
+import { localizedName } from '@/modules/content';
 import { RITUAL_CATEGORIES, filterReviewedRituals, type RitualCategory } from '@/modules/rituals';
 import { useApp } from '@/providers/app-provider';
 
@@ -15,7 +17,7 @@ const CATEGORY_KEYS = {
 } as const;
 
 export function RitualsScreen() {
-  const { t } = useApp();
+  const { locale, t } = useApp();
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<RitualCategory | 'all'>('all');
   const rituals = filterReviewedRituals({ query, category });
@@ -46,7 +48,13 @@ export function RitualsScreen() {
           body={filtering ? t('rituals.emptySearch') : t('unavailable.rituals')}
           placeholderLabel={t('status.placeholder')}
         />
-      ) : null}
+      ) : (
+        rituals.map((ritual) => (
+          <ThemedText key={ritual.id}>
+            {localizedName(ritual.title, locale) ?? ritual.id}
+          </ThemedText>
+        ))
+      )}
     </Screen>
   );
 }

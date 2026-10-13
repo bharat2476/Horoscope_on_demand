@@ -7,11 +7,11 @@ This milestone stores almost nothing and sends nothing. The rules below are here
 - `.env` is gitignored. Only `.env.example` is committed, and its values are empty.
 - `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_ANON_KEY` are public client values. Expo inlines them into the Android binary. Treat them as visible to anyone who downloads the app.
 - The Supabase service-role key, database password, and JWT secret must never be added to `.env`, `app.json`, source, or the client.
-- `getSupabaseClient` turns session persistence and token refresh off. Do not store access tokens in AsyncStorage. When sign-in is built, use a secure store and a short-lived session.
+- `getSupabaseClient` keeps the session in process memory. It does not write the session to AsyncStorage. Encrypted on-device storage is not wired. A restarted app asks the person to sign in again.
 
 ## What the phone stores
 
-AsyncStorage key `sg.preferences.v1` may contain a language code and a Rashi id. That is not encrypted. It is acceptable for this shell because it is not a credential and it stays on the device. Birth date, birth time, and birthplace are not fields in the preference type, and the parser drops unexpected keys.
+AsyncStorage key `sg.preferences.v1` may contain a language code, a Rashi id, a city id, a tradition id, and notification intent. That store is not encrypted. It is acceptable for this version because it is not a credential and it stays on the device. Birth date, birth time, and birthplace are not fields in the preference type, and the parser drops unexpected keys. Notification delivery is stored as `off`.
 
 If a later feature collects birth details, location history, email, or phone number, that feature needs its own review before code is written. Those values are personal data under India's Digital Personal Data Protection Act, 2023. The shell does not implement notice, consent, or a grievance contact because it does not collect that data.
 
@@ -34,7 +34,7 @@ When Panchang needs a place, ask in context, offer a manually chosen city, and d
 
 ## Analytics and ads
 
-`noopAnalytics` does not open a network request. The allowed event properties are a language code and a boolean meaning "a Rashi is selected". Do not add the Rashi id, birth data, or coordinates to that type without a new decision.
+`noopAnalytics` does not open a network request. The allowed event properties are a language code and a boolean meaning a value is selected. Do not add the Rashi id, city id, birth data, or coordinates to that type without a new decision.
 
 Ads, notifications, YouTube, and a priest marketplace are out of scope. Do not add their SDKs in a content patch.
 

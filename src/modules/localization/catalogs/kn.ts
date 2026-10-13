@@ -59,6 +59,10 @@ export const kn: Record<MessageKey, string> = {
   'temples.placeNote': 'ಫಿಲ್ಟರ್‌ಗಳು ದೇವಾಲಯ ಸೇರಿಸುವುದಿಲ್ಲ. ಪರಿಶೀಲನೆಯವರೆಗೆ ಡೈರೆಕ್ಟರಿ ಖಾಲಿ ಇರುತ್ತದೆ.',
   'settings.language': 'ಭಾಷೆ',
   'settings.languageSystem': 'ಸಾಧನದ ಭಾಷೆ',
+  'settings.languageSuggestion':
+    'ಈ ಸಲಹೆ ಫೋನಿನ ಭಾಷೆಯಿಂದ, ನಿಮ್ಮ ನಗರ ಅಥವಾ ಹೆಸರಿನಿಂದ ಅಲ್ಲ. ನೀವು ಬೇರೆ ಭಾಷೆ ಆಯ್ಕೆ ಮಾಡಬಹುದು.',
+  'settings.cityPurpose':
+    'ನಗರ ಐಚ್ಛಿಕ ಮತ್ತು ಕೈಯಿಂದ ಆಯ್ಕೆಯಾಗುತ್ತದೆ. ಸ್ಥಳಕ್ಕೆ ಸಂಬಂಧಿಸಿದ ಸಾರ್ವಜನಿಕ ಮಾಹಿತಿಗೆ ಮಾತ್ರ. ಅಪ್ಲಿಕೇಶನ್ ಸಾಧನದ ಸ್ಥಳ ಕೇಳುವುದಿಲ್ಲ ಮತ್ತು ನಗರದಿಂದ ಭಾಷೆ ಆಯ್ಕೆ ಮಾಡುವುದಿಲ್ಲ.',
   'settings.rashi': 'ರಾಶಿ',
   'settings.rashiNote':
     'ರಾಶಿ ಹೆಸರುಗಳು ಸಂಸ್ಕೃತ ಲಿಪ್ಯಂತರ ಮತ್ತು ಇಂಗ್ಲಿಷ್‌ನಲ್ಲಿವೆ. ಪ್ರತಿ ಭಾಷೆಯ ಪರಿಶೀಲಿತ ಹೆಸರುಗಳು ಇನ್ನೂ ಲೋಡ್ ಆಗಿಲ್ಲ.',
@@ -70,6 +74,35 @@ export const kn: Record<MessageKey, string> = {
   'settings.privacyBody':
     'ಈ ಆವೃತ್ತಿ ಭಾಷೆ, ರಾಶಿ ಮತ್ತು ನಗರವನ್ನು ಈ ಸಾಧನದಲ್ಲೇ ಇಡುತ್ತದೆ. ಅನುಮತಿ ಕೇಳುವುದಿಲ್ಲ, ಜಾಹೀರಾತು ತೋರಿಸುವುದಿಲ್ಲ, ವಿಶ್ಲೇಷಣೆ ಕಳುಹಿಸುವುದಿಲ್ಲ. ಜನ್ಮದಿನಾಂಕ, ಜನ್ಮ ಸಮಯ ಮತ್ತು ಜನ್ಮಸ್ಥಳ ಸಂಗ್ರಹಿಸುವುದಿಲ್ಲ.',
   'settings.account': 'ಖಾತೆ',
-  'settings.accountBody':
-    'ಸೈನ್-ಇನ್ ಐಚ್ಛಿಕ. ಸಾರ್ವಜನಿಕ ವಿಭಾಗಗಳು ಖಾತೆ ಇಲ್ಲದೆ ತೆರೆಯುತ್ತವೆ. ಈ ಆವೃತ್ತಿಯಲ್ಲಿ ಸೈನ್-ಇನ್ ಲಭ್ಯವಿಲ್ಲ.',
+  'settings.tradition': 'ಪರಂಪರೆ',
+  'settings.traditionNote':
+    'ಪರಂಪರೆ ಐಚ್ಛಿಕ. ಭಾಷೆ ಮತ್ತು ನಗರದಿಂದ ಪ್ರತ್ಯೇಕವಾಗಿ ಇಡಲಾಗುತ್ತದೆ. ಸ್ಥಳದಿಂದ ಊಹಿಸಲಾಗುವುದಿಲ್ಲ.',
+  'settings.tradition.smarta': 'ಸ್ಮಾರ್ತ',
+  'settings.tradition.vaishnava': 'ವೈಷ್ಣವ',
+  'settings.tradition.shaiva': 'ಶೈವ',
+  'settings.tradition.shakta': 'ಶಾಕ್ತ',
+  'settings.clearTradition': 'ಪರಂಪರೆ ತೆಗೆದುಹಾಕಿ',
+  'settings.notifications': 'ಅಧಿಸೂಚನೆಗಳು',
+  'settings.notificationsBody':
+    'ಅಧಿಸೂಚನೆ ಕಳುಹಿಸುವಿಕೆ ನಿಲ್ಲಿಸಲಾಗಿದೆ. ಈ ಅಪ್ಲಿಕೇಶನ್ ಅನುಮತಿ ಕೇಳುವುದಿಲ್ಲ.',
+  'settings.notificationsFestivals': 'ನಂತರ ಹಬ್ಬದ ಜ್ಞಾಪನೆ',
+  'settings.notificationsRituals': 'ನಂತರ ಆಚರಣೆಯ ಜ್ಞಾಪನೆ',
+  'settings.privacyRetention':
+    'ಈ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಅಪ್ಲಿಕೇಶನ್ ಡೇಟಾ ಅಳಿಸುವವರೆಗೆ ಅಥವಾ ಖಾತೆಗೆ ಪ್ರತಿ ದೃಢಪಡಿಸುವವರೆಗೆ ಈ ಸಾಧನದಲ್ಲಿರುತ್ತವೆ. ವಿಶ್ಲೇಷಣೆ ಸೇವೆ ಅವುಗಳನ್ನು ಪಡೆಯುವುದಿಲ್ಲ.',
+  'settings.accountBody': 'ಸೈನ್-ಇನ್ ಐಚ್ಛಿಕ. ಸಾರ್ವಜನಿಕ ವಿಭಾಗಗಳು ಖಾತೆ ಇಲ್ಲದೆ ತೆರೆಯುತ್ತವೆ.',
+  'settings.signInUnavailable': 'ಯೋಜನೆ ಸೇರುವವರೆಗೆ ಸೈನ್-ಇನ್ ಸಂಪರ್ಕವಾಗಿಲ್ಲ. ಸಾರ್ವಜನಿಕ ವಿಭಾಗಗಳು ಲಭ್ಯ.',
+  'settings.email': 'ಇಮೇಲ್',
+  'settings.password': 'ಪಾಸ್‌ವರ್ಡ್',
+  'settings.signIn': 'ಸೈನ್ ಇನ್',
+  'settings.signOut': 'ಸೈನ್ ಔಟ್',
+  'settings.forgotPassword': 'ಪುನಃಪಡೆಯುವಿಕೆ ಲಿಂಕ್ ಇಮೇಲ್ ಮಾಡಿ',
+  'settings.deleteAccount': 'ಖಾತೆ ಅಳಿಸಿ',
+  'settings.deleteAccountNote':
+    'ಅಳಿಸುವಿಕೆ ಖಾತೆ ಮತ್ತು ಅದರೊಂದಿಗೆ ಉಳಿಸಿದ ಆದ್ಯತೆಗಳನ್ನು ತೆಗೆದುಹಾಕುತ್ತದೆ. ಈ ಸಾಧನದ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ನೀವು ಅಳಿಸುವವರೆಗೆ ಇರುತ್ತವೆ.',
+  'settings.migrationTitle': 'ಆದ್ಯತೆಗಳನ್ನು ಖಾತೆಯಲ್ಲಿ ಉಳಿಸಿ',
+  'settings.migrationBody':
+    'ನೀವು ದೃಢಪಡಿಸುವವರೆಗೆ ಏನೂ ಖಾತೆಗೆ ನಕಲಾಗುವುದಿಲ್ಲ. ಜನ್ಮ ವಿವರಗಳು ಈ ಸೆಟ್ಟಿಂಗ್‌ಗಳ ಭಾಗವಲ್ಲ.',
+  'settings.migrationKeepDevice': 'ಈ ಸಾಧನದ ಪ್ರತಿ ಇಡಿ',
+  'settings.migrationUseAccount': 'ಖಾತೆಯ ಪ್ರತಿ ಬಳಸಿ',
+  'settings.migrationCopy': 'ಈ ಸಾಧನದ ಪ್ರತಿಯನ್ನು ಖಾತೆಗೆ ಕಳುಹಿಸಿ',
 };

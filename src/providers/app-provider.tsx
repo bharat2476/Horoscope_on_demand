@@ -25,6 +25,8 @@ import {
   loadPreferences,
   savePreferences,
   type AppPreferences,
+  type NotificationChannel,
+  type TraditionId,
 } from '@/modules/preferences';
 
 type AppContextValue = {
@@ -36,6 +38,11 @@ type AppContextValue = {
   setRashiId: (rashiId: RashiId | null) => void;
   cityId: CityId | null;
   setCityId: (cityId: CityId | null) => void;
+  traditionId: TraditionId | null;
+  setTraditionId: (traditionId: TraditionId | null) => void;
+  notifications: AppPreferences['notifications'];
+  setNotificationChannel: (channel: NotificationChannel, enabled: boolean) => void;
+  replacePreferences: (next: AppPreferences) => void;
   t: (key: MessageKey) => string;
   authStatus: AuthAvailability['status'];
 };
@@ -100,6 +107,38 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const setTraditionId = useCallback((traditionId: TraditionId | null) => {
+    setPreferences((current) => {
+      const next = { ...current, traditionId };
+      void savePreferences(next);
+      return next;
+    });
+    noopAnalytics.track({
+      name: 'tradition_preference_changed',
+      properties: { selected: traditionId !== null },
+    });
+  }, []);
+
+  const setNotificationChannel = useCallback((channel: NotificationChannel, enabled: boolean) => {
+    setPreferences((current) => {
+      const next = {
+        ...current,
+        notifications: { ...current.notifications, delivery: 'off' as const, [channel]: enabled },
+      };
+      void savePreferences(next);
+      return next;
+    });
+    noopAnalytics.track({
+      name: 'notification_preference_changed',
+      properties: { selected: enabled },
+    });
+  }, []);
+
+  const replacePreferences = useCallback((next: AppPreferences) => {
+    setPreferences(next);
+    void savePreferences(next);
+  }, []);
+
   const locale = resolveLocale(preferences.locale, readDeviceLanguageCode());
   const t = useCallback((key: MessageKey) => translate(locale, key), [locale]);
   const authStatus = getAuthAvailability().status;
@@ -114,6 +153,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
       setRashiId,
       cityId: preferences.cityId,
       setCityId,
+      traditionId: preferences.traditionId,
+      setTraditionId,
+      notifications: preferences.notifications,
+      setNotificationChannel,
+      replacePreferences,
       t,
       authStatus,
     }),
@@ -123,10 +167,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
       preferences.locale,
       preferences.rashiId,
       preferences.cityId,
+      preferences.traditionId,
+      preferences.notifications,
       ready,
       setLocalePreference,
       setRashiId,
       setCityId,
+      setTraditionId,
+      setNotificationChannel,
+      replacePreferences,
       t,
     ],
   );

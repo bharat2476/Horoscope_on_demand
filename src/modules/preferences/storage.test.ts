@@ -8,11 +8,19 @@ describe('preference storage', () => {
   });
 
   it('round-trips language, Rashi, and city', async () => {
-    await savePreferences({ locale: 'gu', rashiId: 'kanya', cityId: 'gj-ahmedabad' });
+    await savePreferences({
+      locale: 'gu',
+      rashiId: 'kanya',
+      cityId: 'gj-ahmedabad',
+      traditionId: 'shakta',
+      notifications: { delivery: 'off', festivals: false, rituals: true },
+    });
     await expect(loadPreferences()).resolves.toEqual({
       locale: 'gu',
       rashiId: 'kanya',
       cityId: 'gj-ahmedabad',
+      traditionId: 'shakta',
+      notifications: { delivery: 'off', festivals: false, rituals: true },
     });
     await expect(AsyncStorage.getItem(PREFERENCES_STORAGE_KEY)).resolves.toContain('kanya');
   });
@@ -23,6 +31,8 @@ describe('preference storage', () => {
       locale: 'system',
       rashiId: null,
       cityId: null,
+      traditionId: null,
+      notifications: { delivery: 'off', festivals: false, rituals: false },
     });
   });
 });

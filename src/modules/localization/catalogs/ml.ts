@@ -60,6 +60,10 @@ export const ml: Record<MessageKey, string> = {
   'temples.placeNote': 'ഫിൽട്ടറുകൾ ക്ഷേത്രം ചേർക്കില്ല. അവലോകനം വരെ ഡയറക്ടറി ശൂന്യമായിരിക്കും.',
   'settings.language': 'ഭാഷ',
   'settings.languageSystem': 'ഉപകരണ ഭാഷ',
+  'settings.languageSuggestion':
+    'ഈ നിർദ്ദേശം ഫോണിന്റെ ഭാഷയിൽ നിന്നാണ്, നിങ്ങളുടെ നഗരത്തിൽ നിന്നോ പേരിൽ നിന്നോ അല്ല. മറ്റൊരു ഭാഷ തിരഞ്ഞെടുക്കാം.',
+  'settings.cityPurpose':
+    'നഗരം ഐച്ഛികമാണ്, കൈകൊണ്ട് തിരഞ്ഞെടുക്കുന്നു. സ്ഥലവുമായി ബന്ധപ്പെട്ട പൊതു വിവരത്തിന് മാത്രം. ആപ്പ് ഉപകരണ സ്ഥാനം ചോദിക്കില്ല, നഗരത്തിൽ നിന്ന് ഭാഷ തിരഞ്ഞെടുക്കില്ല.',
   'settings.rashi': 'രാശി',
   'settings.rashiNote':
     'രാശി പേരുകൾ സംസ്കൃത ലിപ്യന്തരണത്തിലും ഇംഗ്ലീഷിലുമാണ്. അവലോകന പേരുകൾ ഇതുവരെ ലോഡ് ചെയ്തിട്ടില്ല.',
@@ -71,6 +75,36 @@ export const ml: Record<MessageKey, string> = {
   'settings.privacyBody':
     'ഈ പതിപ്പ് ഭാഷ, രാശി, നഗരം എന്നിവ ഈ ഉപകരണത്തിൽ സൂക്ഷിക്കുന്നു. അനുമതി ചോദിക്കില്ല, പരസ്യം കാണിക്കില്ല, വിശകലനം അയയ്ക്കില്ല. ജനനത്തീയതി, സമയം, സ്ഥലം ശേഖരിക്കുന്നില്ല.',
   'settings.account': 'അക്കൗണ്ട്',
-  'settings.accountBody':
-    'സൈൻ-ഇൻ ഐച്ഛികമാണ്. പൊതു വിഭാഗങ്ങൾ അക്കൗണ്ട് ഇല്ലാതെ തുറക്കും. ഈ പതിപ്പിൽ സൈൻ-ഇൻ ലഭ്യമല്ല.',
+  'settings.tradition': 'പാരമ്പര്യം',
+  'settings.traditionNote':
+    'പാരമ്പര്യം ഐച്ഛികമാണ്. ഭാഷയിൽ നിന്നും നഗരത്തിൽ നിന്നും വേറെ സൂക്ഷിക്കുന്നു. സ്ഥലത്തിൽ നിന്ന് ഊഹിക്കില്ല.',
+  'settings.tradition.smarta': 'സ്മാർത്ത',
+  'settings.tradition.vaishnava': 'വൈഷ്ണവ',
+  'settings.tradition.shaiva': 'ശൈവ',
+  'settings.tradition.shakta': 'ശാക്ത',
+  'settings.clearTradition': 'പാരമ്പര്യം നീക്കം ചെയ്യുക',
+  'settings.notifications': 'അറിയിപ്പുകൾ',
+  'settings.notificationsBody':
+    'അറിയിപ്പ് അയയ്ക്കൽ നിർത്തിയിരിക്കുന്നു. ഈ ആപ്പ് അറിയിപ്പ് അനുമതി ചോദിക്കില്ല.',
+  'settings.notificationsFestivals': 'പിന്നീട് ഉത്സവ ഓർമ്മപ്പെടുത്തൽ',
+  'settings.notificationsRituals': 'പിന്നീട് ആചാര ഓർമ്മപ്പെടുത്തൽ',
+  'settings.privacyRetention':
+    'ഈ ക്രമീകരണങ്ങൾ ആപ്പ് ഡാറ്റ മായ്ക്കും വരെ അല്ലെങ്കിൽ അക്കൗണ്ടിലേക്ക് പകർപ്പ് സ്ഥിരീകരിക്കും വരെ ഈ ഉപകരണത്തിൽ നിൽക്കും. വിശകലന സേവനത്തിന് ലഭിക്കില്ല.',
+  'settings.accountBody': 'സൈൻ-ഇൻ ഐച്ഛികമാണ്. പൊതു വിഭാഗങ്ങൾ അക്കൗണ്ട് ഇല്ലാതെ തുറക്കും.',
+  'settings.signInUnavailable':
+    'പ്രോജക്റ്റ് ബന്ധിപ്പിക്കും വരെ സൈൻ-ഇൻ ബന്ധിപ്പിച്ചിട്ടില്ല. പൊതു വിഭാഗങ്ങൾ ലഭ്യമാണ്.',
+  'settings.email': 'ഇമെയിൽ',
+  'settings.password': 'പാസ്‌വേഡ്',
+  'settings.signIn': 'സൈൻ ഇൻ',
+  'settings.signOut': 'സൈൻ ഔട്ട്',
+  'settings.forgotPassword': 'വീണ്ടെടുക്കൽ ലിങ്ക് ഇമെയിൽ ചെയ്യുക',
+  'settings.deleteAccount': 'അക്കൗണ്ട് ഇല്ലാതാക്കുക',
+  'settings.deleteAccountNote':
+    'ഇല്ലാതാക്കൽ അക്കൗണ്ടും അതോടൊപ്പം സൂക്ഷിച്ച മുൻഗണനകളും നീക്കും. ഈ ഉപകരണ ക്രമീകരണങ്ങൾ നിങ്ങൾ മായ്ക്കും വരെ നിൽക്കും.',
+  'settings.migrationTitle': 'മുൻഗണനകൾ അക്കൗണ്ടിൽ സൂക്ഷിക്കുക',
+  'settings.migrationBody':
+    'നിങ്ങൾ സ്ഥിരീകരിക്കും വരെ ഒന്നും അക്കൗണ്ടിലേക്ക് പകർത്തില്ല. ജനന വിവരങ്ങൾ ഈ ക്രമീകരണങ്ങളുടെ ഭാഗമല്ല.',
+  'settings.migrationKeepDevice': 'ഈ ഉപകരണ പകർപ്പ് നിർത്തുക',
+  'settings.migrationUseAccount': 'അക്കൗണ്ട് പകർപ്പ് ഉപയോഗിക്കുക',
+  'settings.migrationCopy': 'ഈ ഉപകരണ പകർപ്പ് അക്കൗണ്ടിലേക്ക് അയയ്ക്കുക',
 };
