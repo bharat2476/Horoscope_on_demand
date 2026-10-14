@@ -1,3 +1,4 @@
+import { noopAnalytics, sanitizeAnalyticsPayload, type AnalyticsEvent } from '@/modules/analytics';
 import { getSupabaseClient } from '@/modules/authentication';
 import {
   deleteSignedInAccount,
@@ -7,7 +8,6 @@ import {
   type AuthGateway,
   type AuthSession,
 } from '@/modules/authentication/actions';
-import { ANALYTICS_PROPERTY_KEYS, noopAnalytics, type AnalyticsEvent } from '@/modules/analytics';
 import { getFestivalDay } from '@/modules/festivals';
 import { getDailyHoroscope } from '@/modules/horoscope';
 import { suggestLanguage, translationReview, unreviewedLocales } from '@/modules/localization';
@@ -192,20 +192,21 @@ describe('language, analytics, and notifications', () => {
   it('keeps analytics free of birth details, coordinates, and notification delivery off', () => {
     const events: AnalyticsEvent[] = [
       { name: 'locale_changed', properties: { locale: 'ta' } },
+      { name: 'rashi_preference_changed', properties: { rashiId: 'mesha' } },
       { name: 'city_preference_changed', properties: { selected: true } },
-      { name: 'tradition_preference_changed', properties: { selected: false } },
-      { name: 'notification_preference_changed', properties: { selected: false } },
+      { name: 'notification_preference_changed', properties: { channel: 'horoscope', selected: false } },
+      { name: 'ad_result', properties: { placement: 'content-break', filled: false, mode: 'unavailable' } },
     ];
     for (const event of events) {
       noopAnalytics.track(event);
-      expect(
-        Object.keys(event.properties).every((key) =>
-          (ANALYTICS_PROPERTY_KEYS as readonly string[]).includes(key),
-        ),
-      ).toBe(true);
-      expect(JSON.stringify(event)).not.toContain('birth');
-      expect(JSON.stringify(event)).not.toContain('latitude');
+      expect(sanitizeAnalyticsPayload(event)).toEqual(event);
     }
+    expect(
+      sanitizeAnalyticsPayload({
+        name: 'content_viewed',
+        properties: { kind: 'horoscope', birthDate: '2000-01-01', latitude: 23.03, email: 'a@b.c' },
+      }),
+    ).toBeNull();
     expect(NOTIFICATION_DELIVERY).toBe('off');
     expect(notificationPermissionRequest()).toBe('not-requested');
   });

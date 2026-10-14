@@ -80,11 +80,16 @@ export const en = {
   'settings.clearTradition': 'Clear tradition',
   'settings.notifications': 'Notifications',
   'settings.notificationsBody':
-    'Notification delivery is off. This app does not request notification permission.',
+    'Reminders stay on this device. The app does not ask for notification permission when it opens, and no broadcast is sent.',
+  'settings.notificationsExplain':
+    'A daily horoscope, Panchang, or festival reminder can appear on this device after you allow it. Quiet hours are respected. These are not promotional messages.',
+  'settings.notificationsHoroscope': 'Daily horoscope reminder',
+  'settings.notificationsPanchang': 'Panchang reminder',
+  'settings.quietHours': 'Quiet hours are 10 pm to 7 am. A reminder in that window waits until 7 am.',
   'settings.notificationsFestivals': 'Festival reminders later',
   'settings.notificationsRituals': 'Ritual reminders later',
   'settings.privacyBody':
-    'This version keeps language, Rashi, city, and tradition on this device. It does not ask for permissions, show advertisements, or send analytics. It does not collect birth date, birth time, or birthplace.',
+    'Language, Rashi, city, and tradition stay on this device. The app does not ask for permissions when it first opens. It does not collect birth date, birth time, or birthplace. A labeled advertisement can appear between sections only after you choose one, and it is separate from religious text.',
   'settings.privacyRetention':
     'Those settings stay on this device until you delete the app data or confirm a copy to an account. No analytics service receives them. When sign-in is configured, Supabase stores the email and the confirmed preference copy until the account is deleted.',
   'settings.account': 'Account',
@@ -105,6 +110,24 @@ export const en = {
   'settings.migrationKeepDevice': 'Keep this device',
   'settings.migrationUseAccount': 'Use the account copy',
   'settings.migrationCopy': 'Copy this device to the account',
+  'ads.label': 'Advertisement',
+  'ads.testBody': 'Test advertisement. This is not a verse, a forecast, or a navigation control.',
+  'ads.consentTitle': 'Advertisements',
+  'ads.consentBody':
+    'Ads are optional and do not need an account. Personalized ads stay off until a consent form is available. People under 18 are not shown ads.',
+  'ads.ageConfirm': 'I am 18 or older',
+  'ads.ageUnder': 'I am under 18',
+  'ads.allowNonPersonalized': 'Allow non-personalized ads',
+  'ads.decline': 'Do not show ads',
+  'videos.title': 'Videos',
+  'videos.empty': 'No permitted video is listed yet.',
+  'videos.open': 'Open on YouTube',
+  'videos.note': 'A video opens in YouTube. This app does not download or copy it.',
+  'onboarding.body': 'Public sections stay open. You can choose a language and a Rashi in Settings.',
+  'onboarding.done': 'Continue',
+  'feedback.helpful': 'This section was useful',
+  'feedback.notHelpful': 'This section was not useful',
+  'share.label': 'Share this section',
 } as const;
 
 export type MessageKey = keyof typeof en;

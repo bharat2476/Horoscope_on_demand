@@ -1,4 +1,4 @@
-import { DEFAULT_PREFERENCES, parsePreferences } from '@/modules/preferences';
+import { DEFAULT_NOTIFICATIONS, DEFAULT_PREFERENCES, parsePreferences } from '@/modules/preferences';
 
 describe('preferences', () => {
   it('stores language, an optional Rashi, and an optional city', () => {
@@ -14,7 +14,7 @@ describe('preferences', () => {
       rashiId: null,
       cityId: null,
       traditionId: null,
-      notifications: { delivery: 'off', festivals: false, rituals: false },
+      notifications: DEFAULT_NOTIFICATIONS,
     });
   });
 
@@ -35,7 +35,7 @@ describe('preferences', () => {
       rashiId: 'simha',
       cityId: 'mh-pune',
       traditionId: null,
-      notifications: { delivery: 'off', festivals: false, rituals: false },
+      notifications: DEFAULT_NOTIFICATIONS,
     });
     expect(parsePreferences({ locale: 'fr', rashiId: 'not-a-rashi', cityId: 'atlantis' })).toEqual(
       DEFAULT_PREFERENCES,
@@ -48,7 +48,7 @@ describe('preferences', () => {
       rashiId: 'mesha',
       cityId: null,
       traditionId: null,
-      notifications: { delivery: 'off', festivals: false, rituals: false },
+      notifications: DEFAULT_NOTIFICATIONS,
     });
     expect(
       parsePreferences({
@@ -64,7 +64,7 @@ describe('preferences', () => {
       rashiId: null,
       cityId: 'gj-ahmedabad',
       traditionId: 'shaiva',
-      notifications: { delivery: 'off', festivals: true, rituals: false },
+      notifications: { ...DEFAULT_NOTIFICATIONS, festivals: true },
     });
   });
 });

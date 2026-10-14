@@ -33,9 +33,12 @@ export function SettingsScreen() {
   const {
     authStatus,
     cityId,
+    growth,
     localePreference,
     notifications,
     rashiId,
+    setAdChoice,
+    setAgeBand,
     setCityId,
     setLocalePreference,
     setNotificationChannel,
@@ -136,6 +139,18 @@ export function SettingsScreen() {
 
       <SectionCard title={t('settings.notifications')}>
         <ThemedText type="caption">{t('settings.notificationsBody')}</ThemedText>
+        <ThemedText type="caption">{t('settings.notificationsExplain')}</ThemedText>
+        <ThemedText type="caption">{t('settings.quietHours')}</ThemedText>
+        <ChoiceRow
+          label={t('settings.notificationsHoroscope')}
+          selected={notifications.horoscope}
+          onPress={() => setNotificationChannel('horoscope', !notifications.horoscope)}
+        />
+        <ChoiceRow
+          label={t('settings.notificationsPanchang')}
+          selected={notifications.panchang}
+          onPress={() => setNotificationChannel('panchang', !notifications.panchang)}
+        />
         <ChoiceRow
           label={t('settings.notificationsFestivals')}
           selected={notifications.festivals}
@@ -145,6 +160,30 @@ export function SettingsScreen() {
           label={t('settings.notificationsRituals')}
           selected={notifications.rituals}
           onPress={() => setNotificationChannel('rituals', !notifications.rituals)}
+        />
+      </SectionCard>
+
+      <SectionCard title={t('ads.consentTitle')}>
+        <ThemedText type="caption">{t('ads.consentBody')}</ThemedText>
+        <ChoiceRow
+          label={t('ads.ageConfirm')}
+          selected={growth.ageBand === '18-plus'}
+          onPress={() => setAgeBand('18-plus')}
+        />
+        <ChoiceRow
+          label={t('ads.ageUnder')}
+          selected={growth.ageBand === 'under-18'}
+          onPress={() => setAgeBand('under-18')}
+        />
+        <ChoiceRow
+          label={t('ads.allowNonPersonalized')}
+          selected={growth.adChoice === 'non-personalized'}
+          onPress={() => setAdChoice('non-personalized')}
+        />
+        <ChoiceRow
+          label={t('ads.decline')}
+          selected={growth.adChoice === 'declined'}
+          onPress={() => setAdChoice('declined')}
         />
       </SectionCard>
 

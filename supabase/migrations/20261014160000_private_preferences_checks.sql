@@ -25,6 +25,10 @@ alter table public.private_preferences
       and notifications ->> 'delivery' = 'off'
       and jsonb_typeof(notifications -> 'festivals') = 'boolean'
       and jsonb_typeof(notifications -> 'rituals') = 'boolean'
+      and jsonb_typeof(notifications -> 'horoscope') = 'boolean'
+      and jsonb_typeof(notifications -> 'panchang') = 'boolean'
+      and notifications ->> 'quietStart' ~ '^([01][0-9]|2[0-3]):[0-5][0-9]$'
+      and notifications ->> 'quietEnd' ~ '^([01][0-9]|2[0-3]):[0-5][0-9]$'
     );
 
 create or replace function public.private_preferences_reject_extra_notification_keys()
@@ -35,7 +39,7 @@ declare
   key_count integer;
 begin
   select count(*) into key_count from jsonb_object_keys(new.notifications);
-  if key_count <> 3 then
+  if key_count <> 7 then
     raise exception 'invalid notifications';
   end if;
   return new;

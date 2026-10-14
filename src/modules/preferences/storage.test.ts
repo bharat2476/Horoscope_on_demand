@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { loadPreferences, PREFERENCES_STORAGE_KEY, savePreferences } from '@/modules/preferences';
+import { DEFAULT_NOTIFICATIONS, loadPreferences, PREFERENCES_STORAGE_KEY, savePreferences } from '@/modules/preferences';
 
 describe('preference storage', () => {
   beforeEach(async () => {
@@ -13,14 +13,14 @@ describe('preference storage', () => {
       rashiId: 'kanya',
       cityId: 'gj-ahmedabad',
       traditionId: 'shakta',
-      notifications: { delivery: 'off', festivals: false, rituals: true },
+      notifications: { ...DEFAULT_NOTIFICATIONS, rituals: true },
     });
     await expect(loadPreferences()).resolves.toEqual({
       locale: 'gu',
       rashiId: 'kanya',
       cityId: 'gj-ahmedabad',
       traditionId: 'shakta',
-      notifications: { delivery: 'off', festivals: false, rituals: true },
+      notifications: { ...DEFAULT_NOTIFICATIONS, rituals: true },
     });
     await expect(AsyncStorage.getItem(PREFERENCES_STORAGE_KEY)).resolves.toContain('kanya');
   });
@@ -32,7 +32,7 @@ describe('preference storage', () => {
       rashiId: null,
       cityId: null,
       traditionId: null,
-      notifications: { delivery: 'off', festivals: false, rituals: false },
+      notifications: DEFAULT_NOTIFICATIONS,
     });
   });
 });

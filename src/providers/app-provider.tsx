@@ -10,6 +10,14 @@ import {
 
 import { noopAnalytics } from '@/modules/analytics';
 import { getAuthAvailability, type AuthAvailability } from '@/modules/authentication';
+import {
+  DEFAULT_GROWTH,
+  recordActivity,
+  type AdChoice,
+  type AgeBand,
+  type GrowthState,
+} from '@/modules/growth/metrics';
+import { loadGrowthState, saveGrowthState } from '@/modules/growth/storage';
 import { type RashiId } from '@/modules/horoscope';
 import {
   readDeviceLanguageCode,
@@ -19,6 +27,7 @@ import {
   type LocalePreference,
   type MessageKey,
 } from '@/modules/localization';
+import { todayIsoDate } from '@/modules/calendar/dates';
 import { type CityId } from '@/modules/places';
 import {
   DEFAULT_PREFERENCES,
@@ -43,6 +52,10 @@ type AppContextValue = {
   notifications: AppPreferences['notifications'];
   setNotificationChannel: (channel: NotificationChannel, enabled: boolean) => void;
   replacePreferences: (next: AppPreferences) => void;
+  growth: GrowthState;
+  completeOnboarding: () => void;
+  setAdChoice: (choice: AdChoice) => void;
+  setAgeBand: (band: AgeBand) => void;
   t: (key: MessageKey) => string;
   authStatus: AuthAvailability['status'];
 };
@@ -51,14 +64,16 @@ const AppContext = createContext<AppContextValue | null>(null);
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [preferences, setPreferences] = useState<AppPreferences>(DEFAULT_PREFERENCES);
+  const [growth, setGrowth] = useState<GrowthState>(DEFAULT_GROWTH);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
     let active = true;
-    loadPreferences()
-      .then((loaded) => {
+    Promise.all([loadPreferences(), loadGrowthState()])
+      .then(([loaded, storedGrowth]) => {
         if (active) {
           setPreferences(loaded);
+          setGrowth(storedGrowth);
         }
       })
       .finally(() => {
@@ -70,6 +85,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
       active = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (!ready) {
+      return;
+    }
+    setGrowth((current) => {
+      const recorded = recordActivity(current, todayIsoDate());
+      if (recorded.events.length === 0) {
+        return current;
+      }
+      void saveGrowthState(recorded.state);
+      for (const event of recorded.events) {
+        noopAnalytics.track(event);
+      }
+      return recorded.state;
+    });
+  }, [ready]);
 
   const setLocalePreference = useCallback((localePreference: LocalePreference) => {
     setPreferences((current) => {
@@ -91,7 +123,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
     noopAnalytics.track({
       name: 'rashi_preference_changed',
-      properties: { selected: rashiId !== null },
+      properties: { rashiId: rashiId ?? 'none' },
     });
   }, []);
 
@@ -130,13 +162,38 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
     noopAnalytics.track({
       name: 'notification_preference_changed',
-      properties: { selected: enabled },
+      properties: { channel, selected: enabled },
     });
   }, []);
 
   const replacePreferences = useCallback((next: AppPreferences) => {
     setPreferences(next);
     void savePreferences(next);
+  }, []);
+
+  const completeOnboarding = useCallback(() => {
+    setGrowth((current) => {
+      const next = { ...current, onboardingCompleted: true };
+      void saveGrowthState(next);
+      noopAnalytics.track({ name: 'onboarding_completed', properties: { completed: true } });
+      return next;
+    });
+  }, []);
+
+  const setAdChoice = useCallback((adChoice: AdChoice) => {
+    setGrowth((current) => {
+      const next = { ...current, adChoice };
+      void saveGrowthState(next);
+      return next;
+    });
+  }, []);
+
+  const setAgeBand = useCallback((ageBand: AgeBand) => {
+    setGrowth((current) => {
+      const next = { ...current, ageBand };
+      void saveGrowthState(next);
+      return next;
+    });
   }, []);
 
   const locale = resolveLocale(preferences.locale, readDeviceLanguageCode());
@@ -158,6 +215,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       notifications: preferences.notifications,
       setNotificationChannel,
       replacePreferences,
+      growth,
+      completeOnboarding,
+      setAdChoice,
+      setAgeBand,
       t,
       authStatus,
     }),
@@ -170,12 +231,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
       preferences.traditionId,
       preferences.notifications,
       ready,
+      growth,
       setLocalePreference,
       setRashiId,
       setCityId,
       setTraditionId,
       setNotificationChannel,
       replacePreferences,
+      completeOnboarding,
+      setAdChoice,
+      setAgeBand,
       t,
     ],
   );

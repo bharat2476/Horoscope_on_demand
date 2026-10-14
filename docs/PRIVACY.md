@@ -30,7 +30,7 @@ A signed-in user may confirm one of three choices: keep this device, use the acc
 
 ## Retention and sharing
 
-Device settings remain until the person clears app data, uninstalls the app, or clears them in the app. Account settings remain until account deletion. There is no analytics vendor. Events that exist in code carry a language code or a boolean meaning "a value is selected". They do not carry birth details, coordinates, the Rashi id, or the city id.
+Device settings remain until the person clears app data, uninstalls the app, or clears them in the app. Account settings remain until account deletion. There is no analytics vendor. Product measures for launch, activity, Rashi, language, content, and ad availability stay on the device. Birth details, coordinates, email, tradition, and city id are not accepted. Advertising uses Google's demo banner id only in a non-production build, and only after an adult non-personalized choice. Production does not request an ad. No notification is broadcast.
 
 The only third party is Supabase, and only after a project is configured. It would process the email address, the session, and the confirmed preference row. No push provider is connected.
 

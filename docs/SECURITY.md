@@ -34,7 +34,7 @@ When Panchang needs a place, ask in context, offer a manually chosen city, and d
 
 ## Analytics and ads
 
-`noopAnalytics` does not open a network request. The allowed event properties are a language code and a boolean meaning a value is selected. Do not add the Rashi id, city id, birth data, or coordinates to that type without a new decision.
+`noopAnalytics` does not open a network request. Events may include a language code, a Rashi id, a content kind, and booleans. Birth details, coordinates, email, tradition, and city id are rejected. Do not add those fields without a new decision.
 
 Ads, notifications, YouTube, and a priest marketplace are out of scope. Do not add their SDKs in a content patch.
 
