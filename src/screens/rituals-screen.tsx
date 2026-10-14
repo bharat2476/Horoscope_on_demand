@@ -1,7 +1,10 @@
 import { useState } from 'react';
+import { router } from 'expo-router';
 
+import { ChoiceRow } from '@/components/choice-row';
 import { FilterBar } from '@/components/filter-bar';
 import { Screen } from '@/components/screen';
+import { SectionCard } from '@/components/section-card';
 import { SearchField } from '@/components/search-field';
 import { StatusBlock } from '@/components/status-block';
 import { ThemedText } from '@/components/themed-text';
@@ -16,7 +19,7 @@ const CATEGORY_KEYS = {
   home: 'rituals.category.home',
 } as const;
 
-export function RitualsScreen() {
+export function RitualsScreen({ onOpenLivePuja }: { onOpenLivePuja?: () => void } = {}) {
   const { locale, t } = useApp();
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<RitualCategory | 'all'>('all');
@@ -41,6 +44,14 @@ export function RitualsScreen() {
           ...RITUAL_CATEGORIES.map((id) => ({ id, label: t(CATEGORY_KEYS[id]) })),
         ]}
       />
+      <SectionCard title={t('rituals.livePuja')}>
+        <ThemedText>{t('rituals.livePujaBody')}</ThemedText>
+        <ChoiceRow
+          label={t('puja.title')}
+          selected={false}
+          onPress={onOpenLivePuja ?? (() => router.push('/puja'))}
+        />
+      </SectionCard>
       {rituals.length === 0 ? (
         <StatusBlock
           status={filtering ? 'empty' : 'unavailable'}

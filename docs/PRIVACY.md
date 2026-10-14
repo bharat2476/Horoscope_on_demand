@@ -55,6 +55,14 @@ If sign-in is turned on, the draft declaration is:
 
 No support email, phone number, or website is assigned in this repository. Do not publish the privacy policy or the store listing until a real contact is chosen.
 
+## Live ceremonies
+
+The live puja module can collect a household name and, when the customer chooses, gotra, a sankalp name, and nakshatra. Those fields are optional unless an administrator marks one required for that service. They are stored in `puja.family_details`, not in the public catalog. The customer and the assigned priest can read the details for that booking. Other customers cannot. Account deletion clears those details and anonymizes the booking row.
+
+A saved priest is a preference id, not a public profile. Reviews are one per completed booking. Aggregates are calculated for administrators. Priest verification documents and phone numbers are not shown in the app.
+
+Live video uses a short-lived credential. Recording is off unless a later change records consent. No push provider sends the ceremony reminders yet. The privacy notice for this collection is not published, so the feature must not be turned on for people in India until that notice and a grievance contact exist.
+
 ## Unresolved decisions
 
 - Indic translations still need native-speaker review before they are marked reviewed.

@@ -29,6 +29,7 @@ Those gaps are intentional. Content is added only after a reviewed source exists
 - [Architecture](docs/ARCHITECTURE.md)
 - [Security](docs/SECURITY.md)
 - [Decisions](docs/DECISIONS.md)
+- [Live puja booking](docs/PUJA_BOOKING.md)
 
 ## Prerequisites
 

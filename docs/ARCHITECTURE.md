@@ -75,15 +75,16 @@ Each module exposes a small API from `index.ts`. Screens should not reach past t
 
 **Analytics.** `noopAnalytics.track` records nothing. The event types allow a language code and a boolean for whether a Rashi is selected. They do not allow the Rashi id, a user id, or a location. A vendor, if chosen later, has to fit those types or the types have to be reviewed again.
 
-## Data that does not exist yet
+## Data
 
-No Supabase tables are created by this repository. A later migration should expect at least:
+Migrations in `supabase/migrations` create the content review tables, private preferences, and live puja bookings. A later migration should still expect:
 
 - reviewed horoscope text keyed by date and Rashi, with a reviewer and a timestamp
 - a Panchang snapshot or a server-side calculation owned by an accepted library, keyed by date and location
 - rituals with review metadata
 - temples with review metadata
 - user preferences joined to `auth.users` only after accounts exist
+- live puja services, private priest records, and family bookings as described in [PUJA_BOOKING.md](PUJA_BOOKING.md)
 
 Row Level Security has to be designed with those tables. The client must keep using the anon key, never the service-role key.
 
