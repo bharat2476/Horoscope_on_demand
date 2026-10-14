@@ -3,6 +3,6 @@
   "compilerOptions": {
     "types": ["node", "jest"]
   },
-  "include": ["./**/*.ts", "../src/modules/panchang/**/*.ts"],
+  "include": ["./**/*.ts", "../src/modules/panchang/**/*.ts", "../src/modules/puja/**/*.ts"],
   "exclude": []
 }

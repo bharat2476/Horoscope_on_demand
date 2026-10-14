@@ -36,7 +36,7 @@ When Panchang needs a place, ask in context, offer a manually chosen city, and d
 
 `noopAnalytics` does not open a network request. Events may include a language code, a Rashi id, a content kind, and booleans. Birth details, coordinates, email, tradition, and city id are rejected. Do not add those fields without a new decision.
 
-Ads, notifications, YouTube, and a priest marketplace are out of scope. Do not add their SDKs in a content patch.
+Ads and a public priest marketplace stay out of the client binary. Live family ceremonies, when configured, use the `puja` schema and a server-minted video credential. Do not put `LIVEKIT_API_SECRET`, `PUJA_PAYMENT_WEBHOOK_SECRET`, or the service-role key in the app. See [PUJA_BOOKING.md](PUJA_BOOKING.md). That feature is not production ready.
 
 ## Content integrity
 

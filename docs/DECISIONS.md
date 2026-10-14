@@ -88,6 +88,18 @@ Indic text uses the Android system font so Devanagari, Gujarati, Tamil, Malayala
 
 Status: accepted.
 
+## ADR-014 — Family-only live ceremonies, no priest directory
+
+Paid live ceremonies are a separate module from reviewed ritual guides. A booking is one household and one private ceremony. Group bookings, public sessions, and shared pricing are rejected. The service catalog is public. Accounts are required for booking, payment, preferences, and reviews.
+
+Priest identity, verification documents, contact details, and availability stay in the `puja` schema. Customers see the assigned priest's display name on their own booking only. A saved priest is a preference for the next request, not a promise and not the assignment itself.
+
+Havan keeps a 48-hour advance floor. Other advance hours, prices, languages, and required family fields are administrator configuration. Payment status changes only from a verified webhook. Live video uses short-lived LiveKit credentials minted on a server. Recording is off.
+
+The module is not production ready until the gates in [PUJA_BOOKING.md](PUJA_BOOKING.md) are recorded. No priest marketplace SDK is added to the Android binary in this change.
+
+Status: accepted as an incomplete feature. Production use is not accepted.
+
 ## Unresolved
 
 These need a decision before the related feature is built.
