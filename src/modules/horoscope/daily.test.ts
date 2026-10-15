@@ -44,9 +44,9 @@ describe('daily Rashi readings', () => {
     expect(
       readPublishedReading(catalog, { date: '2026-10-15', rashiId: 'mesha', locale: 'en' }),
     ).toEqual({ status: 'missing' });
-    expect(publishDailyReading(DEVELOPMENT_DAILY_EXAMPLE, 'reviewer-1', '2026-10-15T00:00:00Z').ok).toBe(
-      false,
-    );
+    expect(
+      publishDailyReading(DEVELOPMENT_DAILY_EXAMPLE, 'reviewer-1', '2026-10-15T00:00:00Z').ok,
+    ).toBe(false);
   });
 
   it('reads one language for one civil date and does not borrow the next day or another language', () => {
@@ -56,23 +56,35 @@ describe('daily Rashi readings', () => {
       return;
     }
     const catalog = [published.reading, DEVELOPMENT_DAILY_EXAMPLE];
-    expect(readPublishedReading(catalog, { date: '2026-10-15', rashiId: 'mesha', locale: 'en' })).toEqual({
+    expect(
+      readPublishedReading(catalog, { date: '2026-10-15', rashiId: 'mesha', locale: 'en' }),
+    ).toEqual({
       status: 'published',
       reading: published.reading,
     });
-    expect(readPublishedReading(catalog, { date: '2026-10-16', rashiId: 'mesha', locale: 'en' })).toEqual({
+    expect(
+      readPublishedReading(catalog, { date: '2026-10-16', rashiId: 'mesha', locale: 'en' }),
+    ).toEqual({
       status: 'missing',
     });
-    expect(readPublishedReading(catalog, { date: '2026-02-29', rashiId: 'mesha', locale: 'en' })).toEqual({
+    expect(
+      readPublishedReading(catalog, { date: '2026-02-29', rashiId: 'mesha', locale: 'en' }),
+    ).toEqual({
       status: 'invalid-date',
     });
-    expect(readPublishedReading(catalog, { date: '2024-02-29', rashiId: 'mesha', locale: 'en' })).toEqual({
+    expect(
+      readPublishedReading(catalog, { date: '2024-02-29', rashiId: 'mesha', locale: 'en' }),
+    ).toEqual({
       status: 'missing',
     });
-    expect(readPublishedReading(catalog, { date: '2026-10-15', rashiId: 'vrishabha', locale: 'en' })).toEqual({
+    expect(
+      readPublishedReading(catalog, { date: '2026-10-15', rashiId: 'vrishabha', locale: 'en' }),
+    ).toEqual({
       status: 'missing',
     });
-    expect(readPublishedReading(catalog, { date: '2026-10-15', rashiId: 'mesha', locale: 'hi' })).toEqual({
+    expect(
+      readPublishedReading(catalog, { date: '2026-10-15', rashiId: 'mesha', locale: 'hi' }),
+    ).toEqual({
       status: 'missing-translation',
     });
     expect(visibleToAnonymous(catalog).map((reading) => reading.id)).toEqual(['mesha-en-1']);
@@ -89,15 +101,17 @@ describe('daily Rashi readings', () => {
 
   it('rejects a guaranteed financial claim and an unreviewed assisted draft', () => {
     const claim = reviewed({ finance: 'This Rashi guarantees returns and a stock pick.' });
-    expect(issuesForPublication(claim, 'reviewer-1').some((issue) => issue.code === 'forbidden-claim')).toBe(
-      true,
-    );
+    expect(
+      issuesForPublication(claim, 'reviewer-1').some((issue) => issue.code === 'forbidden-claim'),
+    ).toBe(true);
     const assisted = reviewed({ assistance: 'ai-draft', reviewerId: null, status: 'draft' });
-    expect(issuesForPublication(assisted, 'reviewer-1').some((issue) => issue.code === 'human-review-required')).toBe(
-      true,
-    );
-    expect(issuesForPublication(reviewed(), 'author-1').some((issue) => issue.code === 'self-approval')).toBe(
-      true,
-    );
+    expect(
+      issuesForPublication(assisted, 'reviewer-1').some(
+        (issue) => issue.code === 'human-review-required',
+      ),
+    ).toBe(true);
+    expect(
+      issuesForPublication(reviewed(), 'author-1').some((issue) => issue.code === 'self-approval'),
+    ).toBe(true);
   });
 });

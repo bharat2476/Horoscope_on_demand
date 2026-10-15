@@ -85,7 +85,9 @@ export function isCivilDate(value: string): boolean {
   }
   const [year, month, day] = value.split('-').map(Number);
   const date = new Date(Date.UTC(year, month - 1, day));
-  return date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
+  return (
+    date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day
+  );
 }
 
 export function orderRashis(preferred: RashiId | null): RashiId[] {
@@ -165,7 +167,10 @@ export function readingIssues(reading: DailyReading): ReadingIssue[] {
         issues.push({ code: 'missing-citation', message: 'Scripture needs a precise reference.' });
       }
       if (!source.tradition || source.tradition.trim().length === 0) {
-        issues.push({ code: 'missing-source-tradition', message: 'Scripture needs a tradition label.' });
+        issues.push({
+          code: 'missing-source-tradition',
+          message: 'Scripture needs a tradition label.',
+        });
       }
       if (
         (!source.translator || source.translator.trim().length === 0) &&
@@ -180,16 +185,28 @@ export function readingIssues(reading: DailyReading): ReadingIssue[] {
   }
   for (const note of [reading.color, reading.seva]) {
     if (note && !reading.sources.some((source) => source.id === note.sourceId)) {
-      issues.push({ code: 'missing-note-source', message: 'A color or seva note needs its source.' });
+      issues.push({
+        code: 'missing-note-source',
+        message: 'A color or seva note needs its source.',
+      });
     }
   }
   if (reading.observance) {
     const source = reading.sources.find((item) => item.id === reading.observance?.sourceId);
     if (!source) {
-      issues.push({ code: 'missing-observance-source', message: 'An observance needs its source.' });
+      issues.push({
+        code: 'missing-observance-source',
+        message: 'An observance needs its source.',
+      });
     }
-    if (reading.observance.originalScript.trim().length === 0 || reading.observance.meaning.trim().length === 0) {
-      issues.push({ code: 'incomplete-observance', message: 'An observance needs the original script and a meaning.' });
+    if (
+      reading.observance.originalScript.trim().length === 0 ||
+      reading.observance.meaning.trim().length === 0
+    ) {
+      issues.push({
+        code: 'incomplete-observance',
+        message: 'An observance needs the original script and a meaning.',
+      });
     }
   }
   if (reading.assistance === 'ai-draft' && reading.reviewerId === null) {
@@ -212,7 +229,11 @@ export function issuesForPublication(reading: DailyReading, actorId: string): Re
   if (reading.status !== 'approved') {
     issues.push({ code: 'not-approved', message: 'Publication requires an approved review.' });
   }
-  if (actorId === reading.createdBy || reading.reviewerId === null || reading.reviewerId === reading.createdBy) {
+  if (
+    actorId === reading.createdBy ||
+    reading.reviewerId === null ||
+    reading.reviewerId === reading.createdBy
+  ) {
     issues.push({ code: 'self-approval', message: 'The author cannot approve their own reading.' });
   }
   if (!reading.reviewDate || !isCivilDate(reading.reviewDate)) {

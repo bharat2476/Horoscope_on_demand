@@ -1,9 +1,11 @@
 import { router } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Pressable, Share, StyleSheet, View } from 'react-native';
 
 import { AdBreak } from '@/components/ad-break';
 import { ChoiceRow } from '@/components/choice-row';
+import { PanchangFields } from '@/components/panchang-fields';
+import { PlacePicker } from '@/components/place-picker';
 import { Screen } from '@/components/screen';
 import { SectionCard } from '@/components/section-card';
 import { StatusBlock } from '@/components/status-block';
@@ -14,23 +16,41 @@ import { useTheme } from '@/hooks/use-theme';
 import { resolveAdRequest } from '@/modules/ads/request';
 import { noopAnalytics } from '@/modules/analytics';
 import { formatCivilDate, todayIsoDate } from '@/modules/calendar/dates';
-import { getFestivalDay } from '@/modules/festivals';
-import { getDailyHoroscope, orderRashis, RASHIS } from '@/modules/horoscope';
-import { getPanchangAvailability } from '@/modules/panchang';
+import { loadDashboard, type DashboardModel } from '@/modules/dashboard/load';
+import { RASHIS } from '@/modules/horoscope';
+import { APP_LOCALES, LOCALE_ENDONYMS, type LocalePreference } from '@/modules/localization';
 import { cityName, stateIdForCity } from '@/modules/places';
 import { readAppEnvironment } from '@/modules/release/environment';
-import { getFeaturedRitual } from '@/modules/rituals';
 import { listPublishedVideos } from '@/modules/videos';
 import { useApp } from '@/providers/app-provider';
 
-export function TodayScreen() {
-  const { cityId, completeOnboarding, growth, locale, rashiId, t } = useApp();
+const LANGUAGE_OPTIONS: LocalePreference[] = ['system', ...APP_LOCALES];
+
+export type DashboardLoader = (input: {
+  date: string;
+  locale: Parameters<typeof loadDashboard>[0]['locale'];
+  regionId: string | null;
+  preferredRashi: Parameters<typeof loadDashboard>[0]['preferredRashi'];
+}) => DashboardModel;
+
+export function TodayScreen({ load = loadDashboard }: { load?: DashboardLoader }) {
+  const {
+    cityId,
+    completeOnboarding,
+    growth,
+    locale,
+    localePreference,
+    rashiId,
+    ready,
+    setCityId,
+    setLocalePreference,
+    t,
+  } = useApp();
   const theme = useTheme();
   const today = todayIsoDate();
-  const horoscope = getDailyHoroscope(rashiId, today, locale);
-  const panchang = getPanchangAvailability();
-  const festival = getFestivalDay(today, { locale, regionId: stateIdForCity(cityId) });
-  const ritual = getFeaturedRitual();
+  const [languagesOpen, setLanguagesOpen] = useState(false);
+  const [citiesOpen, setCitiesOpen] = useState(false);
+  const [attempt, setAttempt] = useState(0);
   const cityLabel = cityName(cityId) ?? t('today.noCity');
   const adRequest = resolveAdRequest({
     environment: readAppEnvironment(),
@@ -38,7 +58,25 @@ export function TodayScreen() {
     adChoice: growth.adChoice,
     placement: 'content-break',
   });
-  const ordered = orderRashis(rashiId);
+
+  const dashboard = useMemo(() => {
+    void attempt;
+    try {
+      return {
+        model: load({
+          date: today,
+          locale,
+          regionId: stateIdForCity(cityId),
+          preferredRashi: rashiId,
+        }),
+        failed: false,
+      };
+    } catch {
+      return { model: null, failed: true };
+    }
+  }, [attempt, cityId, load, locale, rashiId, today]);
+  const model = dashboard.model;
+  const failed = dashboard.failed;
 
   useEffect(() => {
     noopAnalytics.track({ name: 'content_viewed', properties: { kind: 'horoscope' } });
@@ -54,116 +92,210 @@ export function TodayScreen() {
 
   return (
     <Screen>
+      <ThemedText accessibilityRole="header">{t('dashboard.welcome')}</ThemedText>
       <ThemedText>{t('today.intro')}</ThemedText>
+      <ThemedText type="caption">{formatCivilDate(today, locale)}</ThemedText>
+      <ThemedText>
+        {t('dashboard.language')}: {LOCALE_ENDONYMS[locale]}
+      </ThemedText>
+      <ThemedText>
+        {t('dashboard.city')}: {cityLabel}
+      </ThemedText>
+      <ChoiceRow
+        label={t('dashboard.showLanguages')}
+        selected={languagesOpen}
+        onPress={() => setLanguagesOpen((open) => !open)}
+      />
+      {languagesOpen
+        ? LANGUAGE_OPTIONS.map((option) => (
+            <ChoiceRow
+              key={option}
+              label={option === 'system' ? t('settings.languageSystem') : LOCALE_ENDONYMS[option]}
+              selected={option === localePreference}
+              onPress={() => setLocalePreference(option)}
+            />
+          ))
+        : null}
+      <ChoiceRow
+        label={t('dashboard.showCities')}
+        selected={citiesOpen}
+        onPress={() => setCitiesOpen((open) => !open)}
+      />
+      {citiesOpen ? (
+        <PlacePicker
+          cityId={cityId}
+          onChangeCity={setCityId}
+          stateLabel={t('panchang.state')}
+          cityLabel={t('panchang.city')}
+          allLabel={t('temples.all')}
+          emptyCityLabel={t('panchang.noCity')}
+        />
+      ) : null}
       {growth.onboardingCompleted ? null : (
         <SectionCard title={t('onboarding.done')}>
           <ThemedText>{t('onboarding.body')}</ThemedText>
           <ChoiceRow label={t('onboarding.done')} selected={false} onPress={completeOnboarding} />
         </SectionCard>
       )}
-      <View style={styles.stack}>
-        <SectionCard title={t('today.horoscope')} detail={formatCivilDate(today, locale)}>
-          <ThemedText type="caption">
-            {t('horoscope.statusLabel')}:{' '}
-            {horoscope.status === 'published' ? t('horoscope.status.published') : t('horoscope.status.missing')}
-          </ThemedText>
-          {horoscope.status === 'unavailable' ? (
-            <StatusBlock
-              status="unavailable"
-              title={t('status.unavailableTitle')}
-              body={t('unavailable.horoscope')}
-              placeholderLabel={t('status.placeholder')}
+      {!ready ? <StatusBlock status="loading" title={t('status.loading')} body="" /> : null}
+      {ready && failed ? (
+        <StatusBlock status="error" title={t('status.errorTitle')} body={t('dashboard.error')} />
+      ) : null}
+      {ready && failed ? (
+        <ChoiceRow
+          label={t('dashboard.retry')}
+          selected={false}
+          onPress={() => setAttempt((value) => value + 1)}
+        />
+      ) : null}
+      {ready && model && !failed ? (
+        <View style={styles.stack}>
+          <SectionCard
+            title={t('dashboard.panchang')}
+            detail={`${formatCivilDate(today, locale)} · ${cityLabel}`}
+          >
+            {model.panchang.status === 'ready' ? (
+              <PanchangFields
+                value={model.panchang}
+                tithiLabel={t('dashboard.tithi')}
+                nakshatraLabel={t('dashboard.nakshatra')}
+                sunriseLabel={t('dashboard.sunrise')}
+                sunsetLabel={t('dashboard.sunset')}
+              />
+            ) : (
+              <StatusBlock
+                status="unavailable"
+                title={t('status.unavailableTitle')}
+                body={t('dashboard.panchangMissing')}
+              />
+            )}
+            <ChoiceRow
+              label={t('dashboard.openPanchang')}
+              selected={false}
+              onPress={() => router.push('/panchang')}
             />
+          </SectionCard>
+          <SectionCard title={t('dashboard.guidance')} detail={t('dashboard.rashis')}>
+            {model.guidance === 'unavailable' ? (
+              <StatusBlock
+                status="unavailable"
+                title={t('status.unavailableTitle')}
+                body={t('unavailable.horoscope')}
+              />
+            ) : null}
+            <View style={styles.grid}>
+              {model.rashis.map((id) => {
+                const rashi = RASHIS.find((item) => item.id === id);
+                if (!rashi) {
+                  return null;
+                }
+                return (
+                  <Pressable
+                    key={id}
+                    accessibilityRole="button"
+                    accessibilityLabel={rashi.label}
+                    onPress={() => router.push(`/horoscope/${id}`)}
+                    style={[
+                      styles.cell,
+                      { borderColor: theme.border, backgroundColor: theme.surface },
+                    ]}
+                  >
+                    <ThemedText>{rashi.label}</ThemedText>
+                    {id === rashiId ? (
+                      <ThemedText type="caption">{t('horoscope.yourRashi')}</ThemedText>
+                    ) : null}
+                  </Pressable>
+                );
+              })}
+            </View>
+            <ChoiceRow
+              label={t('share.label')}
+              selected={false}
+              onPress={() => {
+                void Share.share({ message: t('share.label') });
+                noopAnalytics.track({ name: 'content_shared', properties: { kind: 'horoscope' } });
+              }}
+            />
+          </SectionCard>
+          <AdBreak request={adRequest} label={t('ads.label')} body={t('ads.testBody')} />
+          <SectionCard title={t('dashboard.mantra')}>
+            {model.practice.status === 'ready' ? (
+              <>
+                <ThemedText>{model.practice.practice.text}</ThemedText>
+                <ThemedText>{model.practice.practice.explanation}</ThemedText>
+                <ThemedText type="caption">
+                  {t('horoscope.source')}: {model.practice.practice.sourceTitle}.{' '}
+                  {model.practice.practice.sourceCitation}
+                </ThemedText>
+              </>
+            ) : (
+              <StatusBlock
+                status="unavailable"
+                title={t('status.unavailableTitle')}
+                body={
+                  model.practice.status === 'missing-translation'
+                    ? t('dashboard.mantraTranslationMissing')
+                    : t('dashboard.mantraMissing')
+                }
+              />
+            )}
+          </SectionCard>
+          <SectionCard title={t('dashboard.festivals')}>
+            {model.festivals.status === 'listed' ? (
+              model.festivals.observances.map((observance) => (
+                <ThemedText key={observance.id}>
+                  {observance.name}. {observance.observance}
+                </ThemedText>
+              ))
+            ) : (
+              <StatusBlock
+                status="empty"
+                title={t('status.emptyTitle')}
+                body={t('dashboard.festivalsMissing')}
+              />
+            )}
+          </SectionCard>
+          <SectionCard title={t('dashboard.temples')}>
+            {model.temples.status === 'listed' ? (
+              model.temples.temples.map((temple) => (
+                <ThemedText key={temple.id}>{temple.name[locale] ?? temple.id}</ThemedText>
+              ))
+            ) : (
+              <StatusBlock
+                status="empty"
+                title={t('status.emptyTitle')}
+                body={t('dashboard.templesMissing')}
+              />
+            )}
+            <ChoiceRow
+              label={t('dashboard.openTemples')}
+              selected={false}
+              onPress={() => router.push('/temples')}
+            />
+          </SectionCard>
+          {model.ritual === 'unavailable' ? (
+            <ThemedText type="caption">{t('unavailable.ritual')}</ThemedText>
           ) : null}
-          <ThemedText>{t('horoscope.grid')}</ThemedText>
-          <View style={styles.grid}>
-            {ordered.map((id) => {
-              const rashi = RASHIS.find((item) => item.id === id);
-              if (!rashi) {
-                return null;
-              }
-              return (
-                <Pressable
-                  key={id}
-                  accessibilityRole="button"
-                  accessibilityLabel={rashi.label}
-                  onPress={() => router.push(`/horoscope/${id}`)}
-                  style={[styles.cell, { borderColor: theme.border, backgroundColor: theme.surface }]}
-                >
-                  <ThemedText>{rashi.label}</ThemedText>
-                  {id === rashiId ? <ThemedText type="caption">{t('horoscope.yourRashi')}</ThemedText> : null}
-                </Pressable>
-              );
-            })}
-          </View>
           <ChoiceRow
-            label={t('feedback.helpful')}
+            label={t('dashboard.openRituals')}
             selected={false}
-            onPress={() => {
-              noopAnalytics.track({
-                name: 'feedback_submitted',
-                properties: { kind: 'horoscope', helpful: true },
-              });
-            }}
+            onPress={() => router.push('/rituals')}
           />
           <ChoiceRow
-            label={t('share.label')}
+            label={t('dashboard.openSettings')}
             selected={false}
-            onPress={() => {
-              void Share.share({ message: t('share.label') });
-              noopAnalytics.track({ name: 'content_shared', properties: { kind: 'horoscope' } });
-            }}
+            onPress={() => router.push('/settings')}
           />
-        </SectionCard>
-        <AdBreak request={adRequest} label={t('ads.label')} body={t('ads.testBody')} />
-        <SectionCard
-          title={t('today.panchang')}
-          detail={`${formatCivilDate(todayIsoDate(), locale)} · ${cityLabel}`}
-        >
-          {panchang.status === 'unavailable' ? (
-            <StatusBlock
-              status="unavailable"
-              title={t('status.unavailableTitle')}
-              body={t('unavailable.panchang')}
-              placeholderLabel={t('status.placeholder')}
+          <SectionCard title={t('videos.title')}>
+            <VideoList
+              videos={listPublishedVideos()}
+              empty={t('videos.empty')}
+              note={t('videos.note')}
+              openLabel={t('videos.open')}
             />
-          ) : null}
-        </SectionCard>
-        <SectionCard title={t('today.festival')}>
-          {festival.status === 'unavailable' ? (
-            <StatusBlock
-              status="unavailable"
-              title={t('status.unavailableTitle')}
-              body={t('unavailable.festival')}
-              placeholderLabel={t('status.placeholder')}
-            />
-          ) : (
-            festival.observances.map((observance) => (
-              <ThemedText key={observance.id}>
-                {observance.name}. {observance.observance}
-              </ThemedText>
-            ))
-          )}
-        </SectionCard>
-        <SectionCard title={t('today.ritual')}>
-          {ritual.status === 'unavailable' ? (
-            <StatusBlock
-              status="unavailable"
-              title={t('status.unavailableTitle')}
-              body={t('unavailable.ritual')}
-              placeholderLabel={t('status.placeholder')}
-            />
-          ) : null}
-        </SectionCard>
-        <SectionCard title={t('videos.title')}>
-          <VideoList
-            videos={listPublishedVideos()}
-            empty={t('videos.empty')}
-            note={t('videos.note')}
-            openLabel={t('videos.open')}
-          />
-        </SectionCard>
-      </View>
+          </SectionCard>
+        </View>
+      ) : null}
     </Screen>
   );
 }

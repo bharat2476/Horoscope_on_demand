@@ -59,7 +59,7 @@ The template's `unstable-native-tabs` navigator was not used. The stable tabs AP
 
 Each module exposes a small API from `index.ts`. Screens should not reach past that file.
 
-**Horoscope.** `RASHIS` is the twelve category labels. `getDailyHoroscope` returns unavailable until `PUBLISHED_DAILY_READINGS` contains a reviewed row for that civil date, Rashi, and language. The reader does not accept a birth date. A development example in `src/modules/horoscope/daily.ts` is labeled as an example and is rejected at publication. Today links to `/horoscope/[rashiId]` for every Rashi. Missing days and missing translations stay empty.
+**Horoscope.** `RASHIS` is the twelve category labels. `getDailyHoroscope` returns unavailable until `PUBLISHED_DAILY_READINGS` contains a reviewed row for that civil date, Rashi, and language. The reader does not accept a birth date. Today loads the dashboard through `loadDashboard`, which also leaves Panchang, practices, festivals, and temples empty until a reviewed source exists. A validated Panchang record is the only shape allowed to show tithi, nakshatra, sunrise, and sunset. The loader does not create that record.
 
 **Panchang.** `PanchangQuery` is the contract for a later source: civil date, latitude, longitude, and IANA time zone. `getPanchang` ignores the query and returns unavailable. The screen calls `getPanchangAvailability` so it does not invent a location. A future implementation must use the selected place. It must not assume every user is in `Asia/Kolkata`, and it must not estimate a value in the client unless the chosen library and its license are accepted in a new decision.
 

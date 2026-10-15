@@ -20,7 +20,14 @@ import {
 import { type AppLocale } from '@/modules/localization';
 import { useApp } from '@/providers/app-provider';
 
-const SOURCE_KEYS: Record<SourceType, 'horoscope.source.scripture' | 'horoscope.source.classicalJyotish' | 'horoscope.source.regionalCustom' | 'horoscope.source.editorial' | 'horoscope.source.financialEducation'> = {
+const SOURCE_KEYS: Record<
+  SourceType,
+  | 'horoscope.source.scripture'
+  | 'horoscope.source.classicalJyotish'
+  | 'horoscope.source.regionalCustom'
+  | 'horoscope.source.editorial'
+  | 'horoscope.source.financialEducation'
+> = {
   scripture: 'horoscope.source.scripture',
   'classical-jyotish': 'horoscope.source.classicalJyotish',
   'regional-custom': 'horoscope.source.regionalCustom',
@@ -77,7 +84,10 @@ export function HoroscopeScreen({
     <Screen>
       <SectionCard title={valid?.label ?? t('today.noRashi')} detail={dateLabel}>
         <ThemedText type="caption">
-          {t('horoscope.statusLabel')}: {lookup.status === 'published' ? t('horoscope.status.published') : t('horoscope.status.missing')}
+          {t('horoscope.statusLabel')}:{' '}
+          {lookup.status === 'published'
+            ? t('horoscope.status.published')
+            : t('horoscope.status.missing')}
         </ThemedText>
         {lookup.status === 'published' ? (
           <>
@@ -125,12 +135,7 @@ export function HoroscopeScreen({
             ))}
           </>
         ) : (
-          <StatusBlock
-            status="unavailable"
-            title={t('status.unavailableTitle')}
-            body={statusText}
-            placeholderLabel={t('status.placeholder')}
-          />
+          <StatusBlock status="unavailable" title={t('status.unavailableTitle')} body={statusText} />
         )}
         {valid ? (
           <>
