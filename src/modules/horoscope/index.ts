@@ -1,39 +1,43 @@
-/**
- * The twelve Rashis are category labels, not horoscope text.
- * Spellings are conventional transliterations, not a full IAST edition.
- */
-export const RASHIS = [
-  { id: 'mesha', label: 'Mesha (Aries)', sanskrit: 'मेष' },
-  { id: 'vrishabha', label: 'Vrishabha (Taurus)', sanskrit: 'वृषभ' },
-  { id: 'mithuna', label: 'Mithuna (Gemini)', sanskrit: 'मिथुन' },
-  { id: 'karka', label: 'Karka (Cancer)', sanskrit: 'कर्क' },
-  { id: 'simha', label: 'Simha (Leo)', sanskrit: 'सिंह' },
-  { id: 'kanya', label: 'Kanya (Virgo)', sanskrit: 'कन्या' },
-  { id: 'tula', label: 'Tula (Libra)', sanskrit: 'तुला' },
-  { id: 'vrishchika', label: 'Vrishchika (Scorpio)', sanskrit: 'वृश्चिक' },
-  { id: 'dhanu', label: 'Dhanu (Sagittarius)', sanskrit: 'धनु' },
-  { id: 'makara', label: 'Makara (Capricorn)', sanskrit: 'मकर' },
-  { id: 'kumbha', label: 'Kumbha (Aquarius)', sanskrit: 'कुम्भ' },
-  { id: 'meena', label: 'Meena (Pisces)', sanskrit: 'मीन' },
-] as const;
+import { todayIsoDate } from '@/modules/calendar/dates';
+import { type AppLocale } from '@/modules/localization';
 
-export type RashiId = (typeof RASHIS)[number]['id'];
+import { PUBLISHED_DAILY_READINGS, readPublishedReading } from '@/modules/horoscope/daily';
+import { isRashiId, type RashiId } from '@/modules/horoscope/rashis';
 
-const RASHI_IDS = new Set<string>(RASHIS.map((rashi) => rashi.id));
+export { RASHIS, isRashiId, type RashiId } from '@/modules/horoscope/rashis';
+export {
+  DEVELOPMENT_DAILY_EXAMPLE,
+  PUBLISHED_DAILY_READINGS,
+  adjacentRashi,
+  orderRashis,
+  publishDailyReading,
+  readPublishedReading,
+  shareHoroscopeCard,
+  visibleToAnonymous,
+  type DailyReading,
+  type ReadingLookup,
+  type SourceType,
+} from '@/modules/horoscope/daily';
 
-export function isRashiId(value: unknown): value is RashiId {
-  return typeof value === 'string' && RASHI_IDS.has(value);
-}
-
-export type DailyHoroscopeResult = {
-  status: 'unavailable';
-  rashiId: RashiId | null;
-};
+export type DailyHoroscopeResult =
+  | { status: 'unavailable'; rashiId: RashiId | null }
+  | { status: 'published'; rashiId: RashiId; date: string };
 
 /**
- * General Rashi horoscopes must not require birth date, birth time, or birthplace.
- * This function intentionally returns no reading.
+ * General Rashi horoscopes do not use birth date, birth time, or birthplace.
+ * A day with no published review stays unavailable. Nothing is invented here.
  */
-export function getDailyHoroscope(rashiId: RashiId | null): DailyHoroscopeResult {
-  return { status: 'unavailable', rashiId };
+export function getDailyHoroscope(
+  rashiId: RashiId | null,
+  date = todayIsoDate(),
+  locale: AppLocale = 'en',
+): DailyHoroscopeResult {
+  if (!rashiId || !isRashiId(rashiId)) {
+    return { status: 'unavailable', rashiId: null };
+  }
+  const lookup = readPublishedReading(PUBLISHED_DAILY_READINGS, { date, rashiId, locale });
+  if (lookup.status !== 'published') {
+    return { status: 'unavailable', rashiId };
+  }
+  return { status: 'published', rashiId, date };
 }

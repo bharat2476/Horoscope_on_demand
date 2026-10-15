@@ -27,7 +27,7 @@ A person can open the app, change language, select a Rashi, and move between sec
 
 ## Not in this milestone
 
-- Daily horoscope copy, lucky numbers, scores, or compatibility.
+- Daily horoscope copy that has not been reviewed. The twelve Rashi pages exist, and they stay empty until a person publishes a sourced reading. Lucky numbers, scores, and compatibility are still out.
 - Any Panchang element, including tithi, nakshatra, yoga, karana, sunrise, or rahukaal.
 - Festival calendars. Festivals are part of the product vision and need their own reviewed source before a module is added.
 - Ritual steps, mantras, or how-to guides.
@@ -39,13 +39,23 @@ A person can open the app, change language, select a Rashi, and move between sec
 
 ## Product rules
 
-1. Public reading works with no login.
+1. Public reading works with no login. The daily Rashi pages are part of that public reading.
 2. Sign-in is optional and exists to carry preferences to another device, not to unlock the daily horoscope.
 3. The app never fabricates a religious fact to fill an empty state.
 4. Panchang, when it exists, is for a specific civil date, latitude, longitude, and IANA time zone. It is not a single nationwide value, and it is not hard-coded to one city.
 5. Rituals appear only after a named review. The reviewer and the review record are product requirements for that later milestone, not for this shell.
 6. Temple rows come from a curated directory. A scraped or unreviewed listing is not acceptable.
 7. Interface copy in all ten languages needs native-speaker review before release. The current catalogs are a draft.
+
+## Daily Rashi horoscopes
+
+A person can open all twelve Rashis from Today and read a dedicated page for each one. No account, birth date, or birth time is required. The preferred Rashi is shown first when one is saved. Previous and next follow the traditional order, and a control returns to the saved Rashi.
+
+Each published day can carry outlook, family, work and study, a money reflection, an optional color, an optional observance, an optional seva, one practical action, and a tradition label. Money text stays separate from general money awareness. A color, mantra, or seva is shown with its source type: scripture, classical Jyotish, regional custom, editorial suggestion, or general money awareness. Scripture needs a citation, tradition, and a translator or edition. An assisted draft cannot be published until a different person reviews it.
+
+The published catalog is empty. The screen shows the civil date and “Not published” until a reviewer publishes a row. A development example exists only in test code and is rejected if someone tries to publish it. The app does not invent a prediction, a citation, or a promise of wealth.
+
+Push notifications and advertising are not part of this feature. Rashi page views and shares may include the Rashi id. They do not include birth details.
 
 ## Later phases, in order
 

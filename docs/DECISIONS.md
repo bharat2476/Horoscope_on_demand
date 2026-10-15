@@ -100,6 +100,14 @@ The module is not production ready until the gates in [PUJA_BOOKING.md](PUJA_BOO
 
 Status: accepted as an incomplete feature. Production use is not accepted.
 
+## ADR-015 — Daily Rashi pages stay empty until a person publishes them
+
+All twelve Rashis are readable without an account and without birth details. A page shows a reading only when that civil date, Rashi, and language has a published row whose reviewer is not the author. Scripture needs a citation and an edition or translator. Editorial color, seva, and money notes are labeled as such. Assisted drafts are not published by themselves.
+
+`PUBLISHED_DAILY_READINGS` is empty. The development fixture cannot pass publication. Missing days and missing translations render the empty state.
+
+Status: accepted. Native-speaker review of the new interface strings is still open.
+
 ## Unresolved
 
 These need a decision before the related feature is built.

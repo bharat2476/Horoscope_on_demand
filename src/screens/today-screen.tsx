@@ -1,5 +1,6 @@
+import { router } from 'expo-router';
 import { useEffect } from 'react';
-import { Share, StyleSheet, View } from 'react-native';
+import { Pressable, Share, StyleSheet, View } from 'react-native';
 
 import { AdBreak } from '@/components/ad-break';
 import { ChoiceRow } from '@/components/choice-row';
@@ -9,11 +10,12 @@ import { StatusBlock } from '@/components/status-block';
 import { ThemedText } from '@/components/themed-text';
 import { VideoList } from '@/components/video-list';
 import { space } from '@/design/tokens';
+import { useTheme } from '@/hooks/use-theme';
 import { resolveAdRequest } from '@/modules/ads/request';
 import { noopAnalytics } from '@/modules/analytics';
 import { formatCivilDate, todayIsoDate } from '@/modules/calendar/dates';
 import { getFestivalDay } from '@/modules/festivals';
-import { getDailyHoroscope, RASHIS } from '@/modules/horoscope';
+import { getDailyHoroscope, orderRashis, RASHIS } from '@/modules/horoscope';
 import { getPanchangAvailability } from '@/modules/panchang';
 import { cityName, stateIdForCity } from '@/modules/places';
 import { readAppEnvironment } from '@/modules/release/environment';
@@ -23,11 +25,12 @@ import { useApp } from '@/providers/app-provider';
 
 export function TodayScreen() {
   const { cityId, completeOnboarding, growth, locale, rashiId, t } = useApp();
-  const horoscope = getDailyHoroscope(rashiId);
+  const theme = useTheme();
+  const today = todayIsoDate();
+  const horoscope = getDailyHoroscope(rashiId, today, locale);
   const panchang = getPanchangAvailability();
-  const festival = getFestivalDay(todayIsoDate(), { locale, regionId: stateIdForCity(cityId) });
+  const festival = getFestivalDay(today, { locale, regionId: stateIdForCity(cityId) });
   const ritual = getFeaturedRitual();
-  const rashiLabel = RASHIS.find((rashi) => rashi.id === rashiId)?.label ?? t('today.noRashi');
   const cityLabel = cityName(cityId) ?? t('today.noCity');
   const adRequest = resolveAdRequest({
     environment: readAppEnvironment(),
@@ -35,6 +38,7 @@ export function TodayScreen() {
     adChoice: growth.adChoice,
     placement: 'content-break',
   });
+  const ordered = orderRashis(rashiId);
 
   useEffect(() => {
     noopAnalytics.track({ name: 'content_viewed', properties: { kind: 'horoscope' } });
@@ -58,7 +62,11 @@ export function TodayScreen() {
         </SectionCard>
       )}
       <View style={styles.stack}>
-        <SectionCard title={t('today.horoscope')} detail={rashiLabel}>
+        <SectionCard title={t('today.horoscope')} detail={formatCivilDate(today, locale)}>
+          <ThemedText type="caption">
+            {t('horoscope.statusLabel')}:{' '}
+            {horoscope.status === 'published' ? t('horoscope.status.published') : t('horoscope.status.missing')}
+          </ThemedText>
           {horoscope.status === 'unavailable' ? (
             <StatusBlock
               status="unavailable"
@@ -67,6 +75,27 @@ export function TodayScreen() {
               placeholderLabel={t('status.placeholder')}
             />
           ) : null}
+          <ThemedText>{t('horoscope.grid')}</ThemedText>
+          <View style={styles.grid}>
+            {ordered.map((id) => {
+              const rashi = RASHIS.find((item) => item.id === id);
+              if (!rashi) {
+                return null;
+              }
+              return (
+                <Pressable
+                  key={id}
+                  accessibilityRole="button"
+                  accessibilityLabel={rashi.label}
+                  onPress={() => router.push(`/horoscope/${id}`)}
+                  style={[styles.cell, { borderColor: theme.border, backgroundColor: theme.surface }]}
+                >
+                  <ThemedText>{rashi.label}</ThemedText>
+                  {id === rashiId ? <ThemedText type="caption">{t('horoscope.yourRashi')}</ThemedText> : null}
+                </Pressable>
+              );
+            })}
+          </View>
           <ChoiceRow
             label={t('feedback.helpful')}
             selected={false}
@@ -142,5 +171,18 @@ export function TodayScreen() {
 const styles = StyleSheet.create({
   stack: {
     gap: space.md,
+  },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: space.sm,
+  },
+  cell: {
+    width: '31%',
+    minHeight: 48,
+    borderWidth: 1,
+    borderRadius: 12,
+    padding: space.sm,
+    justifyContent: 'center',
   },
 });

@@ -12,8 +12,8 @@ export type AnalyticsEvent =
   | { name: 'first_launch'; properties: { on: string } }
   | { name: 'onboarding_completed'; properties: { completed: true } }
   | { name: 'activity_day'; properties: { on: string } }
-  | { name: 'content_viewed'; properties: { kind: ContentKind } }
-  | { name: 'content_shared'; properties: { kind: ContentKind } }
+  | { name: 'content_viewed'; properties: { kind: ContentKind; rashiId?: string } }
+  | { name: 'content_shared'; properties: { kind: ContentKind; rashiId?: string } }
   | { name: 'feedback_submitted'; properties: { kind: ContentKind; helpful: boolean } }
   | { name: 'ad_result'; properties: { placement: 'content-break'; filled: boolean; mode: 'test' | 'unavailable' } };
 
@@ -82,7 +82,13 @@ export function sanitizeAnalyticsPayload(value: unknown): AnalyticsEvent | null 
     if (!CONTENT_KINDS.has(properties.kind as ContentKind)) {
       return null;
     }
-    return { name: record.name, properties: { kind: properties.kind as ContentKind } };
+    if (properties.rashiId !== undefined && !isRashiId(properties.rashiId)) {
+      return null;
+    }
+    const kind = properties.kind as ContentKind;
+    return isRashiId(properties.rashiId)
+      ? { name: record.name, properties: { kind, rashiId: properties.rashiId } }
+      : { name: record.name, properties: { kind } };
   }
   if (record.name === 'feedback_submitted' && CONTENT_KINDS.has(properties.kind as ContentKind) && typeof properties.helpful === 'boolean') {
     return {
