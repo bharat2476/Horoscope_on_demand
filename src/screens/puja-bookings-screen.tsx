@@ -1,4 +1,5 @@
 import { ChoiceRow } from '@/components/choice-row';
+import { PriestAvatar } from '@/components/priest-avatar';
 import { Screen } from '@/components/screen';
 import { SectionCard } from '@/components/section-card';
 import { StatusBlock } from '@/components/status-block';
@@ -58,7 +59,15 @@ export function PujaBookingsScreen({
               {formatInTimeZone(new Date(booking.startsAt), booking.timeZone)} ({booking.timeZone})
             </ThemedText>
             {booking.assignedPriestName ? (
-              <ThemedText>{t('puja.priestAssigned')}</ThemedText>
+              <>
+                <ThemedText>{t('puja.priestAssigned')}</ThemedText>
+                <PriestAvatar
+                  disclaimer={t('priest.avatarDisclaimer')}
+                  label={t('priest.avatarLabel')}
+                  size={56}
+                  variant="middle-aged"
+                />
+              </>
             ) : null}
             {booking.preferredUnavailable ? <ThemedText>{t('puja.fallback')}</ThemedText> : null}
             {booking.status === 'confirmed' ||

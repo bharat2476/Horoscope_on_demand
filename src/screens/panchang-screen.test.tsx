@@ -23,4 +23,32 @@ describe('Panchang screen', () => {
     expect(view.getByText(/Panchang values are not connected/)).toBeTruthy();
     expect(view.queryByText(/Shukla|Rohini|Amavasya/)).toBeNull();
   });
+
+  it('labels a cached fixture Panchang as stale', async () => {
+    const view = await renderWithApp(
+      <PanchangScreen
+        initialDate="2026-10-14"
+        remote={{
+          state: {
+            status: 'stale',
+            cached: true,
+            retrievedAt: '2026-10-14T00:00:00.000Z',
+            value: {
+              status: 'ready',
+              source: 'validated',
+              tithi: 'Fixture tithi',
+              nakshatra: 'Fixture nakshatra',
+              sunrise: '06:00',
+              sunset: '18:00',
+            },
+          },
+          retry: () => undefined,
+        }}
+      />,
+    );
+
+    expect(view.getByText(/This Panchang copy is stale/)).toBeTruthy();
+    expect(view.getByText(/Fixture tithi/)).toBeTruthy();
+    expect(view.queryByText(/Panchang values are not connected/)).toBeNull();
+  });
 });

@@ -1,4 +1,5 @@
 import { ChoiceRow } from '@/components/choice-row';
+import { PriestAvatar } from '@/components/priest-avatar';
 import { Screen } from '@/components/screen';
 import { SectionCard } from '@/components/section-card';
 import { StatusBlock } from '@/components/status-block';
@@ -23,6 +24,11 @@ export function LivePujaCatalog({
     <Screen>
       <ThemedText>{t('puja.intro')}</ThemedText>
       <ThemedText type="caption">{t('puja.familyOnly')}</ThemedText>
+      <PriestAvatar
+        disclaimer={t('priest.avatarDisclaimer')}
+        label={t('priest.avatarLabel')}
+        variant="middle-aged"
+      />
       {!configured || services.length === 0 ? (
         <StatusBlock
           status="unavailable"

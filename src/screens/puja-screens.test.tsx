@@ -39,6 +39,7 @@ describe('live puja screens', () => {
     expect(viewTree.getByText(/One household/)).toBeTruthy();
     expect(viewTree.queryByText(/phone/i)).toBeNull();
     expect(viewTree.queryByText('Priest A')).toBeNull();
+    expect(viewTree.getByText(/not a photograph of your assigned priest/)).toBeTruthy();
   });
 
   it('asks for an account before collecting household details', async () => {

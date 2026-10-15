@@ -7,6 +7,7 @@ import { StatusBlock } from '@/components/status-block';
 import { ThemedText } from '@/components/themed-text';
 import { formatCivilDate } from '@/modules/calendar/dates';
 import { noopAnalytics } from '@/modules/analytics';
+import { useApprovedDaily } from '@/modules/backend';
 import {
   PUBLISHED_DAILY_READINGS,
   RASHIS,
@@ -39,16 +40,24 @@ export function HoroscopeScreen({
   rashiId,
   date,
   onOpenRashi,
+  remote: remoteOverride,
 }: {
   rashiId: string;
   date: string;
   onOpenRashi: (id: RashiId) => void;
+  remote?: ReturnType<typeof useApprovedDaily>;
 }) {
   const { locale, rashiId: preferredId, t } = useApp();
   const rashi = RASHIS.find((item) => item.id === rashiId);
   const valid = isRashiId(rashiId) && rashi ? rashi : null;
+  const loaded = useApprovedDaily(date, valid?.id ?? null);
+  const remote = remoteOverride ?? loaded;
+  const catalog =
+    remote.state.status === 'ready' || remote.state.status === 'cached'
+      ? remote.state.value
+      : PUBLISHED_DAILY_READINGS;
   const lookup = valid
-    ? readPublishedReading(PUBLISHED_DAILY_READINGS, {
+    ? readPublishedReading(catalog, {
         date,
         rashiId: valid.id,
         locale: locale as AppLocale,
@@ -89,7 +98,21 @@ export function HoroscopeScreen({
             ? t('horoscope.status.published')
             : t('horoscope.status.missing')}
         </ThemedText>
-        {lookup.status === 'published' ? (
+        {remote.state.status === 'cached' ? (
+          <ThemedText type="caption">{t('content.cachedNotice')}</ThemedText>
+        ) : null}
+        {remote.state.status === 'loading' ? (
+          <StatusBlock status="loading" title={t('status.loading')} body="" />
+        ) : remote.state.status === 'error' ? (
+          <>
+            <StatusBlock
+              status="error"
+              title={t('status.errorTitle')}
+              body={t('content.loadError')}
+            />
+            <ChoiceRow label={t('dashboard.retry')} selected={false} onPress={remote.retry} />
+          </>
+        ) : lookup.status === 'published' ? (
           <>
             <ThemedText type="label">{t('horoscope.outlook')}</ThemedText>
             <ThemedText>{lookup.reading.outlook}</ThemedText>
@@ -135,7 +158,11 @@ export function HoroscopeScreen({
             ))}
           </>
         ) : (
-          <StatusBlock status="unavailable" title={t('status.unavailableTitle')} body={statusText} />
+          <StatusBlock
+            status="unavailable"
+            title={t('status.unavailableTitle')}
+            body={statusText}
+          />
         )}
         {valid ? (
           <>

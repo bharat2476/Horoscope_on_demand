@@ -249,4 +249,12 @@ export const ml: Record<MessageKey, string> = {
   'dashboard.rashis': 'രാശികൾ',
   'dashboard.retry': 'വീണ്ടും ശ്രമിക്കുക',
   'dashboard.error': 'ഇന്നത്തെ ഭാഗങ്ങൾ ലോഡ് ആയില്ല.',
+  'content.loadError': 'അംഗീകരിച്ച ഉള്ളടക്കം ലോഡ് ആയില്ല.',
+  'content.cachedNotice': 'ഈ ഉപകരണത്തിൽ സൂക്ഷിച്ച അവസാന അംഗീകൃത പകർപ്പ് കാണിക്കുന്നു.',
+  'content.translationMissing':
+    'ഈ ഭാഷ അവലോകനം ചെയ്തിട്ടില്ല. മറ്റൊരു ഭാഷ പൂർത്തിയായ വിവർത്തനമായി കാണിക്കുന്നില്ല.',
+  'panchang.stale': 'ഈ പഞ്ചാംഗ പകർപ്പ് പഴയതാണ്. അവസാനം ലഭിച്ചത്:',
+  'priest.avatarLabel': 'ചിത്രീകരിച്ച പുരോഹിതൻ',
+  'priest.avatarDisclaimer':
+    'ഇത് ഒരു ചിത്രീകരിച്ച എഐ രൂപമാണ്. ഇത് നിങ്ങളുടെ പുരോഹിതന്റെ ഫോട്ടോ അല്ല.',
 };

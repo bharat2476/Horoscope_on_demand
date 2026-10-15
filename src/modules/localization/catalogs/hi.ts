@@ -248,4 +248,11 @@ export const hi: Record<MessageKey, string> = {
   'dashboard.rashis': 'राशियाँ',
   'dashboard.retry': 'फिर कोशिश करें',
   'dashboard.error': 'आज के भाग लोड नहीं हो सके।',
+  'content.loadError': 'स्वीकृत सामग्री लोड नहीं हो सकी।',
+  'content.cachedNotice': 'इस डिवाइस पर सहेजी अंतिम स्वीकृत प्रति दिखाई जा रही है।',
+  'content.translationMissing':
+    'यह भाषा समीक्षित नहीं है। दूसरी भाषा को पूरा अनुवाद मानकर नहीं दिखाया जाता।',
+  'panchang.stale': 'यह पंचांग प्रति पुरानी है। अंतिम प्राप्ति:',
+  'priest.avatarLabel': 'चित्रित पुरोहित',
+  'priest.avatarDisclaimer': 'यह एक चित्रित एआई अवतार है। यह आपके नियुक्त पुरोहित का फोटो नहीं है।',
 };

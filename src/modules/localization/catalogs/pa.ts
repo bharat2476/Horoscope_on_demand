@@ -245,4 +245,11 @@ export const pa: Record<MessageKey, string> = {
   'dashboard.rashis': 'ਰਾਸ਼ੀਆਂ',
   'dashboard.retry': 'ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ',
   'dashboard.error': 'ਅੱਜ ਦੇ ਭਾਗ ਲੋਡ ਨਹੀਂ ਹੋਏ।',
+  'content.loadError': 'ਮਨਜ਼ੂਰ ਸਮੱਗਰੀ ਲੋਡ ਨਹੀਂ ਹੋਈ।',
+  'content.cachedNotice': 'ਇਸ ਡਿਵਾਈਸ ਉੱਤੇ ਸਾਂਭੀ ਆਖ਼ਰੀ ਮਨਜ਼ੂਰ ਕਾਪੀ ਦਿਖਾਈ ਜਾ ਰਹੀ ਹੈ।',
+  'content.translationMissing':
+    'ਇਹ ਭਾਸ਼ਾ ਸਮੀਖਿਆ ਨਹੀਂ ਹੋਈ। ਦੂਜੀ ਭਾਸ਼ਾ ਨੂੰ ਪੂਰਾ ਅਨੁਵਾਦ ਮੰਨ ਕੇ ਨਹੀਂ ਦਿਖਾਇਆ ਜਾਂਦਾ।',
+  'panchang.stale': 'ਇਹ ਪੰਚਾਂਗ ਕਾਪੀ ਪੁਰਾਣੀ ਹੈ। ਆਖ਼ਰੀ ਪ੍ਰਾਪਤੀ:',
+  'priest.avatarLabel': 'ਚਿਤਰਿਆ ਪੁਜਾਰੀ',
+  'priest.avatarDisclaimer': 'ਇਹ ਇੱਕ ਚਿਤਰਿਆ ਏਆਈ ਅਵਤਾਰ ਹੈ। ਇਹ ਤੁਹਾਡੇ ਨਿਯੁਕਤ ਪੁਜਾਰੀ ਦੀ ਫੋਟੋ ਨਹੀਂ।',
 };

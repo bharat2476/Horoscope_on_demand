@@ -248,4 +248,11 @@ export const kn: Record<MessageKey, string> = {
   'dashboard.rashis': 'ರಾಶಿಗಳು',
   'dashboard.retry': 'ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ',
   'dashboard.error': 'ಇಂದಿನ ಭಾಗಗಳು ಲೋಡ್ ಆಗಲಿಲ್ಲ.',
+  'content.loadError': 'ಅನುಮೋದಿತ ವಿಷಯ ಲೋಡ್ ಆಗಲಿಲ್ಲ.',
+  'content.cachedNotice': 'ಈ ಸಾಧನದಲ್ಲಿ ಉಳಿಸಿದ ಕೊನೆಯ ಅನುಮೋದಿತ ಪ್ರತಿ ತೋರಿಸಲಾಗುತ್ತಿದೆ.',
+  'content.translationMissing':
+    'ಈ ಭಾಷೆ ಪರಿಶೀಲಿಸಿಲ್ಲ. ಬೇರೆ ಭಾಷೆಯನ್ನು ಪೂರ್ಣ ಅನುವಾದವೆಂದು ತೋರಿಸಲಾಗುವುದಿಲ್ಲ.',
+  'panchang.stale': 'ಈ ಪಂಚಾಂಗ ಪ್ರತಿ ಹಳೆಯದು. ಕೊನೆಯ ಪಡೆಯುವಿಕೆ:',
+  'priest.avatarLabel': 'ಚಿತ್ರಿತ ಪುರೋಹಿತ',
+  'priest.avatarDisclaimer': 'ಇದು ಚಿತ್ರಿತ ಎಐ ಅವತಾರ. ಇದು ನಿಮ್ಮ ನಿಯೋಜಿತ ಪುರೋಹಿತರ ಫೋಟೋ ಅಲ್ಲ.',
 };

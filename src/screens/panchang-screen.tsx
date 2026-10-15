@@ -1,22 +1,30 @@
 import { useState } from 'react';
 
 import { DateStepper } from '@/components/date-stepper';
+import { PanchangFields } from '@/components/panchang-fields';
 import { PlacePicker } from '@/components/place-picker';
 import { Screen } from '@/components/screen';
 import { StatusBlock } from '@/components/status-block';
 import { ThemedText } from '@/components/themed-text';
+import { ChoiceRow } from '@/components/choice-row';
 import { shiftIsoDate, todayIsoDate } from '@/modules/calendar/dates';
+import { useCachedPanchang, type RemotePanchang } from '@/modules/backend';
 import { getPanchangAvailability } from '@/modules/panchang';
 import { useApp } from '@/providers/app-provider';
 
 type PanchangScreenProps = {
   initialDate?: string;
+  remote?: { state: RemotePanchang; retry: () => void };
 };
 
-export function PanchangScreen({ initialDate }: PanchangScreenProps) {
+export function PanchangScreen({ initialDate, remote: remoteOverride }: PanchangScreenProps) {
   const { cityId, locale, setCityId, t } = useApp();
   const [isoDate, setIsoDate] = useState(initialDate ?? todayIsoDate());
-  const result = getPanchangAvailability();
+  const loaded = useCachedPanchang(cityId, isoDate);
+  const remote = remoteOverride ?? loaded;
+  const offline = getPanchangAvailability();
+  const shown =
+    remote.state.status === 'current' || remote.state.status === 'stale' ? remote.state : null;
 
   return (
     <Screen>
@@ -42,7 +50,33 @@ export function PanchangScreen({ initialDate }: PanchangScreenProps) {
         allLabel={t('temples.all')}
         emptyCityLabel={t('panchang.noCity')}
       />
-      {result.status === 'unavailable' ? (
+      {remote.state.status === 'loading' ? (
+        <StatusBlock status="loading" title={t('status.loading')} body="" />
+      ) : remote.state.status === 'error' ? (
+        <>
+          <StatusBlock
+            status="error"
+            title={t('status.errorTitle')}
+            body={t('content.loadError')}
+          />
+          <ChoiceRow label={t('dashboard.retry')} selected={false} onPress={remote.retry} />
+        </>
+      ) : shown ? (
+        <>
+          {shown.status === 'stale' || shown.cached ? (
+            <ThemedText type="caption">
+              {t('panchang.stale')} {shown.retrievedAt}
+            </ThemedText>
+          ) : null}
+          <PanchangFields
+            nakshatraLabel={t('dashboard.nakshatra')}
+            sunriseLabel={t('dashboard.sunrise')}
+            sunsetLabel={t('dashboard.sunset')}
+            tithiLabel={t('dashboard.tithi')}
+            value={shown.value}
+          />
+        </>
+      ) : offline.status === 'unavailable' ? (
         <StatusBlock
           status="unavailable"
           title={t('status.unavailableTitle')}

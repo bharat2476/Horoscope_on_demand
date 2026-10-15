@@ -254,6 +254,14 @@ export const en = {
   'dashboard.rashis': 'Rashis',
   'dashboard.retry': 'Try again',
   'dashboard.error': "Today's sections could not be loaded.",
+  'content.loadError': 'Approved content could not be loaded.',
+  'content.cachedNotice': 'Showing the last approved copy saved on this device.',
+  'content.translationMissing':
+    'This language has not been reviewed. Another language is not shown as a finished translation.',
+  'panchang.stale': 'This Panchang copy is stale. Last retrieved:',
+  'priest.avatarLabel': 'Illustrative priest',
+  'priest.avatarDisclaimer':
+    'Illustrative AI avatar. This is not a photograph of your assigned priest.',
 } as const;
 
 export type MessageKey = keyof typeof en;

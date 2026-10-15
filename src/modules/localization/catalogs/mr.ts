@@ -247,4 +247,11 @@ export const mr: Record<MessageKey, string> = {
   'dashboard.rashis': 'राशी',
   'dashboard.retry': 'पुन्हा प्रयत्न करा',
   'dashboard.error': 'आजचे भाग लोड झाले नाहीत.',
+  'content.loadError': 'मंजूर मजकूर लोड झाला नाही.',
+  'content.cachedNotice': 'या उपकरणावर जतन केलेली शेवटची मंजूर प्रत दिसत आहे.',
+  'content.translationMissing':
+    'ही भाषा तपासलेली नाही. दुसरी भाषा पूर्ण भाषांतर म्हणून दाखवली जात नाही.',
+  'panchang.stale': 'ही पंचांग प्रत जुनी आहे. शेवटची प्राप्ती:',
+  'priest.avatarLabel': 'चित्रित पुरोहित',
+  'priest.avatarDisclaimer': 'हा चित्रित एआय अवतार आहे. हा तुमच्या नेमलेल्या पुरोहिताचा फोटो नाही.',
 };

@@ -244,4 +244,11 @@ export const bn: Record<MessageKey, string> = {
   'dashboard.rashis': 'রাশি',
   'dashboard.retry': 'আবার চেষ্টা করুন',
   'dashboard.error': 'আজকের অংশ লোড হয়নি।',
+  'content.loadError': 'অনুমোদিত বিষয়বস্তু লোড হয়নি।',
+  'content.cachedNotice': 'এই ডিভাইসে রাখা শেষ অনুমোদিত কপি দেখানো হচ্ছে।',
+  'content.translationMissing':
+    'এই ভাষা পর্যালোচিত নয়। অন্য ভাষাকে সম্পূর্ণ অনুবাদ ধরে দেখানো হয় না।',
+  'panchang.stale': 'এই পঞ্জিকা কপি পুরনো। শেষ প্রাপ্তি:',
+  'priest.avatarLabel': 'অঙ্কিত পুরোহিত',
+  'priest.avatarDisclaimer': 'এটি একটি অঙ্কিত এআই অবতার। এটি আপনার নিযুক্ত পুরোহিতের ছবি নয়।',
 };

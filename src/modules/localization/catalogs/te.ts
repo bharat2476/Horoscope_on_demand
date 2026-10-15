@@ -246,4 +246,10 @@ export const te: Record<MessageKey, string> = {
   'dashboard.rashis': 'రాశులు',
   'dashboard.retry': 'మళ్లీ ప్రయత్నించండి',
   'dashboard.error': 'నేటి భాగాలు లోడ్ కాలేదు.',
+  'content.loadError': 'ఆమోదించిన విషయం లోడ్ కాలేదు.',
+  'content.cachedNotice': 'ఈ పరికరంలో సేవ్ చేసిన చివరి ఆమోదిత ప్రతి చూపబడుతోంది.',
+  'content.translationMissing': 'ఈ భాష సమీక్షించబడలేదు. మరో భాషను పూర్తి అనువాదంగా చూపించడం లేదు.',
+  'panchang.stale': 'ఈ పంచాంగ ప్రతి పాతది. చివరి పొందిన సమయం:',
+  'priest.avatarLabel': 'చిత్రించిన పురోహితుడు',
+  'priest.avatarDisclaimer': 'ఇది చిత్రించిన ఎఐ అవతారం. ఇది మీ పురోహితుని ఫోటో కాదు.',
 };

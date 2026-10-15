@@ -245,4 +245,11 @@ export const gu: Record<MessageKey, string> = {
   'dashboard.rashis': 'રાશિઓ',
   'dashboard.retry': 'ફરી પ્રયત્ન કરો',
   'dashboard.error': 'આજના ભાગ લોડ થયા નથી.',
+  'content.loadError': 'મંજૂર સામગ્રી લોડ થઈ નથી.',
+  'content.cachedNotice': 'આ ઉપકરણ પર સાચવેલી છેલ્લી મંજૂર નકલ દેખાય છે.',
+  'content.translationMissing':
+    'આ ભાષા સમીક્ષિત નથી. બીજી ભાષાને પૂરું ભાષાંતર ગણીને બતાવવામાં આવતી નથી.',
+  'panchang.stale': 'આ પંચાંગ નકલ જૂની છે. છેલ્લી પ્રાપ્તિ:',
+  'priest.avatarLabel': 'ચિત્રિત પુરોહિત',
+  'priest.avatarDisclaimer': 'આ ચિત્રિત એઆઈ અવતાર છે. આ તમારા નિયુક્ત પુરોહિતનો ફોટો નથી.',
 };
