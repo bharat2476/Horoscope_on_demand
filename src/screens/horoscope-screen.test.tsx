@@ -1,3 +1,5 @@
+import { fireEvent } from '@testing-library/react-native';
+
 import { RASHIS } from '@/modules/horoscope';
 import { parsePublishedDailyRow } from '@/modules/backend';
 import { HoroscopeScreen } from '@/screens/horoscope-screen';
@@ -8,6 +10,7 @@ describe('Rashi horoscope screens', () => {
   it('lists all twelve Rashis on Today without a prediction', async () => {
     const view = await renderWithApp(<TodayScreen />);
 
+    await fireEvent.press(view.getByLabelText('Rashis'));
     for (const rashi of RASHIS) {
       expect(view.getByLabelText(rashi.label)).toBeTruthy();
     }

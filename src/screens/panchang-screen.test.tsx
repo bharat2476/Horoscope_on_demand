@@ -17,7 +17,9 @@ describe('Panchang screen', () => {
     await fireEvent.press(view.getByLabelText('Previous day'));
     expect(view.getByText(formatCivilDate('2026-10-14', 'en'))).toBeTruthy();
 
+    await fireEvent.press(view.getByLabelText('State or territory'));
     await fireEvent.press(view.getByLabelText('Maharashtra'));
+    await fireEvent.press(view.getByLabelText('City'));
     await fireEvent.press(view.getByLabelText('Mumbai'));
 
     expect(view.getByText(/No accepted Panchang is available/)).toBeTruthy();

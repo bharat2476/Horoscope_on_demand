@@ -14,7 +14,9 @@ describe('Temples screen', () => {
     expect(view.queryByText('Fixture Mataji')).toBeNull();
 
     await fireEvent.press(view.getByLabelText('Clear'));
+    await fireEvent.press(view.getByLabelText('State or territory'));
     await fireEvent.press(view.getByLabelText('Maharashtra'));
+    await fireEvent.press(view.getByLabelText('City'));
     await fireEvent.press(view.getByLabelText('Pune'));
 
     expect(view.getByText('No reviewed temple matches this search.')).toBeTruthy();

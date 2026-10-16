@@ -7,12 +7,10 @@ describe('Rituals screen', () => {
   it('filters an empty reviewed catalog by search and category', async () => {
     const view = await renderWithApp(<RitualsScreen />);
 
-    expect(view.getByText('Daily worship')).toBeTruthy();
-    expect(view.getByText('Vrata')).toBeTruthy();
-    expect(view.getByText('Festival')).toBeTruthy();
-    expect(view.getByText('Home')).toBeTruthy();
+    expect(view.getByText('All')).toBeTruthy();
     expect(view.getByText(/No ritual steps are shown/)).toBeTruthy();
 
+    await fireEvent.press(view.getByLabelText('Category'));
     await fireEvent.press(view.getByLabelText('Vrata'));
     expect(view.getByText('No reviewed ritual matches this search.')).toBeTruthy();
 

@@ -9,9 +9,10 @@ describe('Settings screen', () => {
 
     expect(view.getByText('Language')).toBeTruthy();
     expect(view.getByText('Use device language')).toBeTruthy();
+    await fireEvent.press(view.getByLabelText('Language'));
     expect(view.getByText('हिन्दी')).toBeTruthy();
     expect(view.getByText('Rashi')).toBeTruthy();
-    expect(view.getByText('Mesha (Aries)')).toBeTruthy();
+    expect(view.getByText('No Rashi selected')).toBeTruthy();
     expect(view.getAllByText('City').length).toBeGreaterThan(0);
     expect(view.getByText('Privacy')).toBeTruthy();
     expect(view.getByText(/does not ask for permissions/)).toBeTruthy();
@@ -19,10 +20,13 @@ describe('Settings screen', () => {
     expect(view.getByText(/Public sections stay open without an account/)).toBeTruthy();
     expect(view.queryByRole('button', { name: /sign in/i })).toBeNull();
 
+    await fireEvent.press(view.getByLabelText('Rashi'));
     await fireEvent.press(view.getByLabelText('Mesha (Aries)'));
     expect(view.getByText('Clear Rashi')).toBeTruthy();
 
+    await fireEvent.press(view.getByLabelText('State or territory'));
     await fireEvent.press(view.getByLabelText('Gujarat'));
+    await fireEvent.press(view.getByLabelText('City'));
     await fireEvent.press(view.getByLabelText('Ahmedabad'));
     expect(view.getByText('Clear city')).toBeTruthy();
   });

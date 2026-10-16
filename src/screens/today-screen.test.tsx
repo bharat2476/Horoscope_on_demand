@@ -40,6 +40,7 @@ describe('Today screen', () => {
     expect(view.queryByText(/\d{1,2}:\d{2}/)).toBeNull();
     expect(view.queryByRole('button', { name: /sign in/i })).toBeNull();
 
+    await fireEvent.press(view.getByLabelText('Rashis'));
     for (const rashi of RASHIS) {
       expect(view.getByLabelText(rashi.label)).toBeTruthy();
     }
@@ -47,7 +48,7 @@ describe('Today screen', () => {
 
   it('changes the welcome line when a language is chosen', async () => {
     const view = await renderWithApp(<TodayScreen />);
-    await fireEvent.press(view.getByLabelText('Choose language'));
+    await fireEvent.press(view.getByLabelText('Language'));
     await fireEvent.press(view.getByLabelText('हिन्दी'));
     expect(view.getByText('स्वागत है')).toBeTruthy();
   });

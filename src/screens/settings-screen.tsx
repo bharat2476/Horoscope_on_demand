@@ -1,12 +1,11 @@
 import { useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
 
 import { ChoiceRow } from '@/components/choice-row';
+import { Dropdown } from '@/components/dropdown';
 import { PlacePicker } from '@/components/place-picker';
 import { Screen } from '@/components/screen';
 import { SectionCard } from '@/components/section-card';
 import { ThemedText } from '@/components/themed-text';
-import { space } from '@/design/tokens';
 import { createSupabaseAuthGateway } from '@/modules/authentication';
 import { RASHIS } from '@/modules/horoscope';
 import {
@@ -53,22 +52,19 @@ export function SettingsScreen() {
     () => (authStatus === 'configured' ? createSupabaseAuthGateway() : null),
     [authStatus],
   );
-  const selectedRashi =
-    RASHIS.find((rashi) => rashi.id === rashiId)?.label ?? t('settings.noRashi');
-
   return (
     <Screen>
       <SectionCard title={t('settings.language')}>
-        <View style={styles.choices}>
-          {LANGUAGE_OPTIONS.map((option) => (
-            <ChoiceRow
-              key={option}
-              label={option === 'system' ? t('settings.languageSystem') : LOCALE_ENDONYMS[option]}
-              selected={option === localePreference}
-              onPress={() => setLocalePreference(option)}
-            />
-          ))}
-        </View>
+        <Dropdown
+          label={t('settings.language')}
+          showLabel={false}
+          selectedId={localePreference}
+          onSelect={(id) => setLocalePreference(id as LocalePreference)}
+          options={LANGUAGE_OPTIONS.map((option) => ({
+            id: option,
+            label: option === 'system' ? t('settings.languageSystem') : LOCALE_ENDONYMS[option],
+          }))}
+        />
         {localePreference === 'system' && suggested ? (
           <ThemedText type="caption">
             {LOCALE_ENDONYMS[suggested]}. {t('settings.languageSuggestion')}
@@ -78,17 +74,14 @@ export function SettingsScreen() {
 
       <SectionCard title={t('settings.rashi')}>
         <ThemedText type="caption">{t('settings.rashiNote')}</ThemedText>
-        <ThemedText type="caption">{selectedRashi}</ThemedText>
-        {RASHIS.map((rashi) => (
-          <ChoiceRow
-            key={rashi.id}
-            label={rashi.label}
-            detail={rashi.sanskrit}
-            detailLanguage="sa"
-            selected={rashi.id === rashiId}
-            onPress={() => setRashiId(rashi.id)}
-          />
-        ))}
+        <Dropdown
+          label={t('settings.rashi')}
+          showLabel={false}
+          placeholder={t('settings.noRashi')}
+          selectedId={rashiId ?? ''}
+          onSelect={(id) => setRashiId(id as (typeof RASHIS)[number]['id'])}
+          options={RASHIS.map((rashi) => ({ id: rashi.id, label: rashi.label }))}
+        />
         {rashiId ? (
           <ChoiceRow
             label={t('settings.clearRashi')}
@@ -120,14 +113,13 @@ export function SettingsScreen() {
 
       <SectionCard title={t('settings.tradition')}>
         <ThemedText type="caption">{t('settings.traditionNote')}</ThemedText>
-        {TRADITION_IDS.map((id) => (
-          <ChoiceRow
-            key={id}
-            label={t(TRADITION_KEYS[id])}
-            selected={id === traditionId}
-            onPress={() => setTraditionId(id as TraditionId)}
-          />
-        ))}
+        <Dropdown
+          label={t('settings.tradition')}
+          showLabel={false}
+          selectedId={traditionId ?? ''}
+          onSelect={(id) => setTraditionId(id as TraditionId)}
+          options={TRADITION_IDS.map((id) => ({ id, label: t(TRADITION_KEYS[id]) }))}
+        />
         {traditionId ? (
           <ChoiceRow
             label={t('settings.clearTradition')}
@@ -215,9 +207,3 @@ export function SettingsScreen() {
     </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  choices: {
-    gap: space.sm,
-  },
-});

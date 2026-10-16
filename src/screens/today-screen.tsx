@@ -1,9 +1,10 @@
 import { router } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
-import { Pressable, Share, StyleSheet, View } from 'react-native';
+import { Share, StyleSheet, View } from 'react-native';
 
 import { AdBreak } from '@/components/ad-break';
 import { ChoiceRow } from '@/components/choice-row';
+import { Dropdown } from '@/components/dropdown';
 import { PanchangFields } from '@/components/panchang-fields';
 import { PlacePicker } from '@/components/place-picker';
 import { Screen } from '@/components/screen';
@@ -12,7 +13,6 @@ import { StatusBlock } from '@/components/status-block';
 import { ThemedText } from '@/components/themed-text';
 import { VideoList } from '@/components/video-list';
 import { space } from '@/design/tokens';
-import { useTheme } from '@/hooks/use-theme';
 import { resolveAdRequest } from '@/modules/ads/request';
 import { noopAnalytics } from '@/modules/analytics';
 import { formatCivilDate, todayIsoDate } from '@/modules/calendar/dates';
@@ -54,10 +54,7 @@ export function TodayScreen({
     setLocalePreference,
     t,
   } = useApp();
-  const theme = useTheme();
   const today = todayIsoDate();
-  const [languagesOpen, setLanguagesOpen] = useState(false);
-  const [citiesOpen, setCitiesOpen] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const cityLabel = cityName(cityId) ?? t('today.noCity');
   const calculatedLoad = useCalculatedPanchang(cityId, today);
@@ -105,42 +102,23 @@ export function TodayScreen({
       <ThemedText accessibilityRole="header">{t('dashboard.welcome')}</ThemedText>
       <ThemedText>{t('today.intro')}</ThemedText>
       <ThemedText type="caption">{formatCivilDate(today, locale)}</ThemedText>
-      <ThemedText>
-        {t('dashboard.language')}: {LOCALE_ENDONYMS[locale]}
-      </ThemedText>
-      <ThemedText>
-        {t('dashboard.city')}: {cityLabel}
-      </ThemedText>
-      <ChoiceRow
-        label={t('dashboard.showLanguages')}
-        selected={languagesOpen}
-        onPress={() => setLanguagesOpen((open) => !open)}
+      <Dropdown
+        label={t('dashboard.language')}
+        selectedId={localePreference}
+        onSelect={(id) => setLocalePreference(id as LocalePreference)}
+        options={LANGUAGE_OPTIONS.map((option) => ({
+          id: option,
+          label: option === 'system' ? t('settings.languageSystem') : LOCALE_ENDONYMS[option],
+        }))}
       />
-      {languagesOpen
-        ? LANGUAGE_OPTIONS.map((option) => (
-            <ChoiceRow
-              key={option}
-              label={option === 'system' ? t('settings.languageSystem') : LOCALE_ENDONYMS[option]}
-              selected={option === localePreference}
-              onPress={() => setLocalePreference(option)}
-            />
-          ))
-        : null}
-      <ChoiceRow
-        label={t('dashboard.showCities')}
-        selected={citiesOpen}
-        onPress={() => setCitiesOpen((open) => !open)}
+      <PlacePicker
+        cityId={cityId}
+        onChangeCity={setCityId}
+        stateLabel={t('panchang.state')}
+        cityLabel={t('panchang.city')}
+        allLabel={t('temples.all')}
+        emptyCityLabel={t('panchang.noCity')}
       />
-      {citiesOpen ? (
-        <PlacePicker
-          cityId={cityId}
-          onChangeCity={setCityId}
-          stateLabel={t('panchang.state')}
-          cityLabel={t('panchang.city')}
-          allLabel={t('temples.all')}
-          emptyCityLabel={t('panchang.noCity')}
-        />
-      ) : null}
       {growth.onboardingCompleted ? null : (
         <SectionCard title={t('onboarding.done')}>
           <ThemedText>{t('onboarding.body')}</ThemedText>
@@ -208,31 +186,16 @@ export function TodayScreen({
                 body={t('unavailable.horoscope')}
               />
             ) : null}
-            <View style={styles.grid}>
-              {model.rashis.map((id) => {
+            <Dropdown
+              label={t('dashboard.rashis')}
+              placeholder={t('today.noRashi')}
+              selectedId={rashiId ?? ''}
+              onSelect={(id) => router.push(`/horoscope/${id}`)}
+              options={model.rashis.flatMap((id) => {
                 const rashi = RASHIS.find((item) => item.id === id);
-                if (!rashi) {
-                  return null;
-                }
-                return (
-                  <Pressable
-                    key={id}
-                    accessibilityRole="button"
-                    accessibilityLabel={rashi.label}
-                    onPress={() => router.push(`/horoscope/${id}`)}
-                    style={[
-                      styles.cell,
-                      { borderColor: theme.border, backgroundColor: theme.surface },
-                    ]}
-                  >
-                    <ThemedText>{rashi.label}</ThemedText>
-                    {id === rashiId ? (
-                      <ThemedText type="caption">{t('horoscope.yourRashi')}</ThemedText>
-                    ) : null}
-                  </Pressable>
-                );
+                return rashi ? [{ id, label: rashi.label }] : [];
               })}
-            </View>
+            />
             <ChoiceRow
               label={t('share.label')}
               selected={false}
@@ -328,18 +291,5 @@ export function TodayScreen({
 const styles = StyleSheet.create({
   stack: {
     gap: space.md,
-  },
-  grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: space.sm,
-  },
-  cell: {
-    width: '31%',
-    minHeight: 48,
-    borderWidth: 1,
-    borderRadius: 12,
-    padding: space.sm,
-    justifyContent: 'center',
   },
 });
