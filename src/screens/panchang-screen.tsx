@@ -9,19 +9,28 @@ import { ThemedText } from '@/components/themed-text';
 import { ChoiceRow } from '@/components/choice-row';
 import { shiftIsoDate, todayIsoDate } from '@/modules/calendar/dates';
 import { useCachedPanchang, type RemotePanchang } from '@/modules/backend';
+import { useCalculatedPanchang, type CalculatedState } from '@/modules/calculation/use-calculated';
+import { type ShownPanchang } from '@/modules/calculation/endpoint';
 import { getPanchangAvailability } from '@/modules/panchang';
 import { useApp } from '@/providers/app-provider';
 
 type PanchangScreenProps = {
   initialDate?: string;
   remote?: { state: RemotePanchang; retry: () => void };
+  calculated?: CalculatedState<ShownPanchang>;
 };
 
-export function PanchangScreen({ initialDate, remote: remoteOverride }: PanchangScreenProps) {
+export function PanchangScreen({
+  initialDate,
+  remote: remoteOverride,
+  calculated: calculatedOverride,
+}: PanchangScreenProps) {
   const { cityId, locale, setCityId, t } = useApp();
   const [isoDate, setIsoDate] = useState(initialDate ?? todayIsoDate());
   const loaded = useCachedPanchang(cityId, isoDate);
   const remote = remoteOverride ?? loaded;
+  const calculatedLoad = useCalculatedPanchang(cityId, isoDate);
+  const calculated = calculatedOverride ?? calculatedLoad.state;
   const offline = getPanchangAvailability();
   const shown =
     remote.state.status === 'current' || remote.state.status === 'stale' ? remote.state : null;
@@ -50,7 +59,23 @@ export function PanchangScreen({ initialDate, remote: remoteOverride }: Panchang
         allLabel={t('temples.all')}
         emptyCityLabel={t('panchang.noCity')}
       />
-      {remote.state.status === 'loading' ? (
+      {calculated.status === 'accepted' ? (
+        <>
+          <ThemedText type="caption">{t('panchang.calculatedNotice')}</ThemedText>
+          {calculated.value.nearBoundary ? (
+            <ThemedText type="caption">{t('panchang.nearBoundary')}</ThemedText>
+          ) : null}
+          <PanchangFields
+            karanaLabel={t('panchang.karana')}
+            nakshatraLabel={t('dashboard.nakshatra')}
+            sunriseLabel={t('dashboard.sunrise')}
+            sunsetLabel={t('dashboard.sunset')}
+            tithiLabel={t('dashboard.tithi')}
+            yogaLabel={t('panchang.yoga')}
+            value={calculated.value}
+          />
+        </>
+      ) : calculated.status === 'loading' || remote.state.status === 'loading' ? (
         <StatusBlock status="loading" title={t('status.loading')} body="" />
       ) : remote.state.status === 'error' ? (
         <>

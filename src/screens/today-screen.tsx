@@ -16,6 +16,8 @@ import { useTheme } from '@/hooks/use-theme';
 import { resolveAdRequest } from '@/modules/ads/request';
 import { noopAnalytics } from '@/modules/analytics';
 import { formatCivilDate, todayIsoDate } from '@/modules/calendar/dates';
+import { useCalculatedPanchang, type CalculatedState } from '@/modules/calculation/use-calculated';
+import { type ShownPanchang } from '@/modules/calculation/endpoint';
 import { loadDashboard, type DashboardModel } from '@/modules/dashboard/load';
 import { RASHIS } from '@/modules/horoscope';
 import { APP_LOCALES, LOCALE_ENDONYMS, type LocalePreference } from '@/modules/localization';
@@ -33,7 +35,13 @@ export type DashboardLoader = (input: {
   preferredRashi: Parameters<typeof loadDashboard>[0]['preferredRashi'];
 }) => DashboardModel;
 
-export function TodayScreen({ load = loadDashboard }: { load?: DashboardLoader }) {
+export function TodayScreen({
+  load = loadDashboard,
+  calculated: calculatedOverride,
+}: {
+  load?: DashboardLoader;
+  calculated?: CalculatedState<ShownPanchang>;
+}) {
   const {
     cityId,
     completeOnboarding,
@@ -52,6 +60,8 @@ export function TodayScreen({ load = loadDashboard }: { load?: DashboardLoader }
   const [citiesOpen, setCitiesOpen] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const cityLabel = cityName(cityId) ?? t('today.noCity');
+  const calculatedLoad = useCalculatedPanchang(cityId, today);
+  const calculated = calculatedOverride ?? calculatedLoad.state;
   const adRequest = resolveAdRequest({
     environment: readAppEnvironment(),
     ageBand: growth.ageBand,
@@ -154,7 +164,22 @@ export function TodayScreen({ load = loadDashboard }: { load?: DashboardLoader }
             title={t('dashboard.panchang')}
             detail={`${formatCivilDate(today, locale)} · ${cityLabel}`}
           >
-            {model.panchang.status === 'ready' ? (
+            {calculated.status === 'accepted' ? (
+              <>
+                <ThemedText type="caption">{t('panchang.calculatedNotice')}</ThemedText>
+                <PanchangFields
+                  karanaLabel={t('panchang.karana')}
+                  nakshatraLabel={t('dashboard.nakshatra')}
+                  sunriseLabel={t('dashboard.sunrise')}
+                  sunsetLabel={t('dashboard.sunset')}
+                  tithiLabel={t('dashboard.tithi')}
+                  value={calculated.value}
+                  yogaLabel={t('panchang.yoga')}
+                />
+              </>
+            ) : calculated.status === 'loading' ? (
+              <StatusBlock status="loading" title={t('status.loading')} body="" />
+            ) : model.panchang.status === 'ready' ? (
               <PanchangFields
                 value={model.panchang}
                 tithiLabel={t('dashboard.tithi')}

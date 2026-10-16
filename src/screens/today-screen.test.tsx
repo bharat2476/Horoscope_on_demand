@@ -77,8 +77,6 @@ describe('Panchang fields', () => {
     const view = await renderWithApp(
       <PanchangFields
         value={{
-          status: 'ready',
-          source: 'validated',
           tithi: 'Sample tithi label',
           nakshatra: 'Sample nakshatra label',
           sunrise: '06:00',

@@ -28,6 +28,32 @@ describe('Rashi horoscope screens', () => {
     expect(view.queryByText(/Development example/)).toBeNull();
   });
 
+  it('shows a calculated transit without a prediction', async () => {
+    const view = await renderWithApp(
+      <HoroscopeScreen
+        rashiId="mesha"
+        date="2026-10-16"
+        onOpenRashi={() => undefined}
+        transit={{
+          status: 'accepted',
+          value: {
+            status: 'accepted',
+            moonSignId: 'vrishchika',
+            sunSignId: 'kanya',
+            moonHouse: 8,
+            sunHouse: 6,
+          },
+        }}
+      />,
+    );
+
+    expect(view.getByText(/Calculated transit at local sunrise/)).toBeTruthy();
+    expect(view.getByText(/Vrishchika \(Scorpio\)/)).toBeTruthy();
+    expect(view.getByText(/House 8/)).toBeTruthy();
+    expect(view.getByText(/No reviewed horoscope is published for this date/)).toBeTruthy();
+    expect(view.queryByText(/birth/i)).toBeNull();
+  });
+
   it('does not show a fixture Hindi reading as an English translation', async () => {
     const reading = parsePublishedDailyRow({
       id: 'fixture-daily-hi',

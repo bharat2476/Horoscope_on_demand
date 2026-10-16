@@ -8,6 +8,7 @@
     "@fusionstrings/panchangam": "^0.2.0",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@supabase/supabase-js": "^2.117.3",
+    "astronomy-engine": "^2.1.19",
     "expo": "~57.0.28",
     "expo-constants": "~57.0.21",
     "expo-linking": "~57.0.12",
@@ -50,6 +51,7 @@
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit && tsc --noEmit -p server",
     "test": "jest",
-    "panchang:compare": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./server/panchang/register.mjs server/panchang/run-compare.ts"
+    "panchang:compare": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./server/panchang/register.mjs server/panchang/run-compare.ts",
+    "calculation:serve": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --import ./server/panchang/register.mjs server/calculation/listen.ts"
   }
 }

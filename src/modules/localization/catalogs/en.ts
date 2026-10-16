@@ -6,7 +6,7 @@ export const en = {
   'tabs.temples': 'Temples',
   'tabs.settings': 'Settings',
   'today.intro':
-    'Public sections open without an account. Nothing on this screen is a prediction or a calculated Panchang.',
+    'Public sections open without an account. A Panchang on this screen is a labeled calculation. No prediction is stated.',
   'today.horoscope': 'Daily Rashi horoscope',
   'today.panchang': 'Panchang summary',
   'today.festival': 'Festival',
@@ -22,7 +22,7 @@ export const en = {
   'unavailable.horoscope':
     'No horoscope is shown. A general Rashi horoscope will not ask for birth date, birth time, or birthplace.',
   'unavailable.panchang':
-    'Panchang values are not connected. This app does not calculate tithi, nakshatra, yoga, karana, or any other Panchang value.',
+    'No accepted Panchang is available for this city and date. Nothing is shown in its place.',
   'unavailable.festival': 'Festival information is not connected. No festival is listed.',
   'unavailable.ritual': 'No reviewed ritual is available for this day.',
   'unavailable.rituals': 'Reviewed ritual guides are not loaded. No ritual steps are shown.',
@@ -35,7 +35,7 @@ export const en = {
   'panchang.nextLabel': 'Next day',
   'panchang.today': 'Today',
   'panchang.placeNote':
-    'City names are a short selection list in English. Choosing a city does not calculate a Panchang.',
+    'City names are a short selection list in English. A pinned city can show a calculated Panchang after the accuracy check.',
   'panchang.state': 'State or territory',
   'panchang.city': 'City',
   'panchang.noCity': 'Choose a state to see cities.',
@@ -262,6 +262,17 @@ export const en = {
   'priest.avatarLabel': 'Illustrative priest',
   'priest.avatarDisclaimer':
     'Illustrative AI avatar. This is not a photograph of your assigned priest.',
+  'panchang.calculatedNotice':
+    'Calculated at local sunrise for this city. Lahiri ayanamsa. Tithi, nakshatra, yoga, and karana match the classical widths and an independent Sun and Moon longitude check. Sunrise and sunset come from the calculation engine. This is not a printed almanac transcription.',
+  'panchang.nearBoundary':
+    'A tithi or nakshatra changes near sunrise. The name in force at sunrise is shown.',
+  'panchang.yoga': 'Yoga',
+  'panchang.karana': 'Karana',
+  'horoscope.transitNotice':
+    'Calculated transit at local sunrise. Lahiri ayanamsa. This is the Moon sign and the whole-sign house counted from this Rashi. No prediction is stated.',
+  'horoscope.moon': 'Moon',
+  'horoscope.sun': 'Sun',
+  'horoscope.house': 'House',
 } as const;
 
 export type MessageKey = keyof typeof en;

@@ -13,7 +13,7 @@ describe('shell navigation', () => {
     expect(view.getByText(/Public sections open without an account/)).toBeTruthy();
 
     await fireEvent.press(view.getByTestId('tab-panchang'));
-    expect(view.getByText(/Choosing a city does not calculate a Panchang/)).toBeTruthy();
+    expect(view.getByText(/A pinned city can show a calculated Panchang/)).toBeTruthy();
 
     await fireEvent.press(view.getByTestId('tab-rituals'));
     expect(view.getByLabelText('Search rituals')).toBeTruthy();

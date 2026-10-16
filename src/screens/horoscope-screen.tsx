@@ -6,6 +6,8 @@ import { SectionCard } from '@/components/section-card';
 import { StatusBlock } from '@/components/status-block';
 import { ThemedText } from '@/components/themed-text';
 import { formatCivilDate } from '@/modules/calendar/dates';
+import { type ShownTransit } from '@/modules/calculation/endpoint';
+import { useCalculatedTransit, type CalculatedState } from '@/modules/calculation/use-calculated';
 import { noopAnalytics } from '@/modules/analytics';
 import { useApprovedDaily } from '@/modules/backend';
 import {
@@ -41,17 +43,29 @@ export function HoroscopeScreen({
   date,
   onOpenRashi,
   remote: remoteOverride,
+  transit: transitOverride,
 }: {
   rashiId: string;
   date: string;
   onOpenRashi: (id: RashiId) => void;
   remote?: ReturnType<typeof useApprovedDaily>;
+  transit?: CalculatedState<ShownTransit>;
 }) {
-  const { locale, rashiId: preferredId, t } = useApp();
+  const { cityId, locale, rashiId: preferredId, t } = useApp();
   const rashi = RASHIS.find((item) => item.id === rashiId);
   const valid = isRashiId(rashiId) && rashi ? rashi : null;
   const loaded = useApprovedDaily(date, valid?.id ?? null);
   const remote = remoteOverride ?? loaded;
+  const transitLoad = useCalculatedTransit(cityId, date, valid?.id ?? null);
+  const transit = transitOverride ?? transitLoad.state;
+  const moonSign =
+    transit.status === 'accepted'
+      ? RASHIS.find((item) => item.id === transit.value.moonSignId)
+      : undefined;
+  const sunSign =
+    transit.status === 'accepted'
+      ? RASHIS.find((item) => item.id === transit.value.sunSignId)
+      : undefined;
   const catalog =
     remote.state.status === 'ready' || remote.state.status === 'cached'
       ? remote.state.value
@@ -92,6 +106,18 @@ export function HoroscopeScreen({
   return (
     <Screen>
       <SectionCard title={valid?.label ?? t('today.noRashi')} detail={dateLabel}>
+        {transit.status === 'accepted' && moonSign && sunSign ? (
+          <>
+            <ThemedText type="caption">{t('horoscope.transitNotice')}</ThemedText>
+            <ThemedText>
+              {t('horoscope.moon')}: {moonSign.label}. {t('horoscope.house')}{' '}
+              {transit.value.moonHouse}
+            </ThemedText>
+            <ThemedText>
+              {t('horoscope.sun')}: {sunSign.label}. {t('horoscope.house')} {transit.value.sunHouse}
+            </ThemedText>
+          </>
+        ) : null}
         <ThemedText type="caption">
           {t('horoscope.statusLabel')}:{' '}
           {lookup.status === 'published'

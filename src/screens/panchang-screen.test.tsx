@@ -9,7 +9,7 @@ describe('Panchang screen', () => {
     const view = await renderWithApp(<PanchangScreen initialDate="2026-10-14" />);
 
     expect(view.getByText(formatCivilDate('2026-10-14', 'en'))).toBeTruthy();
-    expect(view.getByText(/does not calculate tithi/)).toBeTruthy();
+    expect(view.getByText(/No accepted Panchang is available/)).toBeTruthy();
 
     await fireEvent.press(view.getByLabelText('Next day'));
     expect(view.getByText(formatCivilDate('2026-10-15', 'en'))).toBeTruthy();
@@ -20,7 +20,7 @@ describe('Panchang screen', () => {
     await fireEvent.press(view.getByLabelText('Maharashtra'));
     await fireEvent.press(view.getByLabelText('Mumbai'));
 
-    expect(view.getByText(/Panchang values are not connected/)).toBeTruthy();
+    expect(view.getByText(/No accepted Panchang is available/)).toBeTruthy();
     expect(view.queryByText(/Shukla|Rohini|Amavasya/)).toBeNull();
   });
 
@@ -50,5 +50,32 @@ describe('Panchang screen', () => {
     expect(view.getByText(/This Panchang copy is stale/)).toBeTruthy();
     expect(view.getByText(/Fixture tithi/)).toBeTruthy();
     expect(view.queryByText(/Panchang values are not connected/)).toBeNull();
+  });
+
+  it('shows a calculation that passed the accuracy check', async () => {
+    const view = await renderWithApp(
+      <PanchangScreen
+        initialDate="2026-10-16"
+        calculated={{
+          status: 'accepted',
+          value: {
+            status: 'accepted',
+            tithi: 'Shukla Shashthi',
+            nakshatra: 'Jyeshtha',
+            yoga: 'Shobhana',
+            karana: 'Kaulava',
+            sunrise: '06:36',
+            sunset: '18:13',
+            nearBoundary: false,
+          },
+        }}
+      />,
+    );
+
+    expect(view.getByText(/Calculated at local sunrise/)).toBeTruthy();
+    expect(view.getByText(/Shukla Shashthi/)).toBeTruthy();
+    expect(view.getByText(/Jyeshtha/)).toBeTruthy();
+    expect(view.queryByText(/No accepted Panchang is available/)).toBeNull();
+    expect(view.queryByText(/prediction is stated/i)).toBeNull();
   });
 });

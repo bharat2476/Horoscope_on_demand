@@ -2,7 +2,6 @@ import { StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { space } from '@/design/tokens';
-import { type ValidatedPanchang } from '@/modules/dashboard/load';
 
 export function PanchangFields({
   value,
@@ -10,12 +9,23 @@ export function PanchangFields({
   nakshatraLabel,
   sunriseLabel,
   sunsetLabel,
+  yogaLabel,
+  karanaLabel,
 }: {
-  value: ValidatedPanchang;
+  value: {
+    tithi: string;
+    nakshatra: string;
+    sunrise: string;
+    sunset: string;
+    yoga?: string;
+    karana?: string;
+  };
   tithiLabel: string;
   nakshatraLabel: string;
   sunriseLabel: string;
   sunsetLabel: string;
+  yogaLabel?: string;
+  karanaLabel?: string;
 }) {
   return (
     <View style={styles.fields}>
@@ -25,6 +35,16 @@ export function PanchangFields({
       <ThemedText>
         {nakshatraLabel}: {value.nakshatra}
       </ThemedText>
+      {yogaLabel && value.yoga ? (
+        <ThemedText>
+          {yogaLabel}: {value.yoga}
+        </ThemedText>
+      ) : null}
+      {karanaLabel && value.karana ? (
+        <ThemedText>
+          {karanaLabel}: {value.karana}
+        </ThemedText>
+      ) : null}
       <ThemedText>
         {sunriseLabel}: {value.sunrise}
       </ThemedText>

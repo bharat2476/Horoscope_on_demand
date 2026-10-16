@@ -28,6 +28,21 @@ House codes in the same package, not used for the daily record: `W` whole sign, 
 - Free tier: 5 requests a minute, no key. Premium is listed by VedAstro at $1 per month. The key name is `VEDASTRO_API_KEY` on the server only.
 - Their FAQ says both tiers allow commercial use. That statement was not matched to a Swiss Ephemeris license grant.
 
+## Daily display gate
+
+`server/calculation/accept-day.ts` may return a Panchang or a Rashi transit for the screen. A day is returned only when both of these agree with Fusion Strings at local sunrise:
+
+- The classical widths in `src/modules/calculation/angas.ts`: 12° tithi, 13°20′ nakshatra and yoga, 6° karana.
+- Sun and Moon tropical longitudes from astronomy-engine 2.1.19 (MIT), converted with the Lahiri value reported by Swiss Ephemeris. The sidereal longitudes must stay within 0.05°.
+
+A one-step name difference within 10 minutes of a boundary is kept and labeled. Any wider disagreement returns unavailable. Sunrise and sunset are the engine's clock times. They are not checked against a printed almanac. The screen says so.
+
+The local server is `npm run calculation:serve` on `127.0.0.1:8082`. The web preview on localhost calls it. A phone build needs `EXPO_PUBLIC_CALCULATION_URL` pointing at that server. The Android app still does not import the Wasm package.
+
+City points are provisional centroids at elevation 0 in `server/calculation/city-points.ts`. They are separate from the public city list, which still has no coordinates.
+
+The transit for a Rashi is the Moon's sign and the Sun's sign at that city's sunrise, plus the whole-sign house counted from the Rashi. No prediction sentence is generated.
+
 ## What is still closed
 
 - No Panchang value is shown as current.
