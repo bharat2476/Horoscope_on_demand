@@ -1,11 +1,13 @@
+import { type PublicQuery } from '@/modules/backend/query';
+import { isIsoDate } from '@/modules/content';
+import { type PublishedFestival } from '@/modules/festivals';
 import { isRashiId, type RashiId } from '@/modules/horoscope';
 import { type DailyReading, type ReadingSource, type SourceType } from '@/modules/horoscope/daily';
 import { isAppLocale, type AppLocale } from '@/modules/localization';
+import { isStateId } from '@/modules/places';
 import { type RitualCategory } from '@/modules/rituals/categories';
 import { type RitualRecord } from '@/modules/rituals';
 import { type TempleRecord } from '@/modules/temples';
-
-import { type PublicQuery } from '@/modules/backend/query';
 
 const BIRTH_KEYS = [
   'birthDate',
@@ -278,10 +280,55 @@ export function selectLanguageEdition<T extends { language: string }>(
   return { status: 'missing' };
 }
 
+/**
+ * Reads one published-festivals view row.
+ * Reviewer ids, review dates, and editorial notes are left off the result.
+ */
+export function parsePublishedFestival(row: Record<string, unknown>): PublishedFestival | null {
+  if (typeof row.id !== 'string' || hasBirthDetail(row) || hasBirthDetail(row.body)) {
+    return null;
+  }
+  const body = row.body;
+  if (typeof body !== 'object' || body === null || Array.isArray(body)) {
+    return null;
+  }
+  const record = body as Record<string, unknown>;
+  if (record.kind !== undefined && record.kind !== 'festival') {
+    return null;
+  }
+  const name = localeMap(record.name);
+  const observance = text(record, 'observance');
+  const convention = text(record, 'convention');
+  const calendarDate = text(record, 'calendarDate');
+  const language = record.language;
+  if (!name || !observance || !convention || !calendarDate || !isIsoDate(calendarDate)) {
+    return null;
+  }
+  if (!isAppLocale(language)) {
+    return null;
+  }
+  if (record.regionId !== null && record.regionId !== undefined && !isStateId(record.regionId)) {
+    return null;
+  }
+  return {
+    id: row.id,
+    name,
+    language,
+    regionId: isStateId(record.regionId) ? record.regionId : null,
+    observance,
+    calendarDate,
+    convention,
+  };
+}
+
 async function readRows(
   query: PublicQuery,
   view:
-    'published_rituals' | 'published_temples' | 'published_daily_rashis' | 'panchang_cache_public',
+    | 'published_rituals'
+    | 'published_temples'
+    | 'published_festivals'
+    | 'published_daily_rashis'
+    | 'panchang_cache_public',
   filters?: Readonly<Record<string, string>>,
 ): Promise<{ ok: true; rows: readonly Record<string, unknown>[] } | { ok: false }> {
   const result = await query.read(view, filters);
@@ -301,6 +348,21 @@ export async function loadPublishedRituals(
   const value = result.rows
     .map(parsePublishedRitual)
     .filter((item): item is RitualRecord => item !== null);
+  return value.length > 0 ? { status: 'ready', value } : { status: 'empty' };
+}
+
+export async function loadPublishedFestivals(
+  query: PublicQuery,
+): Promise<
+  { status: 'ready'; value: PublishedFestival[] } | { status: 'empty' } | { status: 'error' }
+> {
+  const result = await readRows(query, 'published_festivals');
+  if (!result.ok) {
+    return { status: 'error' };
+  }
+  const value = result.rows
+    .map(parsePublishedFestival)
+    .filter((item): item is PublishedFestival => item !== null);
   return value.length > 0 ? { status: 'ready', value } : { status: 'empty' };
 }
 

@@ -18,7 +18,9 @@ import { noopAnalytics } from '@/modules/analytics';
 import { formatCivilDate, todayIsoDate } from '@/modules/calendar/dates';
 import { useCalculatedPanchang, type CalculatedState } from '@/modules/calculation/use-calculated';
 import { type ShownPanchang } from '@/modules/calculation/endpoint';
+import { useApprovedFestivals } from '@/modules/backend';
 import { loadDashboard, type DashboardModel } from '@/modules/dashboard/load';
+import { listPublishedFestivalListings } from '@/modules/festivals';
 import { RASHIS } from '@/modules/horoscope';
 import { APP_LOCALES, LOCALE_ENDONYMS, type LocalePreference } from '@/modules/localization';
 import { cityName, stateIdForCity } from '@/modules/places';
@@ -38,9 +40,11 @@ export type DashboardLoader = (input: {
 export function TodayScreen({
   load = loadDashboard,
   calculated: calculatedOverride,
+  festivals: festivalsOverride,
 }: {
   load?: DashboardLoader;
   calculated?: CalculatedState<ShownPanchang>;
+  festivals?: ReturnType<typeof useApprovedFestivals>;
 }) {
   const {
     cityId,
@@ -59,6 +63,19 @@ export function TodayScreen({
   const cityLabel = cityName(cityId) ?? t('today.noCity');
   const calculatedLoad = useCalculatedPanchang(cityId, today);
   const calculated = calculatedOverride ?? calculatedLoad.state;
+  const festivalLoad = useApprovedFestivals();
+  const festivals = festivalsOverride ?? festivalLoad;
+  const festivalListings = useMemo(
+    () =>
+      festivals.state.status === 'ready' || festivals.state.status === 'cached'
+        ? listPublishedFestivalListings(festivals.state.value, {
+            fromDate: today,
+            locale,
+            regionId: stateIdForCity(cityId),
+          })
+        : [],
+    [cityId, festivals.state, locale, today],
+  );
   const adRequest = resolveAdRequest({
     environment: readAppEnvironment(),
     ageBand: growth.ageBand,
@@ -229,18 +246,52 @@ export function TodayScreen({
             )}
           </SectionCard>
           <SectionCard title={t('dashboard.festivals')}>
-            {model.festivals.status === 'listed' ? (
-              model.festivals.observances.map((observance) => (
-                <ThemedText key={observance.id}>
-                  {observance.name}. {observance.observance}
-                </ThemedText>
-              ))
-            ) : (
+            {festivals.state.status === 'cached' ? (
+              <ThemedText type="caption">{t('content.cachedNotice')}</ThemedText>
+            ) : null}
+            {festivals.state.status === 'loading' ? (
+              <StatusBlock status="loading" title={t('status.loading')} body="" />
+            ) : festivals.state.status === 'error' ? (
+              <>
+                <StatusBlock
+                  status="error"
+                  title={t('status.errorTitle')}
+                  body={t('content.loadError')}
+                />
+                <ChoiceRow
+                  label={t('dashboard.retry')}
+                  selected={false}
+                  onPress={festivals.retry}
+                />
+              </>
+            ) : festivals.state.status === 'unconfigured' ? (
+              model.festivals.status === 'listed' ? (
+                model.festivals.observances.map((observance) => (
+                  <ThemedText key={observance.id}>
+                    {observance.name}. {observance.observance}
+                  </ThemedText>
+                ))
+              ) : (
+                <StatusBlock
+                  status="empty"
+                  title={t('status.emptyTitle')}
+                  body={t('dashboard.festivalsMissing')}
+                />
+              )
+            ) : festivalListings.length === 0 ? (
               <StatusBlock
                 status="empty"
                 title={t('status.emptyTitle')}
                 body={t('dashboard.festivalsMissing')}
               />
+            ) : (
+              festivalListings.map((festival) => (
+                <ThemedText key={festival.id}>
+                  {festival.name
+                    ? `${festival.name}. ${festival.observance}`
+                    : t('content.translationMissing')}
+                </ThemedText>
+              ))
             )}
           </SectionCard>
           <SectionCard title={t('dashboard.temples')}>

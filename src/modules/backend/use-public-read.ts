@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react';
 import { applyFetch, type CachedResult } from '@/modules/backend/cache';
 import {
   loadPublishedDaily,
+  loadPublishedFestivals,
   loadPublishedRituals,
   loadPublishedTemples,
 } from '@/modules/backend/public-content';
 import { presentCachedPanchang, type PanchangPresentation } from '@/modules/backend/panchang-cache';
 import { createPublicQuery, isSupabaseConfigured, type PublicQuery } from '@/modules/backend/query';
+import { type PublishedFestival } from '@/modules/festivals';
 import { type DailyReading, type RashiId } from '@/modules/horoscope';
 import { type RitualRecord } from '@/modules/rituals';
 import { type TempleRecord } from '@/modules/temples';
@@ -56,6 +58,13 @@ export function useApprovedRituals(): { state: RemoteSection<RitualRecord[]>; re
 
 export function useApprovedTemples(): { state: RemoteSection<TempleRecord[]>; retry: () => void } {
   return useRemoteSection('published-temples', loadPublishedTemples, 'temples');
+}
+
+export function useApprovedFestivals(): {
+  state: RemoteSection<PublishedFestival[]>;
+  retry: () => void;
+} {
+  return useRemoteSection('published-festivals', loadPublishedFestivals, 'festivals');
 }
 
 export function useApprovedDaily(

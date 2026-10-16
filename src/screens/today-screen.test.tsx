@@ -2,7 +2,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fireEvent } from '@testing-library/react-native';
 
 import { PanchangFields } from '@/components/panchang-fields';
+import { todayIsoDate } from '@/modules/calendar/dates';
 import { type DashboardModel } from '@/modules/dashboard/load';
+import { type PublishedFestival } from '@/modules/festivals';
 import { RASHIS } from '@/modules/horoscope';
 import { TodayScreen } from '@/screens/today-screen';
 import { renderWithApp } from '@/test/render-with-app';
@@ -70,6 +72,84 @@ describe('Today screen', () => {
     open = true;
     await fireEvent.press(view.getByLabelText('Try again'));
     expect(await view.findByText("Today's Panchang")).toBeTruthy();
+  });
+
+  it('shows a published festival and leaves an empty or distant result blank', async () => {
+    const published: PublishedFestival = {
+      id: 'fixture-festival',
+      name: { en: 'Fixture observance' },
+      language: 'en',
+      regionId: null,
+      observance: 'Fixture observance details.',
+      calendarDate: todayIsoDate(),
+      convention: 'Stored date with no regional override.',
+    };
+    const ready = await renderWithApp(
+      <TodayScreen
+        festivals={{
+          state: { status: 'ready', cached: false, value: [published] },
+          retry: () => undefined,
+        }}
+      />,
+    );
+    expect(await ready.findByText('Fixture observance. Fixture observance details.')).toBeTruthy();
+
+    const empty = await renderWithApp(
+      <TodayScreen festivals={{ state: { status: 'empty' }, retry: () => undefined }} />,
+    );
+    expect(await empty.findByText('No reviewed festival is listed.')).toBeTruthy();
+    expect(empty.queryByText(/Fixture observance/)).toBeNull();
+
+    const distant = await renderWithApp(
+      <TodayScreen
+        festivals={{
+          state: {
+            status: 'ready',
+            cached: false,
+            value: [{ ...published, calendarDate: '1900-01-01' }],
+          },
+          retry: () => undefined,
+        }}
+      />,
+    );
+    expect(await distant.findByText('No reviewed festival is listed.')).toBeTruthy();
+    expect(distant.queryByText(/Fixture observance/)).toBeNull();
+  });
+
+  it('shows a festival load error, retries, and withholds an unreviewed language', async () => {
+    const retry = jest.fn();
+    const failed = await renderWithApp(
+      <TodayScreen festivals={{ state: { status: 'error' }, retry }} />,
+    );
+    expect(await failed.findByText('Approved content could not be loaded.')).toBeTruthy();
+    await fireEvent.press(failed.getByLabelText('Try again'));
+    expect(retry).toHaveBeenCalled();
+
+    const missing = await renderWithApp(
+      <TodayScreen
+        festivals={{
+          state: {
+            status: 'cached',
+            savedAt: '2026-10-16T00:00:00.000Z',
+            value: [
+              {
+                id: 'fixture-festival-hi',
+                name: { hi: 'फिक्स्चर त्योहार' },
+                language: 'hi',
+                regionId: null,
+                observance: 'फिक्स्चर विवरण',
+                calendarDate: todayIsoDate(),
+                convention: 'Stored date with no regional override.',
+              },
+            ],
+          },
+          retry: () => undefined,
+        }}
+      />,
+    );
+    expect(missing.getByText(/This language has not been reviewed/)).toBeTruthy();
+    expect(missing.getByText(/last approved copy/)).toBeTruthy();
+    expect(missing.queryByText('फिक्स्चर त्योहार')).toBeNull();
   });
 });
 

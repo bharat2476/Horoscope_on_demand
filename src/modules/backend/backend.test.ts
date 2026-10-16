@@ -2,8 +2,10 @@ import { applyFetch, resetContentCache } from '@/modules/backend/cache';
 import { presentCachedPanchang } from '@/modules/backend/panchang-cache';
 import {
   loadPublishedDaily,
+  loadPublishedFestivals,
   loadPublishedRituals,
   parsePublishedDailyRow,
+  parsePublishedFestival,
   parsePublishedRitual,
   parsePublishedTemple,
   selectLanguageEdition,
@@ -186,5 +188,86 @@ describe('public content access', () => {
         rashiId: 'mesha',
       }),
     ).toEqual({ status: 'empty' });
+  });
+
+  it('reads only the published festivals view and invents no date or reviewer note', async () => {
+    const calls: { view: string; filters: Readonly<Record<string, string>> | undefined }[] = [];
+    const reading: PublicQuery = {
+      read: async (view, filters) => {
+        calls.push({ view, filters });
+        return {
+          data: [
+            {
+              id: 'fixture-festival',
+              reviewer_id: 'hidden-reviewer',
+              review_date: '2026-10-01',
+              published_at: '2026-10-02T00:00:00.000Z',
+              body: {
+                kind: 'festival',
+                name: { en: 'Fixture observance' },
+                language: 'en',
+                regionId: null,
+                observance: 'Fixture observance details.',
+                calendarDate: '2026-10-16',
+                convention: 'Stored date with no regional override.',
+                note: 'Editorial note stays off the public row.',
+                review: { reviewerId: 'hidden-reviewer' },
+              },
+            },
+            {
+              id: 'fixture-undated',
+              body: {
+                kind: 'festival',
+                name: { en: 'Undated fixture' },
+                language: 'en',
+                observance: 'No stored date.',
+                calendarDate: null,
+                convention: 'Missing date.',
+              },
+            },
+          ],
+          error: null,
+        };
+      },
+    };
+
+    const loaded = await loadPublishedFestivals(reading);
+    expect(calls).toEqual([{ view: 'published_festivals', filters: undefined }]);
+    expect(loaded).toEqual({
+      status: 'ready',
+      value: [
+        {
+          id: 'fixture-festival',
+          name: { en: 'Fixture observance' },
+          language: 'en',
+          regionId: null,
+          observance: 'Fixture observance details.',
+          calendarDate: '2026-10-16',
+          convention: 'Stored date with no regional override.',
+        },
+      ],
+    });
+    expect(JSON.stringify(loaded)).not.toMatch(/hidden-reviewer|Editorial note/);
+    expect(parsePublishedFestival({ id: 'draft', body: { kind: 'ritual' } })).toBeNull();
+    expect(await loadPublishedFestivals(query({ data: [], error: null }))).toEqual({
+      status: 'empty',
+    });
+    expect(
+      await loadPublishedFestivals(query({ data: null, error: { message: 'request failed' } })),
+    ).toEqual({ status: 'error' });
+    expect(
+      applyFetch(
+        'published-festivals',
+        { status: 'ready', value: ['fixture-festival'] },
+        '2026-10-16T00:00:00.000Z',
+      ),
+    ).toEqual({ status: 'ready', value: ['fixture-festival'], cached: false });
+    expect(
+      applyFetch('published-festivals', { status: 'error' }, '2026-10-16T01:00:00.000Z'),
+    ).toEqual({
+      status: 'cached',
+      value: ['fixture-festival'],
+      savedAt: '2026-10-16T00:00:00.000Z',
+    });
   });
 });

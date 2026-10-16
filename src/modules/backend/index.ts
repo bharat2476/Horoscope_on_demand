@@ -2,9 +2,11 @@ export { applyFetch, resetContentCache, type CachedResult } from '@/modules/back
 export { presentCachedPanchang, type PanchangPresentation } from '@/modules/backend/panchang-cache';
 export {
   loadPublishedDaily,
+  loadPublishedFestivals,
   loadPublishedRituals,
   loadPublishedTemples,
   parsePublishedDailyRow,
+  parsePublishedFestival,
   parsePublishedRitual,
   parsePublishedTemple,
   selectLanguageEdition,
@@ -13,6 +15,7 @@ export {
 export { createPublicQuery, isSupabaseConfigured, PUBLIC_VIEWS } from '@/modules/backend/query';
 export {
   useApprovedDaily,
+  useApprovedFestivals,
   useApprovedRituals,
   useApprovedTemples,
   useCachedPanchang,
