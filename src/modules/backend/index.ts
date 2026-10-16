@@ -2,13 +2,19 @@ export { applyFetch, resetContentCache, type CachedResult } from '@/modules/back
 export { presentCachedPanchang, type PanchangPresentation } from '@/modules/backend/panchang-cache';
 export {
   loadPublishedDaily,
+  loadPublishedFestivalEditions,
   loadPublishedFestivals,
+  loadPublishedRitualEditions,
   loadPublishedRituals,
+  loadPublishedTempleEditions,
   loadPublishedTemples,
   parsePublishedDailyRow,
   parsePublishedFestival,
+  parsePublishedFestivalEdition,
   parsePublishedRitual,
+  parsePublishedRitualEdition,
   parsePublishedTemple,
+  parsePublishedTempleEdition,
   selectLanguageEdition,
   titleInLanguage,
 } from '@/modules/backend/public-content';

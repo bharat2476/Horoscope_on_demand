@@ -63,7 +63,7 @@ export function TodayScreen({
   const cityLabel = cityName(cityId) ?? t('today.noCity');
   const calculatedLoad = useCalculatedPanchang(cityId, today);
   const calculated = calculatedOverride ?? calculatedLoad.state;
-  const festivalLoad = useApprovedFestivals();
+  const festivalLoad = useApprovedFestivals(locale);
   const festivals = festivalsOverride ?? festivalLoad;
   const festivalListings = useMemo(
     () =>

@@ -32,7 +32,7 @@ export function RitualsScreen({
   remote?: ReturnType<typeof useApprovedRituals>;
 } = {}) {
   const { locale, t } = useApp();
-  const loaded = useApprovedRituals();
+  const loaded = useApprovedRituals(locale);
   const remote = remoteOverride ?? loaded;
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<RitualCategory | 'all'>('all');

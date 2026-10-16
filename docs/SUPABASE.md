@@ -18,11 +18,15 @@ Run them in this order on the existing project. Do not reset the database.
 1. `supabase/migrations/20261014120000_content_review.sql`
 2. `supabase/migrations/20261014140000_private_preferences.sql`
 3. `supabase/migrations/20261014160000_private_preferences_checks.sql`
-4. `supabase/migrations/20261014180000_live_puja.sql`
-5. `supabase/migrations/20261015120000_daily_rashi.sql`
-6. `supabase/migrations/20261015210000_public_catalog_cache.sql`
+4. `supabase/migrations/20261015120000_daily_rashi.sql`
+5. `supabase/migrations/20261015210000_public_catalog_cache.sql`
+6. `supabase/migrations/20261016213000_language_editions.sql`
 
-In the Supabase SQL editor, open each file and run it once. If a file was already applied, skip it. The new file only adds `content.rashis`, `content.panchang_cache`, three public views, and one staff function. It does not delete existing rows.
+`20261016213000_language_editions.sql` adds `content.language_editions` and three published edition views. It does not change existing tables. Apply it only after the content review migration is present.
+
+`20261014180000_live_puja.sql` and `20261016120000_private_charts.sql` are in the folder and are not part of this apply list. If a hosted project already has them, leave them in place.
+
+In the Supabase SQL editor, open each file and run it once. If a file was already applied, skip it. These files do not delete existing rows.
 
 With the Supabase CLI linked to this project, `supabase db push` applies pending files in that order. Do not run `supabase db reset`.
 

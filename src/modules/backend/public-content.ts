@@ -327,6 +327,9 @@ async function readRows(
     | 'published_rituals'
     | 'published_temples'
     | 'published_festivals'
+    | 'published_ritual_editions'
+    | 'published_festival_editions'
+    | 'published_temple_editions'
     | 'published_daily_rashis'
     | 'panchang_cache_public',
   filters?: Readonly<Record<string, string>>,
@@ -377,6 +380,137 @@ export async function loadPublishedTemples(
     .map(parsePublishedTemple)
     .filter((item): item is TempleRecord => item !== null);
   return value.length > 0 ? { status: 'ready', value } : { status: 'empty' };
+}
+
+function editionLanguage(row: Record<string, unknown>): AppLocale | null {
+  return isAppLocale(row.language) ? row.language : null;
+}
+
+/**
+ * One reviewed language of a published ritual.
+ * Another language is not copied in to fill a gap.
+ */
+export function parsePublishedRitualEdition(row: Record<string, unknown>): RitualRecord | null {
+  const language = editionLanguage(row);
+  const title = text(row, 'title');
+  if (
+    typeof row.id !== 'string' ||
+    !language ||
+    !title ||
+    hasBirthDetail(row) ||
+    !CATEGORIES.has(row.category as RitualCategory)
+  ) {
+    return null;
+  }
+  const steps = text(row, 'steps');
+  return {
+    id: row.id,
+    category: row.category as RitualCategory,
+    title: { [language]: title },
+    steps: steps ? { [language]: steps } : null,
+  };
+}
+
+/**
+ * One reviewed language of a published festival.
+ * A missing stored date is rejected. Reviewer fields are not copied.
+ */
+export function parsePublishedFestivalEdition(
+  row: Record<string, unknown>,
+): PublishedFestival | null {
+  const language = editionLanguage(row);
+  const name = text(row, 'name');
+  const observance = text(row, 'observance');
+  const convention = text(row, 'convention');
+  const calendarDate = text(row, 'calendar_date');
+  if (
+    typeof row.id !== 'string' ||
+    !language ||
+    !name ||
+    !observance ||
+    !convention ||
+    !calendarDate ||
+    !isIsoDate(calendarDate) ||
+    hasBirthDetail(row)
+  ) {
+    return null;
+  }
+  if (row.region_id !== null && row.region_id !== undefined && !isStateId(row.region_id)) {
+    return null;
+  }
+  return {
+    id: row.id,
+    name: { [language]: name },
+    language,
+    regionId: isStateId(row.region_id) ? row.region_id : null,
+    observance,
+    calendarDate,
+    convention,
+  };
+}
+
+/** One reviewed language of a published Mataji temple. */
+export function parsePublishedTempleEdition(row: Record<string, unknown>): TempleRecord | null {
+  const language = editionLanguage(row);
+  const name = text(row, 'name');
+  if (
+    typeof row.id !== 'string' ||
+    !language ||
+    !name ||
+    row.deity !== 'Mataji' ||
+    !isStateId(row.state_id) ||
+    hasBirthDetail(row)
+  ) {
+    return null;
+  }
+  const locality = text(row, 'locality');
+  return {
+    id: row.id,
+    name: { [language]: name },
+    locality: locality ? { [language]: locality } : {},
+    stateId: row.state_id,
+    cityId: typeof row.city_id === 'string' ? row.city_id : null,
+    directionsUrl: null,
+    verification: 'verified',
+    lastVerifiedOn: typeof row.last_verified_on === 'string' ? row.last_verified_on : undefined,
+  };
+}
+
+async function loadEdition<T>(
+  query: PublicQuery,
+  view: 'published_ritual_editions' | 'published_festival_editions' | 'published_temple_editions',
+  locale: AppLocale,
+  parse: (row: Record<string, unknown>) => T | null,
+): Promise<{ status: 'ready'; value: T[] } | { status: 'empty' } | { status: 'error' }> {
+  const result = await readRows(query, view, { language: locale });
+  if (!result.ok) {
+    return { status: 'error' };
+  }
+  const value = result.rows.map(parse).filter((item): item is T => item !== null);
+  return value.length > 0 ? { status: 'ready', value } : { status: 'empty' };
+}
+
+export function loadPublishedRitualEditions(
+  query: PublicQuery,
+  locale: AppLocale,
+): Promise<{ status: 'ready'; value: RitualRecord[] } | { status: 'empty' } | { status: 'error' }> {
+  return loadEdition(query, 'published_ritual_editions', locale, parsePublishedRitualEdition);
+}
+
+export function loadPublishedFestivalEditions(
+  query: PublicQuery,
+  locale: AppLocale,
+): Promise<
+  { status: 'ready'; value: PublishedFestival[] } | { status: 'empty' } | { status: 'error' }
+> {
+  return loadEdition(query, 'published_festival_editions', locale, parsePublishedFestivalEdition);
+}
+
+export function loadPublishedTempleEditions(
+  query: PublicQuery,
+  locale: AppLocale,
+): Promise<{ status: 'ready'; value: TempleRecord[] } | { status: 'empty' } | { status: 'error' }> {
+  return loadEdition(query, 'published_temple_editions', locale, parsePublishedTempleEdition);
 }
 
 export async function loadPublishedDaily(

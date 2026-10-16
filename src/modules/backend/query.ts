@@ -7,6 +7,9 @@ export const PUBLIC_VIEWS = [
   'published_rituals',
   'published_festivals',
   'published_temples',
+  'published_ritual_editions',
+  'published_festival_editions',
+  'published_temple_editions',
   'published_content_editions',
   'panchang_cache_public',
 ] as const;

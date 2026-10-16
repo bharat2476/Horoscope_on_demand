@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { applyFetch, type CachedResult } from '@/modules/backend/cache';
 import {
   loadPublishedDaily,
-  loadPublishedFestivals,
-  loadPublishedRituals,
-  loadPublishedTemples,
+  loadPublishedFestivalEditions,
+  loadPublishedRitualEditions,
+  loadPublishedTempleEditions,
 } from '@/modules/backend/public-content';
 import { presentCachedPanchang, type PanchangPresentation } from '@/modules/backend/panchang-cache';
 import { createPublicQuery, isSupabaseConfigured, type PublicQuery } from '@/modules/backend/query';
 import { type PublishedFestival } from '@/modules/festivals';
 import { type DailyReading, type RashiId } from '@/modules/horoscope';
+import { type AppLocale } from '@/modules/localization';
 import { type RitualRecord } from '@/modules/rituals';
 import { type TempleRecord } from '@/modules/temples';
 
@@ -23,9 +24,14 @@ function useRemoteSection<T>(
 ): { state: RemoteSection<T>; retry: () => void } {
   const configured = isSupabaseConfigured();
   const [attempt, setAttempt] = useState(0);
+  const [trackedKey, setTrackedKey] = useState(reloadKey);
   const [state, setState] = useState<RemoteSection<T>>(
     configured ? { status: 'loading' } : { status: 'unconfigured' },
   );
+  if (trackedKey !== reloadKey) {
+    setTrackedKey(reloadKey);
+    setState(configured ? { status: 'loading' } : { status: 'unconfigured' });
+  }
 
   useEffect(() => {
     if (!configured) {
@@ -52,19 +58,37 @@ function useRemoteSection<T>(
   };
 }
 
-export function useApprovedRituals(): { state: RemoteSection<RitualRecord[]>; retry: () => void } {
-  return useRemoteSection('published-rituals', loadPublishedRituals, 'rituals');
+export function useApprovedRituals(locale: AppLocale): {
+  state: RemoteSection<RitualRecord[]>;
+  retry: () => void;
+} {
+  const load = useCallback(
+    (query: PublicQuery) => loadPublishedRitualEditions(query, locale),
+    [locale],
+  );
+  return useRemoteSection(`published-ritual-editions:${locale}`, load, locale);
 }
 
-export function useApprovedTemples(): { state: RemoteSection<TempleRecord[]>; retry: () => void } {
-  return useRemoteSection('published-temples', loadPublishedTemples, 'temples');
+export function useApprovedTemples(locale: AppLocale): {
+  state: RemoteSection<TempleRecord[]>;
+  retry: () => void;
+} {
+  const load = useCallback(
+    (query: PublicQuery) => loadPublishedTempleEditions(query, locale),
+    [locale],
+  );
+  return useRemoteSection(`published-temple-editions:${locale}`, load, locale);
 }
 
-export function useApprovedFestivals(): {
+export function useApprovedFestivals(locale: AppLocale): {
   state: RemoteSection<PublishedFestival[]>;
   retry: () => void;
 } {
-  return useRemoteSection('published-festivals', loadPublishedFestivals, 'festivals');
+  const load = useCallback(
+    (query: PublicQuery) => loadPublishedFestivalEditions(query, locale),
+    [locale],
+  );
+  return useRemoteSection(`published-festival-editions:${locale}`, load, locale);
 }
 
 export function useApprovedDaily(

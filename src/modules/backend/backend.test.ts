@@ -2,11 +2,15 @@ import { applyFetch, resetContentCache } from '@/modules/backend/cache';
 import { presentCachedPanchang } from '@/modules/backend/panchang-cache';
 import {
   loadPublishedDaily,
+  loadPublishedFestivalEditions,
   loadPublishedFestivals,
+  loadPublishedRitualEditions,
   loadPublishedRituals,
   parsePublishedDailyRow,
   parsePublishedFestival,
+  parsePublishedFestivalEdition,
   parsePublishedRitual,
+  parsePublishedRitualEdition,
   parsePublishedTemple,
   selectLanguageEdition,
   titleInLanguage,
@@ -269,5 +273,76 @@ describe('public content access', () => {
       value: ['fixture-festival'],
       savedAt: '2026-10-16T00:00:00.000Z',
     });
+  });
+
+  it('reads one published language edition and does not borrow another language', async () => {
+    const calls: { view: string; filters: Readonly<Record<string, string>> | undefined }[] = [];
+    const reading: PublicQuery = {
+      read: async (view, filters) => {
+        calls.push({ view, filters });
+        return {
+          data: [
+            {
+              id: 'fixture-festival',
+              language: 'hi',
+              name: 'फिक्स्चर त्योहार',
+              observance: 'फिक्स्चर विवरण',
+              region_id: null,
+              calendar_date: '2026-10-16',
+              convention: 'Stored date with no regional override.',
+              reviewer_id: 'hidden-reviewer',
+              note: 'Editorial note stays off the edition.',
+            },
+          ],
+          error: null,
+        };
+      },
+    };
+    const loaded = await loadPublishedFestivalEditions(reading, 'hi');
+    expect(calls).toEqual([{ view: 'published_festival_editions', filters: { language: 'hi' } }]);
+    expect(loaded.status).toBe('ready');
+    if (loaded.status === 'ready') {
+      expect(loaded.value[0]?.name).toEqual({ hi: 'फिक्स्चर त्योहार' });
+      expect(loaded.value[0]?.name.en).toBeUndefined();
+      expect(JSON.stringify(loaded)).not.toMatch(/hidden-reviewer|Editorial note/);
+    }
+    expect(await loadPublishedFestivalEditions(query({ data: [], error: null }), 'en')).toEqual({
+      status: 'empty',
+    });
+    expect(
+      await loadPublishedFestivalEditions(
+        query({ data: null, error: { message: 'request failed' } }),
+        'en',
+      ),
+    ).toEqual({ status: 'error' });
+    expect(
+      parsePublishedFestivalEdition({ id: 'undated', language: 'en', name: 'No date' }),
+    ).toBeNull();
+    expect(
+      parsePublishedRitualEdition({
+        id: 'fixture-ritual',
+        language: 'en',
+        category: 'home',
+        title: 'Fixture ritual label',
+        steps: null,
+        reviewer_id: 'hidden-reviewer',
+      }),
+    ).toEqual({
+      id: 'fixture-ritual',
+      category: 'home',
+      title: { en: 'Fixture ritual label' },
+      steps: null,
+    });
+    const ritualCalls: string[] = [];
+    await loadPublishedRitualEditions(
+      {
+        read: async (view, filters) => {
+          ritualCalls.push(`${view}:${filters?.language ?? ''}`);
+          return { data: [], error: null };
+        },
+      },
+      'ta',
+    );
+    expect(ritualCalls).toEqual(['published_ritual_editions:ta']);
   });
 });

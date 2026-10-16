@@ -17,7 +17,7 @@ export function TemplesScreen({
   remote?: ReturnType<typeof useApprovedTemples>;
 } = {}) {
   const { cityId: savedCityId, locale, t } = useApp();
-  const loaded = useApprovedTemples();
+  const loaded = useApprovedTemples(locale);
   const remote = remoteOverride ?? loaded;
   const [query, setQuery] = useState('');
   const [cityId, setCityId] = useState<CityId | null>(savedCityId);
